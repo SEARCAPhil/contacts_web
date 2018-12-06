@@ -1,7 +1,9 @@
+
 export default class {
   constructor(opt = {}) {
     this.__opt = opt
     this.__contactComponent = {}
+    this.__listSecTemplate = {}
     return this.render(opt) 
   }
 
@@ -12,15 +14,61 @@ export default class {
     })
   }
 
-  createContactListSection () {
+  async __getContacts () {
+    const __contacts = (await import('../../components/contact-list/actions/retrieve')).default
+    return new __contacts().get().then(res => {
+      let __data = res.data
+      
+      __data.forEach((el, index) => {
+        // capture first letter and append to proper container 
+        let firstLetter = el.firstname.charAt(0).toUpperCase()
+        let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
+        if (targ) {
+          // create component and show container
+          targ.classList.remove('hidden')
+          new this.__contactComponent(el).then(res => {
+            targ.append(res) 
+          }) 
+        }
+      })
+    })
+
+  }
+  __createContactListSection () {
+    const __targ = this.__template.querySelector('.contact-list-section')
+    // empty
+    __targ.innerHTML = ''
+    __targ.innerHTML += `
+      <div class="box contact-list-section- hidden">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <div class="box-body"><div class="ajax-content"></div>
+        </div>
+        <!-- /.box-body -->
+      </div>`
+
     
+    for (let i = 65; i <= 90; i++) {
+      __targ.innerHTML += `
+      <div class="box contact-list-section-${String.fromCharCode(i)} hidden">
+        <div class="box-header with-border">
+          <h3 class="box-title">${String.fromCharCode(i)}</h3>
+        </div>
+        <div class="box-body"><div class="ajax-content"></div>
+        </div>
+        <!-- /.box-body -->
+      </div>`
+    }
+  }
+
+  __bindListeners () {
+    this.__createContactListSection()
+    this.__getContacts()
   }
 
   async render () {
     this.__contactComponent = (await import('../../components/contact-list')).default
-    new this.__contactComponent().then(res => {
-      console.log(res)
-    })
     this.__template = document.createElement('section')
     this.__template.classList.add('contacts-section')
     this.__template.innerHTML = `<div " style="min-height: 1170px;">
@@ -49,129 +97,13 @@ export default class {
     </section>
 
     <!-- Main content -->
-    <section class="content">
-
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">A</h3>
-        </div>
-        <div class="box-body">
-          <br>
-          <div class="row" onclick="window.location.href='#/account/1/profile'">
-            <div class="col col-lg-1">
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle margin-l-5" alt="User Image" width="40px">
-            </div>
-            <div class="col col-lg-2"><b>John Hae Doe</b></div>
-            <div class="col col-lg-2"><a href="#">JohnHaeDoe@gmail.com</a></div>
-            <div class="col col-lg-2">Filipino</div>
-            <div class="col col-lg-2">
-              <span class="text-muted">09429487865</span><br/>
-              <span class="text-muted">09429487865</span><br/>
-            </div>
-            <div class="col col-lg-1">ABCDE123</div>
-            <div class="col col-lg-2">
-            <a href="#" class="text-danger">Remove</a>&emsp;
-            <a href="#">Update</a>
-            </div>
-          </div>
-
-          <div class="row"><hr/>
-            <div class="col col-lg-1">
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle margin-l-5" alt="User Image" width="40px">
-            </div>
-            <div class="col col-lg-2"><b>John Hae Doe</b></div>
-            <div class="col col-lg-2"><a href="#">JohnHaeDoe@gmail.com</a></div>
-            <div class="col col-lg-2">Filipino</div>
-            <div class="col col-lg-2">
-              <span class="text-muted">09429487865</span><br/>
-              <span class="text-muted">09429487865</span><br/>
-            </div>
-            <div class="col col-lg-1">ABCDE123</div>
-            <div class="col col-lg-2">
-            <a href="#" class="text-danger">Remove</a>&emsp;
-            <a href="#">Update</a>
-            </div>
-          </div>
-
-          <div class="row"><hr/>
-            <div class="col col-lg-1">
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle margin-l-5" alt="User Image" width="40px">
-            </div>
-            <div class="col col-lg-2"><b>John Hae Doe</b></div>
-            <div class="col col-lg-2"><a href="#">JohnHaeDoe@gmail.com</a></div>
-            <div class="col col-lg-2">Filipino</div>
-            <div class="col col-lg-2">
-              <span class="text-muted">09429487865</span><br/>
-              <span class="text-muted">09429487865</span><br/>
-            </div>
-            <div class="col col-lg-1">ABCDE123</div>
-            <div class="col col-lg-2">
-            <a href="#" class="text-danger">Remove</a>&emsp;
-            <a href="#">Update</a>
-            </div>
-          </div>
-
-          <div class="row"><hr/>
-            <div class="col col-lg-1">
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle margin-l-5" alt="User Image" width="40px">
-            </div>
-            <div class="col col-lg-2"><b>John Hae Doe</b></div>
-            <div class="col col-lg-2"><a href="#">JohnHaeDoe@gmail.com</a></div>
-            <div class="col col-lg-2">Filipino</div>
-            <div class="col col-lg-2">
-              <span class="text-muted">09429487865</span><br/>
-              <span class="text-muted">09429487865</span><br/>
-            </div>
-            <div class="col col-lg-1">ABCDE123</div>
-            <div class="col col-lg-2">
-            <a href="#" class="text-danger">Remove</a>&emsp;
-            <a href="#">Update</a>
-            </div>
-          </div>
-
-          
-          <div class="ajax-content"></div>
-        </div>
-        <!-- /.box-body -->
-      </div>
-
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">B</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <div class="col col-lg-1">
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle margin-l-5" alt="User Image" width="40px">
-            </div>
-            <div class="col col-lg-2"><b>John Hae Doe</b></div>
-            <div class="col col-lg-2"><a href="#">JohnHaeDoe@gmail.com</a></div>
-            <div class="col col-lg-2">Filipino</div>
-            <div class="col col-lg-2">
-              <span class="text-muted">09429487865</span><br/>
-              <span class="text-muted">09429487865</span><br/>
-            </div>
-            <div class="col col-lg-1">ABCDE123</div>
-            <div class="col col-lg-2">
-            <a href="#" class="text-danger">Remove</a>&emsp;
-            <a href="#">Update</a>
-            </div>
-          </div>
-
-          <div class="ajax-content">
-          </div>
-        </div>
-        <!-- /.box-body -->
-      </div>
-
-
-    </section>
+    <section class="content contact-list-section"></section>
 
 
 
     <!-- /.content -->
   </div>`
-    
+    this.__bindListeners()
     return this.__template;
   }
 }

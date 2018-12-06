@@ -1,15 +1,125 @@
+import style from './index.styl'
+
 export default class {
   constructor(opt = {}) {
     this.__opt = opt
+    this.__info = {}
     return this.render(opt) 
   }
 
+  __bindListeners () {
+    this.getProfileBoxComponent ()
+    this.getProfileEmploymentListComponent ()
+    this.getProfileEducListComponent ()
+    this.getConferenceListComponent()
+    this.getResearchListComponent()
+    this.getTrainingListComponent()
+  }
+
+  getProfileBoxComponent () {
+    const contact = import('../../components/contact-profile-box')
+    return contact.then(res => {
+      return new res.default (this.__info[0]).then(html => {
+        document.querySelector('.user-profile-section').replaceWith(html)
+      })
+    })
+  }
+
+  getProfileEmploymentListComponent () {
+    const contact = import('../../components/contact-employment-list')
+    const targ = this.__template.querySelector('.contact-employment-list-section')
+    return contact.then(res => {
+      // get all employment records
+      this.__info[0].employments.forEach((el, index) => {
+        // DOM
+        return new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+  }
+
+
+  getProfileEducListComponent () {
+    const contact = import('../../components/contact-educational-bg-list')
+    const targ = this.__template.querySelector('.contact-educ-list-section')
+    return contact.then(res => {
+      // get all employment records
+      this.__info[0].educational_backgrounds.forEach((el, index) => {
+        // DOM
+        return new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+  }
+
+
+  getConferenceListComponent () {
+    const contact = import('../../components/contact-conference-list')
+    const targ = this.__template.querySelector('.contact-conference-list-section')
+    return contact.then(res => {
+      // get all employment records
+      this.__info[0].conferences.forEach((el, index) => {
+        // DOM
+        return new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+  }
+
+  getResearchListComponent () {
+    const contact = import('../../components/contact-research-list')
+    const targ = this.__template.querySelector('.contact-research-list-section')
+    return contact.then(res => {
+      // get all employment records
+      this.__info[0].research.forEach((el, index) => {
+        // DOM
+        return new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+  }
+
+  getTrainingListComponent () {
+    const contact = import('../../components/contact-training-list')
+    const targ = this.__template.querySelector('.contact-training-list-section')
+    return contact.then(res => {
+      // get all employment records
+      this.__info[0].trainings.forEach((el, index) => {
+        // DOM
+        return new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+  }
+  getInfo (params) {
+    return new Promise((resolve, reject) => {
+      import('../../components/contact-profile-box/actions/retrieve').then(res => {
+        new res.default(params).get().then(html => {
+          resolve(html)
+        })
+      })
+    })
+  }
+  
+
   async render () {
+    const __payload = {
+      id: this.__opt.id,
+    }
+    this.__infoXHRResult = await this.getInfo (__payload)
+    this.__info = this.__infoXHRResult.data
+
     this.__template = document.createElement('section')
     this.__template.classList.add('profile-section')
     this.__template.innerHTML = `
     <div style="min-height: 1170px;">
     <!-- Content Header (Page header) -->
+    <style>${style.toString()}</style>
     <section class="content-header">
       <h1>
         User Profile
@@ -23,61 +133,10 @@ export default class {
 
     <!-- Main content -->
     <section class="content">
+      <main class="row">
+        <div class="user-profile-section row"></div>
+      
 
-      <div class="row">
-        <div class="col-md-3">
-
-          <!-- Profile Image -->
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" alt="User profile picture">
-
-              <h3 class="profile-username text-center">Nina Mcintire</h3>
-
-              <p class="text-muted text-center">Software Engineer</p>
-
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Civil Status</b> <a class="pull-right">Single</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Specialization</b> <a class="pull-right">Web Development</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Nationality</b> <a class="pull-right">Indonesian</a>
-                </li>
-              </ul>
-
-              <a href="#" class="btn btn-primary btn-block" style="background: #009688;"><b>Follow</b></a>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">About Me</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
-
-              <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
-              </p>
-
-              <hr>
-
-              <strong><i class="fa fa-map-marker margin-r-5"></i> Permanent Address</strong>
-
-              <p class="text-muted">Malibu, California</p>
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
         <!-- /.col -->
         <div class="col-md-9">
           <div class="nav-tabs-custom">
@@ -87,52 +146,39 @@ export default class {
               <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane active" id="activity">
-              <section>
-               <h4><i class="fa fa-briefcase margin-r-5"></i> Employment</h4>
-                <hr/>
-              </section>
-
-              <section>
-                Quantum Computer Services <br/>
-                <small class="text-muted">
-                  2013 - 2014<br/>
-                  <b>Senior Computer Network engineer</b>
-                </small>  
-                <hr/>
-              </section>
-
-              <section>
-              Quantum Computer Services <br/>
-              <small class="text-muted">
-                2013 - 2014<br/>
-                <b>Senior Computer Network engineer</b>
-              </small>  
-              <hr/>
-            </section>
-                
-
+              <div class="tab-pane active" id="activity" style="height: auto;overflow:auto;">
                 <section>
-                  <h4><i class="fa fa-graduation-cap margin-r-5"></i> Education</h4>
+                <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> Employment</h4>
                   <hr/>
+                  <div class="contact-employment-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4><i class="fa fa-desktop margin-r-5"></i> Conference</h4>
+                  <h4 class="info-title"><i class="fa fa-graduation-cap margin-r-5"></i> Education</h4>
                   <hr/>
+                  <div class="contact-educ-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4><i class="fa fa-book margin-r-5"></i> Research</h4>
+                  <h4 class="info-title"><i class="fa fa-desktop margin-r-5"></i> Conference</h4>
                   <hr/>
+                  <div class="contact-conference-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4><i class="fa fa-cubes margin-r-5"></i> Trainings</h4>
+                  <h4 class="info-title"><i class="fa fa-book margin-r-5"></i> Research</h4>
                   <hr/>
+                  <div class="contact-research-list-section"></div>
+                </section>
+
+
+                <section>
+                  <h4 class="info-title"><i class="fa fa-cubes margin-r-5"></i> Trainings</h4>
+                  <hr/>
+                  <div class="contact-training-list-section"></div>
                 </section>
               </div>
 
@@ -150,8 +196,9 @@ export default class {
     
     </section>
     <!-- /.content -->
+    </main>
   </div>`
-    
+    this.__bindListeners()
     return this.__template;
   }
 }

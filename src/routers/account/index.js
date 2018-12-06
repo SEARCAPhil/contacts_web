@@ -13,9 +13,9 @@ Navigo.then(routerClass => {
   router.on({
     '' : () => { },
     '/account/:id/profile' : async (params) => {
-      console.log('profile')
+
       const __profilePage = (await import('../../pages/profile-section')).default
-      return new __profilePage().then(res => {
+      return new __profilePage(params).then(res => {
         const __targ = document.querySelector('.ajax-main-section')
         __targ.innerHTML = ''
         __targ.append(res)

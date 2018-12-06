@@ -1,3 +1,5 @@
+import style from './index.styl'
+
 export default class {
   constructor(opt = {}) {
     this.__opt = opt
@@ -8,6 +10,7 @@ export default class {
     this.__template = document.createElement('aside')
     this.__template.classList.add('main-sidebar')
     this.__template.innerHTML = `
+    <style>${style.toString()}</style>
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- search form (Optional) -->
