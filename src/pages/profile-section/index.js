@@ -1,4 +1,5 @@
 import style from './index.styl'
+const tabs = import('../../utils/tabs')
 
 export default class {
   constructor(opt = {}) {
@@ -14,6 +15,7 @@ export default class {
     this.getConferenceListComponent()
     this.getResearchListComponent()
     this.getTrainingListComponent()
+    this.enableTabs()
   }
 
   getProfileBoxComponent () {
@@ -105,6 +107,21 @@ export default class {
       })
     })
   }
+
+  enableTabs () {
+    tabs.then(res => {
+      return new res.default({root: this.__template}).tab({
+        onactive : (handle, target, instane) => {
+          // remove active state on all active <li>
+          handle.parentNode.parentNode.querySelectorAll('li').forEach((el, index) =>{
+            el.classList.remove('active')
+          })
+          // add active status to the parent of current handle
+          handle.parentNode.classList.add('active')
+        }
+      })
+    })
+  }
   
 
   async render () {
@@ -141,12 +158,11 @@ export default class {
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true">Info</a></li>
-              <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false">Activity</a></li>
-              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
+              <li class="active"><a href="#info" data-toggle="tab" aria-expanded="true" class="tabs" data-target="#tab-info" data-group="profile-tab-panes">Info</a></li>
+              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-settings" data-group="profile-tab-panes">Settings</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane active" id="activity" style="height: auto;overflow:auto;">
+              <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
                 <section>
                 <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> Employment</h4>
                   <hr/>
@@ -182,7 +198,16 @@ export default class {
                 </section>
               </div>
 
-              <div class="tab-pane" id="timeline"></div>
+              <div class="tab-pane" id="tab-settings"  data-group="profile-tab-panes">
+                <div class="alert alert-danger">
+                  <h4><i class="icon fa fa-ban"></i> Warning</h4>
+                    Plese review this account before doing any further actions. If you continue, you will not be able
+                    to view his/her profile and any files associated on this account. Please proceed cautiously.
+                </div>
+                <br/>
+                <span class="text-muted">Do you still want to proceed ?</span> <br/>
+                <button class="btn btn-danger">REMOVE</button>
+              </div>
     
             </div>
             <!-- /.tab-content -->

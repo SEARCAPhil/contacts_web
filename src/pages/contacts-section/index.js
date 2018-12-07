@@ -14,11 +14,57 @@ export default class {
     })
   }
 
-  async __getContacts () {
+  __goToPage(page) {
+    this.__bindListeners ({page})
+  }
+  __createPageNav (treshold, currentPage = 1) { 
+    let pager = document.createElement('span')
+    for( let x = 1; x <=treshold; x++) {
+      let span = document.createElement('span')
+      span.classList.add('btn', 'btn-xs', 'btn-default', 'contact-last-page', (currentPage === x ? 'active' : 'not-active'))
+      span.style.marginRight = '3px'
+      span.innerHTML = x
+      // navigate to page
+      span.addEventListener('click', () => {
+        this.__goToPage(x)
+      })
+      pager.append(span)  
+    }
+    return pager
+  }
+
+  __pager (firstPage, lastPage) { 
+    let html =  document.createElement('div')
+    html.innerHTML = ` <span class="btn btn-xs btn-default contact-first-page">&laquo&laquo</span>
+    <span class="pager-boxes"></span>
+    <span class="btn btn-xs btn-default contact-last-page">&raquo&raquo</span>`
+
+    // Go to first page
+    html.querySelector('.contact-first-page').addEventListener('click', () => {
+      this.__goToPage(1)
+    })
+
+    // Go to last page
+    html.querySelector('.contact-last-page').addEventListener('click', () => {
+      this.__goToPage(lastPage)
+    })
+
+    this.__template.querySelector('.contact-list-section').append(html)
+  }
+
+  async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-list/actions/retrieve')).default
-    return new __contacts().get().then(res => {
+    return new __contacts().get(opt).then(res => {
       let __data = res.data
-      
+
+      // total count
+      const totalCount = res.data.length
+      const totalOutOf = res.total
+      const lastPage  = res.last_page
+      document.querySelector('.total-count').innerText = totalCount
+      document.querySelector('.total-count-out-of').innerText = totalOutOf
+
+
       __data.forEach((el, index) => {
         // capture first letter and append to proper container 
         let firstLetter = el.firstname.charAt(0).toUpperCase()
@@ -31,6 +77,13 @@ export default class {
           }) 
         }
       })
+
+      // show pagination
+      this.__pager(res.first_page_url, res.last_page)
+      // page
+      let pagerBox = document.querySelector('.pager-boxes')
+      pagerBox.innerHTML = ''
+      pagerBox.append(this.__createPageNav(lastPage, res.current_page))
     })
 
   }
@@ -62,9 +115,10 @@ export default class {
     }
   }
 
-  __bindListeners () {
+  __bindListeners (opt = {}) {
+    
     this.__createContactListSection()
-    this.__getContacts()
+    this.__getContacts(opt)
   }
 
   async render () {
@@ -93,12 +147,13 @@ export default class {
         </form>
       </div>
       
-      <p>Total : <span class="badge">5</span></p>
+      <p>Total : <span class="badge"><span class="total-count"></span> out of <span class="total-count-out-of"></span></span></p>
+
     </section>
 
     <!-- Main content -->
     <section class="content contact-list-section"></section>
-
+    
 
 
     <!-- /.content -->

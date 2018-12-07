@@ -6,7 +6,7 @@ export default class {
     this.xhr = {}
 	}
 	
-  async get () { this.xhr  = new (await URL).default()
-    return this.xhr.__getData('contact')
+  async get (opt) { this.xhr  = new (await URL).default()
+    return this.xhr.__getData(`contact?page=${opt.page ? opt.page : 1}`)
   }
 }
