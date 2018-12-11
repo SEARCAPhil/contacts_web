@@ -21,7 +21,7 @@ export default class {
     })
   }
 
-  async render () {console.log(this.__opt)
+  async render () {
     this.__parseCom ()
     this.__template = document.createElement('div')
     this.__template.classList.add('col-md-3', 'user-profile-section')
@@ -29,7 +29,10 @@ export default class {
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" alt="User profile picture">
+
+              <small><a href="#/contacts/form/${this.__opt.contact_id}/update" class=" pull-right"><i class="fa fa-pencil"></i> edit</a></small>
+
+              <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">
 
               <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix}</h3>
 
@@ -70,20 +73,26 @@ export default class {
                 ${this.__opt.gender}
               </span><hr>
 
-              <strong><i class="fa fa-book margin-r-5"></i> Birthdate : </strong>
-              <span class="text-muted">
-                ${this.__opt.birthdate}
-              </span><hr>
+              <section class="${this.__opt.birthdate ? '' : 'hidden'}">
+                <strong><i class="fa fa-book margin-r-5"></i> Birthdate : </strong>
+                <span class="text-muted">
+                  ${this.__opt.birthdate}
+                </span><hr>
+              </section>
 
-              <strong><i class="fa fa-book margin-r-5"></i> Children :</strong>
-              <span class="text-muted badge">
-                ${this.__opt.children}
-              </span><hr>
+              <section class="${this.__opt.children ? '' : 'hidden'}">
+                <strong><i class="fa fa-book margin-r-5"></i> Children :</strong>
+                <span class="text-muted badge">
+                  ${this.__opt.children}
+                </span><hr>
+              </section>
 
-              <strong><i class="fa fa-book margin-r-5"></i> Spouse :</strong>
-              <p class="text-muted">
-                ${this.__opt.spouse}
-              </p><hr>
+              <section class="${this.__opt.spouse ? '' : 'hidden'}">
+                <strong><i class="fa fa-book margin-r-5"></i> Spouse :</strong>
+                <p class="text-muted">
+                  ${this.__opt.spouse}
+                </p><hr>
+              </section>
 
 
               <strong><i class="fa fa-map-marker margin-r-5"></i> Permanent Address</strong>

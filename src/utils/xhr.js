@@ -5,12 +5,28 @@ export default class {
 		this.timestamp = new Date().getTime()
 	}
 
-	__postData(url, body) {
+	__postData(url, body, headers = {}, isJson = true) {
 		return new Promise((resolve, reject) => {
       fetch(`${URL.fullPath}${url}`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: (isJson ? JSON.stringify(body) : body),
+        headers,
+      })
+      .then(res => {
+        resolve(res.json())
+      })
+    })
+  
+  }
+  
+  __deleteData(url, body, headers = {}, isJson = true) {
+		return new Promise((resolve, reject) => {
+      fetch(`${URL.fullPath}${url}`,
+      {
+        method: 'DELETE',
+        body: (isJson ? JSON.stringify(body) : body),
+        headers,
       })
       .then(res => {
         resolve(res.json())

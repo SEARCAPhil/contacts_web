@@ -135,6 +135,17 @@ export default class {
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Contact List</li>
       </ol>
+
+      <div class="media">
+        <div class="media-left">
+          <span>
+            <img class="media-object" src="https://banner2.kisspng.com/20180221/bqq/kisspng-smartphone-mobile-phone-cartoon-hand-phone-5a8e02d08fa7e1.2797760215192562725884.jpg" alt="..." width="50px">
+          </span>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Phonebook</h4>helps you easily find person on your records</div>
+      </div>
+
       <div class="row col-12">
         <form action="#" method="get" class="sidebar-form">
           <div class="input-group">

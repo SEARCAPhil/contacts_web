@@ -28,8 +28,13 @@ export default class {
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">PERSONAL</li>
-        <li class="active"><a href="#/contacts"><i class="fa fa-users"></i> <span>Contacts</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-briefcase"></i> <span>Employment</span></a></li>
+        <li class="active treeview menu-open active">
+          <a href="#/contacts"><i class="fa fa-users"></i> <span>Contacts</span></a>
+          <ul class="treeview-menu" style="">
+            <li class="active"><a href="#/contacts/form/"><i class="fa fa-circle-o"></i> <span>Form</span></a></li>
+          </ul>
+        </li>
+        <li><a href="#"><i class="fa fa-briefcase"></i> <span>Employment</span></a></li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-graduation-cap"></i> <span>Education</span>

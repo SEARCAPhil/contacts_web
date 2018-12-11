@@ -16,12 +16,20 @@ export default class {
     this.getResearchListComponent()
     this.getTrainingListComponent()
     this.enableTabs()
+    this.loadPopup()
+    this.__bindRemoveAccount()
   }
 
+  createEmptyMessage (icon, message, target) {
+    let html = document.createElement('center')
+    html.classList.add('text-muted')
+    html.innerHTML = `<i class="fa ${icon}" style="font-size:24px;"></i> <br/>${message}`
+    target.append(html)
+  }
   getProfileBoxComponent () {
     const contact = import('../../components/contact-profile-box')
     return contact.then(res => {
-      return new res.default (this.__info[0]).then(html => {
+      return new res.default (this.__info).then(html => {
         document.querySelector('.user-profile-section').replaceWith(html)
       })
     })
@@ -32,12 +40,17 @@ export default class {
     const targ = this.__template.querySelector('.contact-employment-list-section')
     return contact.then(res => {
       // get all employment records
-      this.__info[0].employments.forEach((el, index) => {
+      this.__info.employments.forEach((el, index) => {
         // DOM
         return new res.default(el).then(html => {
           targ.append(html)
         })
       })
+
+      // empty
+      if(!this.__info.employments.length) {
+        this.createEmptyMessage ('fa-briefcase', 'No employment record available', targ)
+      }
     })
   }
 
@@ -47,12 +60,16 @@ export default class {
     const targ = this.__template.querySelector('.contact-educ-list-section')
     return contact.then(res => {
       // get all employment records
-      this.__info[0].educational_backgrounds.forEach((el, index) => {
+      this.__info.educational_backgrounds.forEach((el, index) => {
         // DOM
         return new res.default(el).then(html => {
           targ.append(html)
         })
       })
+      // empty
+      if(!this.__info.educational_backgrounds.length) {
+        this.createEmptyMessage ('fa-graduation-cap', 'No educational background', targ)
+      }
     })
   }
 
@@ -62,12 +79,17 @@ export default class {
     const targ = this.__template.querySelector('.contact-conference-list-section')
     return contact.then(res => {
       // get all employment records
-      this.__info[0].conferences.forEach((el, index) => {
+      this.__info.conferences.forEach((el, index) => {
         // DOM
         return new res.default(el).then(html => {
           targ.append(html)
         })
       })
+
+      // empty
+      if(!this.__info.conferences.length) {
+        this.createEmptyMessage ('fa-microphone', 'No conference available', targ)
+      }
     })
   }
 
@@ -76,12 +98,17 @@ export default class {
     const targ = this.__template.querySelector('.contact-research-list-section')
     return contact.then(res => {
       // get all employment records
-      this.__info[0].research.forEach((el, index) => {
+      this.__info.research.forEach((el, index) => {
         // DOM
         return new res.default(el).then(html => {
           targ.append(html)
         })
       })
+
+      // empty
+      if(!this.__info.research.length) {
+        this.createEmptyMessage ('fa-book', 'No research added', targ)
+      }
     })
   }
 
@@ -90,12 +117,18 @@ export default class {
     const targ = this.__template.querySelector('.contact-training-list-section')
     return contact.then(res => {
       // get all employment records
-      this.__info[0].trainings.forEach((el, index) => {
+      this.__info.trainings.forEach((el, index) => {
         // DOM
         return new res.default(el).then(html => {
           targ.append(html)
         })
       })
+
+      // empty
+      if(!this.__info.trainings.length) {
+        this.createEmptyMessage ('fa-cube', 'No trainings available', targ)
+      }
+
     })
   }
   getInfo (params) {
@@ -122,14 +155,43 @@ export default class {
       })
     })
   }
+
+  loadPopup () {
+
+    const popupes = import('../../components/popup-es')
+    const popupesStyle = import('../../components/popup-es/index.styl')
+  
+      // enable popup
+      popupesStyle.then(css => {
+        const style = document.createElement('style')
+        style.id = 'popup-es-style'
+        style.innerHTML = css.default.toString()
+        if(!document.querySelector('#popup-es-style')) document.head.append(style)
+        
+      })
+  
+      popupes.then(loader => new loader.default())
+  }
+
+  __bindRemoveAccount () {
+    //this.__template.querySelector('.remove-account-btn').addEventListener('click', () => {
+      import('./actions/remove').then(loader => {
+        return new loader.default({
+          root: this.__template,
+          selector: '.remove-account-btn-modal',
+          id: this.__info.contact_id
+        })
+      })
+    //})
+  }
   
 
   async render () {
     const __payload = {
       id: this.__opt.id,
     }
-    this.__infoXHRResult = await this.getInfo (__payload)
-    this.__info = this.__infoXHRResult.data
+    this.__info = await this.getInfo (__payload)
+   
 
     this.__template = document.createElement('section')
     this.__template.classList.add('profile-section')
@@ -155,7 +217,7 @@ export default class {
       
 
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-9 col-lg-6">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#info" data-toggle="tab" aria-expanded="true" class="tabs" data-target="#tab-info" data-group="profile-tab-panes">Info</a></li>
@@ -164,35 +226,56 @@ export default class {
             <div class="tab-content">
               <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
                 <section>
-                <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> Employment</h4>
+                <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> 
+                  Employment 
+                  <span class="pull-right">
+                    <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                  </span>
+                </h4>
                   <hr/>
                   <div class="contact-employment-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-graduation-cap margin-r-5"></i> Education</h4>
+                  <h4 class="info-title"><i class="fa fa-graduation-cap margin-r-5"></i> Education
+                    <span class="pull-right">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
                   <hr/>
                   <div class="contact-educ-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-desktop margin-r-5"></i> Conference</h4>
+                  <h4 class="info-title"><i class="fa fa-desktop margin-r-5"></i> Conference
+                    <span class="pull-right">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
                   <hr/>
                   <div class="contact-conference-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-book margin-r-5"></i> Research</h4>
+                  <h4 class="info-title"><i class="fa fa-book margin-r-5"></i> Research
+                    <span class="pull-right">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
                   <hr/>
                   <div class="contact-research-list-section"></div>
                 </section>
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-cubes margin-r-5"></i> Trainings</h4>
+                  <h4 class="info-title"><i class="fa fa-cubes margin-r-5"></i> Trainings
+                    <span class="pull-right">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
                   <hr/>
                   <div class="contact-training-list-section"></div>
                 </section>
@@ -206,7 +289,7 @@ export default class {
                 </div>
                 <br/>
                 <span class="text-muted">Do you still want to proceed ?</span> <br/>
-                <button class="btn btn-danger">REMOVE</button>
+                <button class="btn btn-danger remove-account-btn-modal" data-target="#general-modal" data-popup-toggle="open">REMOVE</button>
               </div>
     
             </div>

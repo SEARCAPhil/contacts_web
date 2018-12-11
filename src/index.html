@@ -52,6 +52,14 @@ desired effect
 <div class="wrapper" style="height: auto; min-height: 100%;">
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper ajax-main-section" style="min-height: 100vh;"></div>
+  <div class="content-wrapper ajax-main-section" style="min-height: 100vh; overflow-y: auto;"></div>
+  <dialog id="general-modal" data-popup="fade" style="visibility: hidden; z-index: 1;">
+    <main class="content">
+      <!--close button-->
+      <a href="#" data-popup-toggle="close" class="pull-right popup-close-button">x</a>
+      <section class="header"></section>
+      <section class="body" id="modal-body"></section>
+    </main>	
+  </dialog>
 </body></html>
 <script src="shell.js" async></script>

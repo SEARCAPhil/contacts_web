@@ -13,7 +13,6 @@ Navigo.then(routerClass => {
   router.on({
     '' : () => { },
     '/account/:id/profile' : async (params) => {
-
       const __profilePage = (await import('../../pages/profile-section')).default
       return new __profilePage(params).then(res => {
         const __targ = document.querySelector('.ajax-main-section')
@@ -22,9 +21,16 @@ Navigo.then(routerClass => {
       })
     },
     '/contacts' : async (params) => {
-      console.log('profile')
       const __profilePage = (await import('../../pages/contacts-section')).default
       return new __profilePage().then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
+    '/contacts/form' : async (params) => { console.log('a')
+      const __page = (await import('../../pages/contact-form')).default
+      return new __page().then(res => {
         const __targ = document.querySelector('.ajax-main-section')
         __targ.innerHTML = ''
         __targ.append(res)

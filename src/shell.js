@@ -45,5 +45,9 @@ Navigo.then(routerClass => {
       loadMain()
       loadAccountRouters()
     },
+    '/contacts/*' : () => {
+      loadMain()
+      loadAccountRouters()
+    },
   }).resolve()
 })
