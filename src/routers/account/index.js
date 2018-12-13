@@ -36,5 +36,18 @@ Navigo.then(routerClass => {
         __targ.append(res)
       })
     },
+    '/contacts/form/:id/update' : async (params) => {
+      const __page = (await import('../../pages/contact-form')).default
+
+      // this will signal the app to get contact info
+      // without the action parameter, form will add new contact by default
+      params.action = 'update'
+
+      return new __page(params).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
   }).resolve()
 })

@@ -5,11 +5,11 @@ export default class {
 		this.timestamp = new Date().getTime()
 	}
 
-	__postData(url, body, headers = {}, isJson = true) {
-		return new Promise((resolve, reject) => {
+  __xhrDataFactory (url, body, headers = {}, isJson = true, method = 'GET') {
+    return new Promise((resolve, reject) => {
       fetch(`${URL.fullPath}${url}`,
       {
-        method: 'POST',
+        method: method,
         body: (isJson ? JSON.stringify(body) : body),
         headers,
       })
@@ -17,23 +17,19 @@ export default class {
         resolve(res.json())
       })
     })
-  
   }
-  
-  __deleteData(url, body, headers = {}, isJson = true) {
-		return new Promise((resolve, reject) => {
-      fetch(`${URL.fullPath}${url}`,
-      {
-        method: 'DELETE',
-        body: (isJson ? JSON.stringify(body) : body),
-        headers,
-      })
-      .then(res => {
-        resolve(res.json())
-      })
-    })
-  
-	}
+
+  __putData (url, body, headers = {}, isJson = true) {
+    return this.__xhrDataFactory(url, body, headers, isJson, 'PUT')
+  }
+
+  __postData (url, body, headers = {}, isJson = true) {
+    return this.__xhrDataFactory(url, body, headers, isJson, 'POST')
+  }
+
+  __deleteData (url, body = {}, headers = {}, isJson = true) {
+    return this.__xhrDataFactory(url, body, headers, isJson, 'DELETE')
+  }
 
 	__getData(url) {
 		return new Promise((resolve, reject) => {
@@ -47,9 +43,4 @@ export default class {
     })
 
 	}
-	
-
-  get () {
-    return this.__getData('contact')
-  }
 }

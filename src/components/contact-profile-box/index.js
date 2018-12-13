@@ -34,9 +34,9 @@ export default class {
 
               <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">
 
-              <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix}</h3>
+              <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix || ''}</h3>
 
-              <p class="text-muted text-center">${this.__opt.affiliateCode}</p><br/>
+              <p class="text-muted text-center">${this.__opt.affiliateCode || ''}</p><br/>
               
 
               <ul class="list-group list-group-unbordered">
@@ -95,9 +95,9 @@ export default class {
               </section>
 
 
-              <strong><i class="fa fa-map-marker margin-r-5"></i> Permanent Address</strong>
+              ${this.__opt.homeAddress ? `<strong><i class="fa fa-map-marker margin-r-5"></i> Permanent Address</strong>
 
-              <p class="text-muted">${this.__opt.homeAddress},  ${this.__opt.homeZipCode},  ${this.__opt.homeCountry}</p>
+              <p class="text-muted">${this.__opt.homeAddress},  ${this.__opt.homeZipCode},  ${this.__opt.homeCountry}</p>` : ''}
 
             </div>
             <!-- /.box-body -->

@@ -1,10 +1,11 @@
 const URL = import('../../../utils/xhr')
 
 export default class {
-  constructor(){
+  constructor(opt = {}){
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__submitted = false
+    this.__opt = opt
 	}
 	
   async post (payload) { this.xhr  = new (await URL).default()
@@ -15,11 +16,12 @@ export default class {
     for(let key in payload) {
       query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'
     }
-    return this.xhr.__postData(`contact`, query, headers,  false)
+    return this.__opt.action === 'update' ? this.xhr.__putData(`contact`, query, headers,  false) : this.xhr.__postData(`contact`, query, headers,  false)
   }
 
   __error () {
     this.__statusSection.innerHTML = '<span class="alert alert-danger" style="padding-bottom: 10px;"><i class="fa fa-warning"></i> Sorry! Unable to process request. Please try again later</span>'
+    this.__submitBtn.removeAttribute('disabled')
   }
   __saving() {
     this.__statusSection.innerHTML = '<span class="text-danger"><i class="fa fa-spinner"></i> Saving . . .</span>'
@@ -27,7 +29,7 @@ export default class {
   __saved (id) {
     this.__statusSection.innerHTML = '<span class="alert alert-success"><i class="fa fa-check-circle"></i> Saved</span>'
     this.__form.reset ()
-    this.__redirect (id)
+    this.__redirect (this.__opt.id || id)
   }
   __redirect (id) {
     this.__statusSection.innerHTML = '<span class="alert alert-success">redirecting . .  . please wait</span>'
@@ -86,13 +88,17 @@ export default class {
       civilStatus: civilStatus[0].checked ? civilStatus[0].value : civilStatus[1].value,
       nationality: nationality.value,
       specialization: specialization.value,
-      country : country.value,
+      country : country.selectedOptions[0].value,
       address: address.value,
       areaCode: areaCode.value,
       zipCode : zipCode.value,
+      affiliateCode: affiliateCode.value,
       rank : rank.value,
       notes : notes.value,  
     }
+
+    // there must be an ID for an update action
+    if(this.__opt.action === 'update') payload.id = this.__opt.id
 
     return new Promise((resolve, reject) => {
       if(errors.length) {
@@ -108,10 +114,14 @@ export default class {
     this.__statusSection = this.__template.querySelector('.saving-status-section')
 
     this.__form = this.__template.querySelector('#contact-form')
+    this.__submitBtn= this.__template.querySelector('.submit-contact-btn')
     this.__form.addEventListener('submit', (e) => {
+      
       e.preventDefault()
       // prevent multiple submit
       if(!this.__submitted) {
+        // disable button
+        this.__submitBtn.disabled = "disabled"
         this.__saving()
         // validate inputs
         this.__validate().then(payload => {
