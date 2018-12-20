@@ -47,10 +47,10 @@ export default class {
                 <li class="list-group-item">
                   <b>Civil Status</b> <a class="pull-right">${this.__opt.civilStat}</a>
                 </li>
-                <li class="list-group-item" style="overflow: auto;">
+                <li style="overflow: auto;" class="list-group-item ${this.__opt.specialization ? '' : 'hidden'}">
                   <b>Specialization</b> <a class="pull-right">${this.__opt.specialization}</a>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item ${this.__opt.nationality ? '' : 'hidden'}">
                   <b>Nationality</b> <a class="pull-right">${this.__opt.nationality}</a>
                 </li>
               </ul>
