@@ -25,6 +25,27 @@ export default class {
   
   }
 
+  bindRemove () {
+    import('./actions/remove').then(loader => {
+      return new loader.default({
+        root: this.__template,
+        selector: '.remove-btn-modal',
+        id: this.__opt.employ_id
+      })
+    })
+  }
+
+  bindUpdate () {
+    import('../contact-employment-form/actions/create').then(loader => {
+      return new loader.default({
+        root: this.__template,
+        target: '.update-btn-modal',
+        id: this.__opt.employ_id,
+        update: true,
+      })
+    })
+  }
+
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
     DropdownLoader.then(loader =>  loader.default('device-dropdown'))
@@ -33,24 +54,30 @@ export default class {
   __bindListeners () {
     this.loadPopup ()
     this.loadDropdown ()
+    this.bindRemove ()
+    this.bindUpdate ()
   }
 
-  async render () {
+  async render () { 
     this.__template = document.createElement('section')
-    this.__template.classList.add('account-employment-list-item', 'col', 'col-lg-12', 'col-md-12')
+    this.__template.classList.add('account-employment-list-item', 'col', 'col-lg-12', 'col-md-12', `employment-section-${parseInt(this.__opt.employ_id)}`)
     this.__template.innerHTML = `
-      <span class="pull-right text-muted device-dropdown" data-device-dropdown="dropdown-115" data-resources="115"  style="margin-right: 10px; position: relative;">
+      <span class="pull-right text-muted device-dropdown" data-device-dropdown="dropdown-${this.__opt.employ_id}" data-resources="${this.__opt.employ_id}"  style="margin-right: 10px; position: relative;">
         <i class="fa fa-angle-down"></i>
-        <div class="dropdown-section float-right" id="dropdown-115">
+        <div class="dropdown-section float-right" id="dropdown-${this.__opt.employ_id}">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2"><i class="fa fa-edit"></i> Update</a></li>
+          <li class="list-group-item"><a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="update-btn-modal"><i class="fa fa-edit"></i> Update</a></li>
+          <li class="list-group-item">
+            <a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="text-danger remove-btn-modal"><i class="fa fa-remove"></i> Remove</a>
+          </li>
           <ul>
         </ul></ul></div>
       </span>
       ${this.__opt.companyName} <br/>
       <small class="text-muted">
         ${this.__opt.employedFrom} - ${(this.__opt.employedTo != '0000' || this.__opt.employedTo != this.__opt.employedFrom) ? this.__opt.employedTo : 'Current'}<br/>
-        <b>${this.__opt.position}</b>
+        <b>${this.__opt.position}</b><br/>
+        <span class="text-muted"><i class="fa fa-map-marker"></i> ${this.__opt.companyAddress || 'N/A'}</span>
       </small>  
       <hr/>`
     this.__bindListeners()

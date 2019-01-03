@@ -37,8 +37,10 @@ export default class {
 
   getProfileEmploymentListComponent () {
     const contact = import('../../components/contact-employment-list')
+    const contactForm = import('../../components/contact-employment-form/actions/create')
     const targ = this.__template.querySelector('.contact-employment-list-section')
-    return contact.then(res => {
+    // get employment records
+    contact.then(res => {
       // get all employment records
       this.__info.employments.forEach((el, index) => {
         // DOM
@@ -52,13 +54,22 @@ export default class {
         this.createEmptyMessage ('fa-briefcase', 'No employment record available', targ)
       }
     })
+    // bind employment form
+    contactForm.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-employment-list-add-btn',
+        id: this.__opt.id,
+      })
+    })
   }
 
 
   getProfileEducListComponent () {
     const contact = import('../../components/contact-educational-bg-list')
+    const educForm = import('../../components/contact-educational-bg-form/actions/create')
     const targ = this.__template.querySelector('.contact-educ-list-section')
-    return contact.then(res => {
+    contact.then(res => {
       // get all employment records
       this.__info.educational_backgrounds.forEach((el, index) => {
         // DOM
@@ -71,6 +82,16 @@ export default class {
         this.createEmptyMessage ('fa-graduation-cap', 'No educational background', targ)
       }
     })
+
+    // bind  form
+    educForm.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-educ-list-add-btn',
+        id: this.__opt.id,
+      })
+    })
+
   }
 
 
@@ -174,15 +195,13 @@ export default class {
   }
 
   __bindRemoveAccount () {
-    //this.__template.querySelector('.remove-account-btn').addEventListener('click', () => {
-      import('./actions/remove').then(loader => {
-        return new loader.default({
-          root: this.__template,
-          selector: '.remove-account-btn-modal',
-          id: this.__info.contact_id
-        })
+    import('./actions/remove').then(loader => {
+      return new loader.default({
+        root: this.__template,
+        selector: '.remove-account-btn-modal',
+        id: this.__info.contact_id
       })
-    //})
+    })
   }
   
 
@@ -228,7 +247,7 @@ export default class {
                 <section>
                 <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> 
                   Employment 
-                  <span class="pull-right">
+                  <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                     <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                   </span>
                 </h4>
@@ -239,7 +258,7 @@ export default class {
 
                 <section>
                   <h4 class="info-title"><i class="fa fa-graduation-cap margin-r-5"></i> Education
-                    <span class="pull-right">
+                    <span class="pull-right contact-educ-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>

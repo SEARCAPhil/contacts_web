@@ -13,6 +13,7 @@ export default class {
     let headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
+    
     for(let key in payload) {
       query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'
     }
