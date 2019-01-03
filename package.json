@@ -86,6 +86,7 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0"
+    "start": "webpack-dev-server --host 0.0.0.0",
+    "test": "exit 0"
   }
 }
