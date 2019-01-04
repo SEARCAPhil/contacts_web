@@ -98,7 +98,9 @@ export default class {
   getConferenceListComponent () {
     const contact = import('../../components/contact-conference-list')
     const targ = this.__template.querySelector('.contact-conference-list-section')
-    return contact.then(res => {
+    const confForm = import('../../components/contact-conference-form/actions/create')
+
+    contact.then(res => {
       // get all employment records
       this.__info.conferences.forEach((el, index) => {
         // DOM
@@ -112,12 +114,23 @@ export default class {
         this.createEmptyMessage ('fa-microphone', 'No conference available', targ)
       }
     })
+
+    // bind  form
+    confForm.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-conf-list-add-btn',
+        id: this.__opt.id,
+      })
+    })
   }
 
   getResearchListComponent () {
     const contact = import('../../components/contact-research-list')
     const targ = this.__template.querySelector('.contact-research-list-section')
-    return contact.then(res => {
+    const researchForm = import('../../components/contact-research-form/actions/create')
+
+    contact.then(res => {
       // get all employment records
       this.__info.research.forEach((el, index) => {
         // DOM
@@ -131,12 +144,24 @@ export default class {
         this.createEmptyMessage ('fa-book', 'No research added', targ)
       }
     })
+
+    // bind  form
+    researchForm.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-research-list-add-btn',
+        id: this.__opt.id,
+      })
+    })
+
   }
 
   getTrainingListComponent () {
     const contact = import('../../components/contact-training-list')
     const targ = this.__template.querySelector('.contact-training-list-section')
-    return contact.then(res => {
+    const trainingForm = import('../../components/contact-training-form/actions/create')
+
+    contact.then(res => {
       // get all employment records
       this.__info.trainings.forEach((el, index) => {
         // DOM
@@ -151,7 +176,17 @@ export default class {
       }
 
     })
+
+    // bind  form
+    trainingForm.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-training-list-add-btn',
+        id: this.__opt.id,
+      })
+    })
   }
+
   getInfo (params) {
     return new Promise((resolve, reject) => {
       import('../../components/contact-profile-box/actions/retrieve').then(res => {
@@ -269,7 +304,7 @@ export default class {
 
                 <section>
                   <h4 class="info-title"><i class="fa fa-desktop margin-r-5"></i> Conference
-                    <span class="pull-right">
+                    <span class="pull-right contact-conf-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
@@ -280,7 +315,7 @@ export default class {
 
                 <section>
                   <h4 class="info-title"><i class="fa fa-book margin-r-5"></i> Research
-                    <span class="pull-right">
+                    <span class="pull-right contact-research-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
@@ -291,7 +326,7 @@ export default class {
 
                 <section>
                   <h4 class="info-title"><i class="fa fa-cubes margin-r-5"></i> Trainings
-                    <span class="pull-right">
+                    <span class="pull-right contact-training-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
