@@ -50,11 +50,15 @@ const template = `
     </div>
 
     <div class="form-group">
-      <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
-        <option default="" value="">Please Select SAAF Type</option>
-        <option value="">N/A</option>
-      </select>
+        <span class="saaf-type-status-text-section"></span>
+        <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
+          <option default="" value="null">Please Select SAAF Type</option>
+          <option value="null">N/A</option>
+        </select>
+        <div class="form-group" id="select-saaf-null"></div>
     </div>
+
+    
 
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Supervisor's Full Name" id="supervisor"/>

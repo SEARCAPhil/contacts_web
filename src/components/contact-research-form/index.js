@@ -38,10 +38,12 @@ const template = `
 
     <div class="form-group">
         <p class="text-muted"> For SAAF Use Only</p>
+        <span class="saaf-type-status-text-section"></span>
         <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
-        <option default="" value="">Please Select SAAF Type</option>
-        <option value="">N/A</option>
+          <option default="" value="null">Please Select SAAF Type</option>
+          <option value="null">N/A</option>
         </select>
+        <div class="form-group" id="select-saaf-null"></div>
     </div>
 
     

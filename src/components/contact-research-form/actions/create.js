@@ -25,9 +25,9 @@ export default class {
     return this.xhr.__getData(`contact/research/${opt.id}/details`)
   }
 
-  async getSaaf () {
+  async getSaaf (id = 0) {
     this.xhr  = new (await URL).default()
-    return this.xhr.__getData(`saaf/class`)
+    return id ? this.xhr.__getData(`saaf/class/${id}`) : this.xhr.__getData(`saaf/class`)
   }
 
   showEmptyDetails () {
@@ -71,16 +71,67 @@ export default class {
     })
   }
 
+  bindSaffListener (targ, parentNode, parentNodeID, stat = '') {
+    targ.addEventListener('change', (e) => {
+      let id = (e.target.value)
+    
+      if (id == 'null') return document.querySelector(`#select-saaf-${parentNodeID}-container`).innerHTML = ''
+     
+        stat.innerHTML = 'loading sub categories . . .'
+        this.getSaaf(id).then(res => {
+          if(res.data.length) {
+            // create new option
+            let div = document.createElement('div')
+            div.id = `select-saaf-${id}-container`
+            let opts = ''
+            div.classList.add('form-group')
+            div.style.marginTop = '10px'
+
+            // options
+            res.data.forEach((el, index) => {
+              opts += `<option value="${el.saafclass_id}">${el.saafclass}</option>` 
+            })
+
+            div.innerHTML = `
+            <select class="form-control type type-hidden-accessible" id="select-saaf-${id}" style="width: 100%;" tabindex="-1" aria-hidden="true">
+              <option default="" value="null">Please Select SAAF Type</option>
+              ${opts}
+            </select>
+            <div class="form-group id="select-saaf-${id}-container"></div>
+            `
+            this.bindSaffListener(div.querySelector('select'), div, id, stat)
+            let newTarg = document.querySelector(`#select-saaf-${id}-container`)
+            if (newTarg) newTarg.innerHTML = ''
+
+            parentNode.append(div)
+            
+
+          }
+          
+          stat.innerHTML = ''
+        })
+      
+    })
+  }
+
   getRootSaafType () {
     let targ = document.querySelector('#type')
-    return this.getSaaf ().then(res => {
-      if (!res.data) return
+    let stat = document.querySelector('.saaf-type-status-text-section')
+    let parentNode = targ.nextElementSibling
+    new Promise((resolve, reject) => {
+      this.getSaaf ().then(res => {
+        if (!res.data) return
 
-      res.data.forEach((el, index) => {
-        let opt = document.createElement('option')
-        opt.innerHTML = el.saafclass
-        opt.value = el.saafclass_id
-        targ.append(opt)
+        res.data.forEach((el, index) => {
+          let opt = document.createElement('option')
+          opt.innerHTML = el.saafclass
+          opt.value = el.saafclass_id
+          targ.append(opt)
+        })
+
+        this.bindSaffListener(targ, parentNode, null, stat)
+        resolve()
+        
       })
     })
   }
@@ -100,12 +151,16 @@ export default class {
     const host = e.target.querySelector('#host')
     const fundings = e.target.querySelector('#fundings')
     const remarks = e.target.querySelector('#remarks')
-    const type = e.target.querySelector('#type')
+    let type = null
 
     // set default behaviors
     saveBtn.setAttribute('disabled', 'disabled')
     statusTextBox.innerHTML = '<span class="text-danger">Saving . . . Please wait . . . <br/></span>'
 
+    const types = document.querySelectorAll('.type')
+    types.forEach((el, index) => {
+      if(el.value != 'null') type = el.value
+    })
 
     let query = ''
     let headers = {
@@ -121,7 +176,7 @@ export default class {
       funding: fundings.value,
       hostUniversity: host.value,
       remarks: remarks.value,
-      saafTypeId: type.value, 
+      saafTypeId: type, 
     }
 
     for(let key in payload) { console.log(payload[key])

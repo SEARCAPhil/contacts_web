@@ -23,6 +23,76 @@ export default class {
     return this.xhr.__getData(`contact/training/${opt.id}/details`)
   }
 
+  async getSaaf (id = 0) {
+    this.xhr  = new (await URL).default()
+    return id ? this.xhr.__getData(`saaf/class/${id}`) : this.xhr.__getData(`saaf/class`)
+  }
+
+  bindSaffListener (targ, parentNode, parentNodeID, stat = '') {
+    targ.addEventListener('change', (e) => {
+      let id = (e.target.value)
+    
+      if (id == 'null') return document.querySelector(`#select-saaf-${parentNodeID}-container`).innerHTML = ''
+     
+        stat.innerHTML = 'loading sub categories . . .'
+        this.getSaaf(id).then(res => {
+          if(res.data.length) {
+            // create new option
+            let div = document.createElement('div')
+            div.id = `select-saaf-${id}-container`
+            let opts = ''
+            div.classList.add('form-group')
+            div.style.marginTop = '10px'
+
+            // options
+            res.data.forEach((el, index) => {
+              opts += `<option value="${el.saafclass_id}">${el.saafclass}</option>` 
+            })
+
+            div.innerHTML = `
+            <select class="form-control type type-hidden-accessible" id="select-saaf-${id}" style="width: 100%;" tabindex="-1" aria-hidden="true">
+              <option default="" value="null">Please Select SAAF Type</option>
+              ${opts}
+            </select>
+            <div class="form-group id="select-saaf-${id}-container"></div>
+            `
+            this.bindSaffListener(div.querySelector('select'), div, id, stat)
+            let newTarg = document.querySelector(`#select-saaf-${id}-container`)
+            if (newTarg) newTarg.innerHTML = ''
+
+            parentNode.append(div)
+            
+
+          }
+          
+          stat.innerHTML = ''
+        })
+      
+    })
+  }
+
+  getRootSaafType () {
+    let targ = document.querySelector('#type')
+    let stat = document.querySelector('.saaf-type-status-text-section')
+    let parentNode = targ.nextElementSibling
+    new Promise((resolve, reject) => {
+      this.getSaaf ().then(res => {
+        if (!res.data) return
+
+        res.data.forEach((el, index) => {
+          let opt = document.createElement('option')
+          opt.innerHTML = el.saafclass
+          opt.value = el.saafclass_id
+          targ.append(opt)
+        })
+
+        this.bindSaffListener(targ, parentNode, null, stat)
+        resolve()
+        
+      })
+    })
+  }
+
   showEmptyDetails () {
     document.querySelector('#modal-education-form').innerHTML = '<center><h3>Unable to process request</h3><small>Please try again later</small></center>'
   }
@@ -95,15 +165,20 @@ export default class {
     const host = e.target.querySelector('#host')
     const sponsor = e.target.querySelector('#sponsor')
     const scholarship = e.target.querySelector('#scholarship')
-    const saafType = e.target.querySelector('#type')
     const agency = e.target.querySelector('#agency')
     const supervisor = e.target.querySelector('#supervisor')
     const designation = e.target.querySelector('#designation')
     const notes = e.target.querySelector('#notes')
+    let saafType = null
 
     // set default behaviors
     saveBtn.setAttribute('disabled', 'disabled')
     statusTextBox.innerHTML = '<span class="text-danger">Saving . . . Please wait . . . <br/></span>'
+
+    const types = document.querySelectorAll('.type')
+    types.forEach((el, index) => {
+      if(el.value != 'null') saafType = el.value
+    })
 
 
     let query = ''
@@ -125,7 +200,7 @@ export default class {
       organizingAgency: agency.value,
       hostUniversity: host.value,
       notes: notes.value,
-      saafTypeId: saafType.value,
+      saafTypeId: saafType,
     }
 
     for(let key in payload) {
@@ -172,6 +247,10 @@ export default class {
 
       // attach close event to btn
       targ.querySelector('#modal-dialog-close-button').addEventListener('click', () => document.querySelector('#general-modal').close())
+
+      // get SAAF parent class
+      this.getRootSaafType ()
+
 
       //show item information if "update" parameter is set to TRUE
       if(this.__opt.update) return this.getDetails()
