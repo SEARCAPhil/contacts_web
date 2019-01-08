@@ -25,8 +25,33 @@ export default class {
       new res.default(opt).validate(this.__template)
     })
   }
+
+  __imageReader (e) {
+    let file = e.target.files[0]
+    let reader = new FileReader()
+
+    let label = document.querySelector('#photoLabel')
+    label.innerHTML = 'uploading . . .'
+    label.setAttribute('for', '')
+
+    reader.onload = (e) => {
+      let img = this.__template.querySelector('.profile-user-img')
+      img.style.height = '100px'
+      img.src = e.target.result
+    }
+
+    reader.readAsDataURL(file)
+  }
+  __bindUploadPhoto () {
+      let targ = this.__template.querySelector('#photo')
+      let __proto__ = {...this, __proto__ : this.__proto__}
+      console.log(targ)
+      if(!targ) return
+      targ.addEventListener('change', this.__imageReader.bind(__proto__))
+  }
   __bindListeners (opt = {}) {
     this.__bindForm (opt)
+    this.__bindUploadPhoto ()
   }
 
   async render () {
@@ -53,7 +78,7 @@ export default class {
 
       <br/>
       <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png"  alt="User profile picture">
-
+      <!--${this.__info.contact_id ? `<input type="file" id="photo" style="display:none;"/><center><label id="photoLabel" for="photo" style="color:#29b6f6;cursor:pointer;">Change Photo</label></center>` : ''}-->
       <!-- /.box-header -->
       <!-- form start -->
       <form role="form" id="contact-form">
