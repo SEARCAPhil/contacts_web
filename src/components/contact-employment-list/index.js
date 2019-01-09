@@ -73,12 +73,33 @@ export default class {
           <ul>
         </ul></ul></div>
       </span>
-      ${this.__opt.companyName} <br/>
-      <small class="text-muted">
+       <!--${this.__opt.companyName} <br/>
+     <small class="text-muted">
         ${this.__opt.employedFrom} - ${(this.__opt.employedTo != '0000' || this.__opt.employedTo != this.__opt.employedFrom) ? this.__opt.employedTo : 'Current'}<br/>
         <b>${this.__opt.position}</b><br/>
         <span class="text-muted"><i class="fa fa-map-marker"></i> ${this.__opt.companyAddress || 'N/A'}</span>
-      </small>  
+      </small>-->
+      
+      <div class="media">
+        <div class="media-left text-center text-muted margin-r-5" style="
+          background: #f7f7f7;
+          width: 70px;
+          height: 70;
+          padding: 20px;
+          font-size: 30px;
+      ">
+          <i class="fa fa-briefcase"></i>
+        </div>
+        <div class="media-body" style="padding-left: 20px;">
+          <h4 class="media-heading">${this.__opt.companyName} </h4>
+          ${this.__opt.employedFrom} - ${(this.__opt.employedTo != '0000' || this.__opt.employedTo != this.__opt.employedFrom) ? this.__opt.employedTo : 'Current'}<br/>
+          
+          <small>
+            <b>${this.__opt.position}</b><br/>
+            <span class="text-muted"><i class="fa fa-map-marker"></i> ${this.__opt.companyAddress || 'N/A'}</span>
+          </small>
+        </div>
+      </div>
       <hr/>`
     this.__bindListeners()
     return this.__template;

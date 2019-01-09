@@ -1,6 +1,7 @@
 import style from './index.styl'
 const tabs = import('../../utils/tabs')
 
+
 export default class {
   constructor(opt = {}) {
     this.__opt = opt
@@ -280,7 +281,7 @@ export default class {
             <div class="tab-content">
               <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
                 <section>
-                <h4 class="info-title"><i class="fa fa-briefcase margin-r-5"></i> 
+                <h4 class="info-title">
                   Employment 
                   <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                     <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>

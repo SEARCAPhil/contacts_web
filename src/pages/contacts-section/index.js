@@ -206,6 +206,7 @@ export default class {
   __bindSearch () {
     this.__template.querySelector('.search-bar').addEventListener('keyup', (e) => {
       const input = e.target
+      if(!input.value.length) this.__bindListeners()
       if(input.value.length < 3) return
 
       let payload = {

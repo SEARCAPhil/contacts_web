@@ -5,8 +5,8 @@ const Navigo = import('navigo')
 const loadProfileSection = () => {
   const __page = import('../../pages/profile-section').default
   const __targ = document.querySelector('.ajax-main-section')
-
 }
+
 
 Navigo.then(routerClass => {
   const router = new routerClass.default(URL.fullPath, true)
@@ -51,3 +51,4 @@ Navigo.then(routerClass => {
     },
   }).resolve()
 })
+

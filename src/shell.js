@@ -1,22 +1,26 @@
 import {URL} from './config/app'
+import {Middleware} from './mixins/middleware'
+
+const AuthMiddleWare = import('./middlewares/Auth')
 
 const Navigo = import('navigo')
+const Profiler = import('./mixins/profiler')
 
-const loadHeader = () => {
+const loadHeader = (opt) => {
   const __header = import('./components/main-header')
-  const __target = document.querySelector('header')
-  __header.then(res => {
-    return new res.default().then(html => {
+  __header.then(res => { 
+    const __target = document.querySelector('header')
+    return new res.default(opt).then(html => {
       return __target ? __target.replaceWith(html) : document.body.prepend(html)
     })
   })
 }
 
-const loadSidebar = () => {
+const loadSidebar = (opt) => {
   const __sidebar = import('./components/main-sidebar')
   const __target = document.querySelector('.main-sidebar')
   __sidebar.then(res => {
-    return new res.default().then(html => {
+    return new res.default(opt).then(html => {
       return __target ? __target.replaceWith(html) : document.body.prepend(html)
     })
   })
@@ -26,28 +30,119 @@ const loadAccountRouters = () => {
   import ('./routers/account/')
 }
 
-const loadMain = () => {
-  loadHeader()
-  loadSidebar()
+const loadMain = (opt = {}) => { 
+  loadHeader(opt)
+  loadSidebar(opt)
+
+  let token = localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
+  getImage(token).then(res => { 
+    res.blob().then(blob => {
+      // reader
+      let reader = new FileReader();
+      reader.readAsDataURL(blob); 
+      reader.onloadend = function() {
+
+        Profiler.then(res => {
+          let p = new res.default()
+          let data = {...p.get(), image: reader.result}
+          // save image
+          p.set(data)
+          // reload header
+          loadHeader(opt)
+        })
+    
+      }
+    })
+  })
+
+  document.querySelector('.wrapper').classList.remove('hidden')
+  let loginContainer = document.querySelector('.loginContainer')
+  if(loginContainer) loginContainer.remove()
 }
 
-Navigo.then(routerClass => {
-  const router = new routerClass.default(URL.fullPath, true)
-  router.on({
-    '' : () => {
-      loadMain()
-    },
-    '/account/*' : () => {
-      loadMain()
-      loadAccountRouters()
-    },
-    '/contacts' : () => {
-      loadMain()
-      loadAccountRouters()
-    },
-    '/contacts/*' : () => {
-      loadMain()
-      loadAccountRouters()
-    },
-  }).resolve()
+const loadLoginPage = () => {
+  document.querySelector('.wrapper').classList.add('hidden')
+  const loginContainer = document.createElement('main')
+  loginContainer.classList.add('loginContainer')
+
+  // hide other section
+  let header = document.querySelector('.main-header')
+  let sidebar = document.querySelector('.main-sidebar')
+  if(header) header.classList.add('hidden')
+  if(sidebar) sidebar.classList.add('hidden')
+
+  import ('./pages/login-page').then(res => {
+    return new res.default().then(html => {
+      loginContainer.innerHTML = ''
+      loginContainer.append(html)
+      if(!document.querySelector('.loginContainer')) document.body.append(loginContainer)
+      document.querySelector('.loginContainer').replaceWith(loginContainer)
+    })
+  })
+}
+
+
+const loadProfile = () => {
+  return new Promise((resolve, reject) => {
+    Profiler.then(res => {
+      let profile = new res.default().get()
+      resolve(profile)
+    })
+  })
+}
+
+
+const  getImage = (token) => {
+  //https://graph.microsoft.com/v1.0/me/photo/$value
+  return fetch('https://graph.microsoft.com/v1.0/me/photo/$value', { 
+    headers: {'Authorization':'Bearer '+token }, 
+    method: 'GET'
+  })
+}
+
+let profile = {}
+const loadRoutes = () => {
+  Navigo.then(routerClass => {
+    const router = new routerClass.default(URL.fullPath, true)
+    router.on({
+      '' : async () => {
+        //if(window.location.hash.includes("id_token")) return loadMsal()
+        profile = await loadProfile()
+        if(profile.id) return window.location.hash = '#/contacts'
+        loadLoginPage()
+      },
+      '/account/*' : async () => {
+        profile = await loadProfile()
+        loadMain(profile)
+        loadAccountRouters()
+      },
+      '/contacts' : async () => {
+        profile = await loadProfile()
+        loadMain(profile)
+        loadAccountRouters()
+      },
+      '/contacts/*' : async () => {
+        profile = await loadProfile()
+        loadMain(profile)
+        loadAccountRouters()
+      },
+      '/login' : () => {
+        loadLoginPage()
+      },
+    }).resolve()
+  })
+}
+
+const MiddleWare = new Middleware()
+let auth = AuthMiddleWare.then(middleware => { return new middleware.default()})
+
+MiddleWare.merge([auth]).then((value) => {
+  MiddleWare.run(['Auth']).then(() => {
+    loadRoutes ()
+    console.log('a')
+  }).catch(e => {
+    loadLoginPage()
+  })
 })
+
+
