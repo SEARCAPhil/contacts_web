@@ -1,6 +1,7 @@
 const URL = {
   scheme: 'http',
   host: 'localhost',
+  base: 'contacts_api/public',
   path: 'contacts_api/public/api',
 }
 

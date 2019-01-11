@@ -11,4 +11,9 @@ export default class {
     this.__profile = localStorage.getItem('profile')
     return this.__profile ? JSON.parse(this.__profile) : {}
   }
+
+  clear () {
+    localStorage.clear()
+    return this
+  }
 }

@@ -145,7 +145,7 @@ export default class {
     // empty
     __targ.innerHTML = ''
     __targ.innerHTML += `
-      <div class="box contact-list-section hidden">
+      <div class="col box contact-list-section hidden">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
         </div>
@@ -157,7 +157,7 @@ export default class {
     
     for (let i = 65; i <= 90; i++) {
       __targ.innerHTML += `
-      <div class="box contact-list-section-${String.fromCharCode(i)} hidden">
+      <div class="box col contact-list-section-${String.fromCharCode(i)} hidden">
         <div class="box-header with-border">
           <h3 class="box-title">${String.fromCharCode(i)}</h3>
         </div>

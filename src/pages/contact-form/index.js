@@ -1,4 +1,6 @@
 import style from './index.styl'
+import {URL as URI} from '../../config/api'
+const URL = import('../../utils/xhr')
 
 export default class {
   constructor(opt = {}) {
@@ -26,32 +28,59 @@ export default class {
     })
   }
 
+
+  async uploadImage (file) {
+    let formData = new FormData()
+    formData.append('file', file)
+    formData.append('id', this.__opt.id)
+
+    this.xhr  = new (await URL).default()
+    return this.xhr.__postData(`contact/photo`, formData, {},  false).then((res) => {
+      let label = document.querySelector('#photoLabel')
+      label.innerHTML = '<span class="text-success">Uploaded Successfully!</span>'
+    })
+  }
+
   __imageReader (e) {
+    let __proto__ = Object.assign({__proto__: this.__proto__}, this)
     let file = e.target.files[0]
     let reader = new FileReader()
-
+    let allowedFileType = ['jpeg', 'png']
     let label = document.querySelector('#photoLabel')
     label.innerHTML = 'uploading . . .'
     label.setAttribute('for', '')
 
+    // read file
     reader.onload = (e) => {
+      if(allowedFileType.indexOf(file.type.split('/')[1]) === -1) return label.innerHTML = '<span class="text-danger">File type unsupported!</span>'
       let img = this.__template.querySelector('.profile-user-img')
       img.style.height = '100px'
       img.src = e.target.result
+      // upload to server
+      this.uploadImage (file)
     }
 
     reader.readAsDataURL(file)
   }
   __bindUploadPhoto () {
       let targ = this.__template.querySelector('#photo')
-      let __proto__ = {...this, __proto__ : this.__proto__}
+      let __proto__ = Object.assign({__proto__: this.__proto__}, this)
       console.log(targ)
       if(!targ) return
       targ.addEventListener('change', this.__imageReader.bind(__proto__))
   }
+
+  __loadPhoto () {
+    // load photo if account is loaded on DOM
+    if(!this.__opt.id) return
+    let im = this.__template.querySelector('.profile-image')
+    if(!im) return
+    im.src = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__opt.id}.png`
+  }
   __bindListeners (opt = {}) {
     this.__bindForm (opt)
     this.__bindUploadPhoto ()
+    this.__loadPhoto ()
   }
 
   async render () {
@@ -77,8 +106,8 @@ export default class {
       </div>
 
       <br/>
-      <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png"  alt="User profile picture">
-      <!--${this.__info.contact_id ? `<input type="file" id="photo" style="display:none;"/><center><label id="photoLabel" for="photo" style="color:#29b6f6;cursor:pointer;">Change Photo</label></center>` : ''}-->
+      <img class="profile-user-img img-responsive img-circle profile-image" src="assets/img/boy.png"  alt="User profile picture">
+      ${this.__info.contact_id ? `<input type="file" id="photo" style="display:none;"/><center><label id="photoLabel" for="photo" style="color:#29b6f6;cursor:pointer;">Change Photo</label></center>` : ''}
       <!-- /.box-header -->
       <!-- form start -->
       <form role="form" id="contact-form">

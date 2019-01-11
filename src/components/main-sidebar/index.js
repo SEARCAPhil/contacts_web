@@ -34,7 +34,7 @@ export default class {
             <li class="active"><a href="#/contacts/form/"><i class="fa fa-circle-o"></i> <span>Form</span></a></li>
           </ul>
         </li>
-        <li><a href="#"><i class="fa fa-briefcase"></i> <span>Employment</span></a></li>
+        <!--<li><a href="#"><i class="fa fa-briefcase"></i> <span>Employment</span></a></li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-graduation-cap"></i> <span>Education</span>
@@ -47,11 +47,11 @@ export default class {
             <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Masters</span></a></l
             <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Doctoral</span></a></li>
           </ul>
-        </li>
+        </li>-->
       </ul>
   
   
-      <!-- Sidebar Menu -->
+      <!-- Sidebar Menu 
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">SEARCA</li>
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Engagement</span></a></li>
@@ -60,9 +60,9 @@ export default class {
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Associate</span></a></li>
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Fellow</span></a></li>
         
-      </ul>
+      </ul>-->
           
-      <!-- Sidebar Menu -->
+      <!-- Sidebar Menu 
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">GENERAL</li>
         <li class="treeview">
@@ -81,13 +81,17 @@ export default class {
           </ul>
         </li>
         
-      </ul>
+      </ul>-->
 
-      <!-- Sidebar Menu -->
+      <!-- Sidebar Menu 
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">FUNCTIONS</li>
         <li class="active"><a href="#"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span>SAAF-CODE</span></a></li>
+      </ul>-->
+
+      <ul class="sidebar-menu" data-widget="tree" style="margin-top: 100px;">
+        <li><a href="#/signout"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>
       </ul>
 
       <!-- /.sidebar-menu -->

@@ -35,6 +35,9 @@ const loadMain = (opt = {}) => {
   loadSidebar(opt)
 
   let token = localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
+
+  // get image from server if not exists
+  if(opt.image) return
   getImage(token).then(res => { 
     res.blob().then(blob => {
       // reader
@@ -42,13 +45,16 @@ const loadMain = (opt = {}) => {
       reader.readAsDataURL(blob); 
       reader.onloadend = function() {
 
-        Profiler.then(res => {
-          let p = new res.default()
-          let data = {...p.get(), image: reader.result}
-          // save image
-          p.set(data)
-          // reload header
-          loadHeader(opt)
+        Profiler.then(prof => {
+          let p = new prof.default()
+          if(reader.result.indexOf('data:image') !== -1) {
+            // check for valid image
+            let data = {...p.get(), image: reader.result}
+            // save image
+            p.set(data)
+            // reload header
+            loadHeader(opt)
+          }
         })
     
       }
@@ -129,6 +135,12 @@ const loadRoutes = () => {
       '/login' : () => {
         loadLoginPage()
       },
+      '/signout' : () => {
+        Profiler.then(prof => {
+          new prof.default().clear()
+          setTimeout(() => window.location.hash = '#/' ,100)
+        })
+      }
     }).resolve()
   })
 }
@@ -142,6 +154,7 @@ MiddleWare.merge([auth]).then((value) => {
     console.log('a')
   }).catch(e => {
     loadLoginPage()
+    //history.pushState("", document.title, `${window.location.pathname}${window.location.search}`);
   })
 })
 

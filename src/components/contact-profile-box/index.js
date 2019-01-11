@@ -1,3 +1,5 @@
+import {URL as URI} from '../../config/api'
+
 export default class {
   constructor(opt = {}) {
     this.__opt = opt
@@ -7,22 +9,42 @@ export default class {
     return this.render(opt) 
   }
 
+  __bindForm () {
+    const form = import('../contact-communication-form/actions/create')
+    // bind  form
+    form.then(res => {
+      return new res.default({
+        root: this.__template,
+        target: '.contact-commu-list-add-btn',
+        id: this.__opt.contact_id,
+      })
+    })
+  }
+
+
   __bindListeners () {
-    
+    this.__bindForm ()
+    this.__parseCom ()
   }
 
   __parseCom () {
+    const commu = import('../contact-communication-list')
+    let target = this.__template.querySelector('.communication-list-section')
     this.__opt.communications.forEach((el, index) => {
-      if(el.type === this.__emailType)  {
-        this.__emails += `${el.value} `
-      } else {
-        this.__contactInfo += `<b>${el.type}</b> : ${el.value} <br/>`
-      }
+
+      commu.then(res => {
+        return new res.default(el).then(html => {
+          // exclude email address and place it somwhere else
+          if(el.type === this.__emailType) return  this.__template.querySelector('.email-list-section').innerHTML += `<a href="mailto:${el.value}" style="color: #fff; cursor: pointer;">${el.value}</a>&emsp;`
+          target.append(html)
+        })
+      })
+
     })
   }
 
   async render () {
-    this.__parseCom ()
+    const photoSrc = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__opt.photo}`
     this.__template = document.createElement('div')
     this.__template.classList.add('col-md-3', 'user-profile-section')
     this.__template.innerHTML = `
@@ -32,7 +54,7 @@ export default class {
 
               <small><a href="#/contacts/form/${this.__opt.contact_id}/update" class=" pull-right"><i class="fa fa-pencil"></i> edit</a></small>
 
-              <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">
+              ${this.__opt.photo !== null ? '<img class="profile-user-img img-responsive img-circle" src="'+photoSrc+'" alt="User profile picture" style="height: 100px;">' : '<img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">' }
 
               <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix || ''}</h3>
 
@@ -41,7 +63,11 @@ export default class {
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <span>${this.__contactInfo}</span>
+                  <b>Contact Info</b> 
+                  <span class="pull-right contact-commu-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+                    <a href="#"><i class="fa fa-plus-circle"></i></a>
+                  </span><br/>
+                  <small class="communication-list-section"></small>
                     
                 </li>
                 <li class="list-group-item">
@@ -55,7 +81,7 @@ export default class {
                 </li>
               </ul>
 
-              <a href="#" class="btn btn-primary btn-block" style="background: #009688;"><b>${this.__emails}</b></a>
+              <div class="btn btn-primary btn-block email-list-section" style="background: #009688;"><b></b></div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -68,27 +94,27 @@ export default class {
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Gender : </strong>
+              <strong>Gender : </strong>
               <span class="text-muted">
                 ${this.__opt.gender}
               </span><hr>
 
               <section class="${this.__opt.birthdate ? '' : 'hidden'}">
-                <strong><i class="fa fa-book margin-r-5"></i> Birthdate : </strong>
+                <strong>Birthdate : </strong>
                 <span class="text-muted">
                   ${this.__opt.birthdate}
                 </span><hr>
               </section>
 
               <section class="${this.__opt.children ? '' : 'hidden'}">
-                <strong><i class="fa fa-book margin-r-5"></i> Children :</strong>
+                <strong>Children :</strong>
                 <span class="text-muted badge">
                   ${this.__opt.children}
                 </span><hr>
               </section>
 
               <section class="${this.__opt.spouse ? '' : 'hidden'}">
-                <strong><i class="fa fa-book margin-r-5"></i> Spouse :</strong>
+                <strong>Spouse :</strong>
                 <p class="text-muted">
                   ${this.__opt.spouse}
                 </p><hr>

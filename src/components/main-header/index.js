@@ -6,7 +6,7 @@ export default class {
     return this.render(opt) 
   }
 
-  async render () {
+  async render () { console.log(this.__opt)
     this.__template = document.createElement('header')
     this.__template.classList.add('main-header')
     this.__template.innerHTML = `
@@ -25,7 +25,7 @@ export default class {
                 <!-- Menu Toggle Button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <!-- The user image in the navbar-->
-                  <img src="${this.__opt.image}" class="user-image" alt="User Image">
+                  ${this.__opt.image ? '<img src="'+this.__opt.image+'" class="user-image" alt="User Image"/>' : ''}
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
                   <span class="hidden-xs">${this.__opt.displayName}</span>
                 </a>
@@ -64,10 +64,6 @@ export default class {
                     </div>
                   </li>
                 </ul>
-              </li>
-              <!-- Control Sidebar Toggle Button -->
-              <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
               </li>
             </ul>
           </div>
