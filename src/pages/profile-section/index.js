@@ -19,6 +19,7 @@ export default class {
     this.enableTabs()
     this.loadPopup()
     this.__bindRemoveAccount()
+    this.__bindLoadEngagementSection ()
   }
 
   createEmptyMessage (icon, message, target) {
@@ -239,6 +240,17 @@ export default class {
       })
     })
   }
+
+  __bindLoadEngagementSection () {
+    this.__template.querySelector('#engagement').addEventListener('click', () => {
+      const engagementSec = import('../contacts-engagement-section')
+      engagementSec.then(res => {
+        return new res.default(this.__info).then(html => {
+          this.__template.querySelector('#tab-engagement').append(html)
+        })
+      })
+    })
+  }
   
 
   async render () {
@@ -277,6 +289,7 @@ export default class {
             <ul class="nav nav-tabs">
               <li class="active"><a href="#info" data-toggle="tab" aria-expanded="true" class="tabs" data-target="#tab-info" data-group="profile-tab-panes">Info</a></li>
               <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-settings" data-group="profile-tab-panes">Settings</a></li>
+              <li class=""><a href="#engagement" id="engagement" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-engagement" data-group="profile-tab-panes">Engagement</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
@@ -346,6 +359,62 @@ export default class {
                 <span class="text-muted">Do you still want to proceed ?</span> <br/>
                 <button class="btn btn-danger remove-account-btn-modal" data-target="#general-modal" data-popup-toggle="open">REMOVE</button>
               </div>
+
+
+              <div class="tab-pane" id="tab-engagement"  data-group="profile-tab-panes" style="height: auto;overflow:auto;">
+                <!--<article>
+                  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;">This Section contains data for SEARCA engagement, trainings, and fellows </p>
+                  <section>
+                  <h4 class="info-title">
+                    Enagement 
+                    <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
+                  <hr/>
+                  </section>
+
+                  <div class="col col-lg-12">
+                  <span class="pull-right text-muted device-dropdown data-bind-dropdown" data-device-dropdown="dropdown-1" data-resources="1" style="margin-right: 10px; position: relative;">
+                    <i class="fa fa-angle-down"></i>
+                    <div class="dropdown-section float-right" id="dropdown-1">
+                      <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="update-btn-modal"><i class="fa fa-edit"></i> Update</a></li>
+                      <li class="list-group-item">
+                        <a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="text-danger remove-btn-modal"><i class="fa fa-remove"></i> Remove</a>
+                      </li>
+                      <ul>
+                    </ul></ul></div>
+                  </span>
+                    <div class="media">
+                      <div class="media-left text-center text-muted margin-r-5" style="
+                        background: #f7f7f7;
+                        width: 70px;
+                        height: 70;
+                        padding: 20px;
+                        font-size: 30px;
+                    ">
+                        <i class="fa fa-cogs"></i>
+                      </div>
+                      <div class="media-body" style="padding-left: 20px;">
+                        <h4 class="media-heading">Similique tempora harum vitae asperiores est ipsum qui. Eaque non cum recusandae eveniet. </h4>
+                        1950 - 1951<br>
+                        
+                        <small>
+                        <p>
+                            SEAMEO Council<br/>
+                            Nature : Professorial Chair
+                        </p>
+                        </small>
+                      </div>
+                    </div>
+
+                  </div>
+                </article>
+                  <hr/>-->
+              </div>
+
+
     
             </div>
             <!-- /.tab-content -->
