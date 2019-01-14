@@ -77,7 +77,9 @@ export default class {
       <small class="text-muted">
       ${this.__opt.dateStarted} ${this.__opt.dateEnded ?  '- ' + this.__opt.dateEnded : ''}<br/>
       <b>${this.__opt.venue}</b><br/>
-      <span class="badge badge-success">${this.__opt.trainingType}</span><br/>
+      <span class="badge badge-success">${this.__opt.trainingType}</span>
+      ${(this.__opt.isSearcaTraining == 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This is a SEARCA\'s short-term training course or similar learning event </p>' : ''}
+      <br/>
       <details>
         <summary>read more</summary>
 

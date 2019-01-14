@@ -37,13 +37,22 @@ const template = `
     </div>
 
     <div class="form-group">
-        <p class="text-muted"> For SAAF Use Only</p>
+        <p class="text-muted"> For SAAF Use Only (Optional)</p>
         <span class="saaf-type-status-text-section"></span>
         <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
           <option default="" value="null">Please Select SAAF Type</option>
           <option value="null">N/A</option>
         </select>
         <div class="form-group" id="select-saaf-null"></div>
+    </div>
+
+    <p>
+      Is this research completed at SEARCA ?
+    </p>
+
+    <div class="form-group">
+      <input type="radio" name="searca-learn" class="searca-learn" value="1"/> Yes &emsp;
+      <input type="radio" name="searca-learn" class="searca-learn" value="0" checked/> No
     </div>
 
     

@@ -29,11 +29,17 @@ export default class {
   }
 
 
+  async getResearch (opt) {
+    this.xhr  = new (await URL).default()
+    return this.xhr.__getData(`contact/research/${opt.id}`)
+  }
+
+
   showEmptyDetails () {
     document.querySelector('#modal-employment-form').innerHTML = '<center><h3>Unable to process request</h3><small>Please try again later</small></center>'
   }
 
-  loadResearch () {
+  async loadResearch () {
     if(this.__opt.research) {
       let targ = document.querySelector('select.research')
       return this.__opt.research.forEach((el, index) => {
@@ -60,22 +66,37 @@ export default class {
   getDetails () {
     
     return this.get({ id: this.__opt.id}).then(res => {
-      if(!res[0].employ_id) return (this.showEmptyDetails ())
+      if(!res[0].engage_id) return (this.showEmptyDetails ())
       //form fields
-      const engagement= document.querySelector('#engagement')
+      const engagement= document.querySelector('input#engagement')
       const from = document.querySelector('#from')
       const to = document.querySelector('#to')
       const research = document.querySelector('select.research')
       const afftype = document.querySelector('select.afftype')
-      const title = research.selectedOptions[0].innerText
-      const type = afftype.selectedOptions[0].innerText
 
       engagement.value = res[0].engagement
       from.value = res[0].engageFrom
-      to.value = res[0].engageTo
+      to.value = res[0].engageTo  
       research.value = res[0].researchId
-      afftype.value = res[0].type
 
+      //afftpye
+      let affVal = document.createElement('option')
+      affVal.innerHTML = res[0].afftypeName
+      affVal.value = res[0].type
+      affVal.setAttribute('selected', 'selected')
+      afftype.prepend(affVal)
+
+      //research
+      let researchVal = document.createElement('option')
+      researchVal.innerHTML = res[0].title
+      researchVal.value = res[0].research_id 
+      research.prepend(researchVal)
+      // load other research
+      this.getResearch({id: res[0].contact_id}).then(r => {
+        this.__opt.research = r.data
+        // load other  research made
+        this.loadResearch()
+      })
 
       // save form
       let __proto__ = Object.assign({ __proto__: this.__proto__ }, this)
@@ -92,7 +113,7 @@ export default class {
     const targ = document.querySelector('.contact-engagement-list-section')
 
     //form fields
-    const engagement= e.target.querySelector('#engagement')
+    const engagement = e.target.querySelector('input#engagement')
     const from = e.target.querySelector('#from')
     const to = e.target.querySelector('#to')
     const research = e.target.querySelector('select.research')
@@ -119,7 +140,7 @@ export default class {
       type: afftype.value,
     }
 
-    for(let key in payload) { console.log(payload[key])
+    for(let key in payload) {
       query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'
     }
 
@@ -130,9 +151,9 @@ export default class {
       statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'
       saveBtn.removeAttribute('disabled')
     })
-
+    
     // CREATE
-    this.create(query, headers, false).then(res => {
+    if(!this.__opt.update) this.create(query, headers, false).then(res => {
       // reset form
       if (res > 0) {
          (statusTextBox.innerHTML = '<div class="alert alert-success">Saved!</div>') | e.target.reset()

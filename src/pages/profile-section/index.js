@@ -362,56 +362,7 @@ export default class {
 
 
               <div class="tab-pane" id="tab-engagement"  data-group="profile-tab-panes" style="height: auto;overflow:auto;">
-                <!--<article>
-                  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;">This Section contains data for SEARCA engagement, trainings, and fellows </p>
-                  <section>
-                  <h4 class="info-title">
-                    Enagement 
-                    <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-                    </span>
-                  </h4>
-                  <hr/>
-                  </section>
-
-                  <div class="col col-lg-12">
-                  <span class="pull-right text-muted device-dropdown data-bind-dropdown" data-device-dropdown="dropdown-1" data-resources="1" style="margin-right: 10px; position: relative;">
-                    <i class="fa fa-angle-down"></i>
-                    <div class="dropdown-section float-right" id="dropdown-1">
-                      <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="update-btn-modal"><i class="fa fa-edit"></i> Update</a></li>
-                      <li class="list-group-item">
-                        <a href="#" data-target="#general-modal" data-popup-toggle="open" data-resource="2" class="text-danger remove-btn-modal"><i class="fa fa-remove"></i> Remove</a>
-                      </li>
-                      <ul>
-                    </ul></ul></div>
-                  </span>
-                    <div class="media">
-                      <div class="media-left text-center text-muted margin-r-5" style="
-                        background: #f7f7f7;
-                        width: 70px;
-                        height: 70;
-                        padding: 20px;
-                        font-size: 30px;
-                    ">
-                        <i class="fa fa-cogs"></i>
-                      </div>
-                      <div class="media-body" style="padding-left: 20px;">
-                        <h4 class="media-heading">Similique tempora harum vitae asperiores est ipsum qui. Eaque non cum recusandae eveniet. </h4>
-                        1950 - 1951<br>
-                        
-                        <small>
-                        <p>
-                            SEAMEO Council<br/>
-                            Nature : Professorial Chair
-                        </p>
-                        </small>
-                      </div>
-                    </div>
-
-                  </div>
-                </article>
-                  <hr/>-->
+                
               </div>
 
 

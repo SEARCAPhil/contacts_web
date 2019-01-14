@@ -8,6 +8,9 @@ export default class {
     return this.render(opt) 
   }
 
+  clearSection () {
+    document.querySelector('#tab-engagement').innerHTML = ''
+  }
 
   getEngagementListComponent () {
     const contact = import('../../components/contact-engagement-list')
@@ -32,13 +35,38 @@ export default class {
     })
   }
 
+  getFellowshipListComponent () {
+    const contact = import('../../components/contact-fellowship-list')
+    const targ = this.__template.querySelector('.contact-fellowship-list-section')
+    let form = import('../../components/contact-fellowship-form/actions/create')
+    contact.then(res => {
+      this.__opt.fellowships.forEach((el, index) => {
+        new res.default(el).then(html => {
+          targ.append(html)
+        })
+      })
+    })
+
+     // bind  form
+    return form.then(res => { 
+      new res.default({
+        root: this.__template,
+        target: '.contact-fellowship-list-add-btn',
+        id: this.__opt.contact_id,
+        research: this.__opt.research
+      })
+    })
+  }
+
   async search (opt) {
     this.xhr  = new (await URL).default()
     return this.xhr.__getData(`contact/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
   }
 
   __bindListeners (opt = {}) {
+    this.clearSection()
     this.getEngagementListComponent ()
+    this.getFellowshipListComponent ()
   }
 
   async render () {
@@ -59,36 +87,10 @@ export default class {
 
         <section class="contact-engagement-list-section"></section>
 
-        <section>
-          <h4 class="info-title">
-            Training<br/>          <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-              <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-            </span>
-            <p class="text-muted">
-              <small>SEARCA's short-term training courses and similar learning events (e.g., executive forums and study tours)
-              / successfully completed Center's Academic Bridging Program</small>
-            </p> 
-          </h4>
-          <hr/>
-        </section>
-
 
         <section>
-          <h4 class="info-title">
-            Associate<br/>          <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-              <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-            </span>
-            <p class="text-muted">
-              <small>Grants' requirements (e.g., Seed Fund for Research and Training,
-                Travel Grants, and Professional Chairs) and research interns completed at SEARCA</small>
-            </p> 
-          </h4>
-          <hr/>
-        </section>
-
-        <section>
-          <h4 class="info-title">
-            Fellowship<br/>          <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+          <h4 class="info-title">Fellowship<br/>          
+            <span class="pull-right contact-fellowship-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
               <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
             </span>
             <p class="text-muted">
@@ -97,6 +99,8 @@ export default class {
           </h4>
           <hr/>
       </section>
+
+      <section class="contact-fellowship-list-section"></section>
 
 
       </article>

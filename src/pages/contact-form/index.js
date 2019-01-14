@@ -75,7 +75,7 @@ export default class {
     if(!this.__opt.id) return
     let im = this.__template.querySelector('.profile-image')
     if(!im) return
-    im.src = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__opt.id}.png`
+    im.src = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__info.photo}`
   }
   __bindListeners (opt = {}) {
     this.__bindForm (opt)

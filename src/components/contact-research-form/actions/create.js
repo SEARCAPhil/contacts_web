@@ -62,6 +62,10 @@ export default class {
         type.options[0].innerText = `${res[0].saafclass} (Selected)`
       }
 
+      // is conducted / supported by SEARCA
+      document.querySelectorAll('input.searca-learn').forEach((el, index) => {
+        if(el.value == res[0].isSearcaTraining) el.setAttribute('checked', 'checked')
+      })
         
       
       // save form
@@ -151,6 +155,7 @@ export default class {
     const host = e.target.querySelector('#host')
     const fundings = e.target.querySelector('#fundings')
     const remarks = e.target.querySelector('#remarks')
+    const searcaTraining = document.querySelectorAll('input.searca-learn')
     let type = null
 
     // set default behaviors
@@ -176,8 +181,13 @@ export default class {
       funding: fundings.value,
       hostUniversity: host.value,
       remarks: remarks.value,
-      saafTypeId: type, 
+      saafTypeId: type != null ? type : 0,
     }
+
+    // searca training
+    searcaTraining.forEach((el, index) => {
+      if(el.checked) payload.isSearcaTraining = el.value
+    })
 
     for(let key in payload) { console.log(payload[key])
       query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'

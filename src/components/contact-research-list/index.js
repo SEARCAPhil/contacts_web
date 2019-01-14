@@ -52,6 +52,7 @@ export default class {
       <small class="text-muted">
       ${this.__opt.dateStarted} ${this.__opt.dateEnded ?  '- ' + this.__opt.dateEnded : ''}<br/>
       ${this.__opt.fieldStudy ? this.__opt.fieldStudy : '' }
+      ${(this.__opt.isSearcaTraining == 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This research was completed in SEARCA </p>' : ''}
         <details>
           <summary>read more</summary><br/>
           <div class="col col-lg-12">

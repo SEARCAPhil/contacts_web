@@ -23,7 +23,7 @@ const template = `
     </div>
 
     <div class="form-group">
-      <select class="form-control type type-hidden-accessible" id="trainType" style="width: 100%;" tabindex="-1" aria-hidden="true">
+      <select class="form-control type-hidden-accessible" id="trainType" style="width: 100%;" tabindex="-1" aria-hidden="true">
         <option default="" value="short_course">Please Select Training Type</option>
         <option value="short_course">Short Course (default)</option>
       </select>
@@ -71,6 +71,16 @@ const template = `
     <div class="form-group">
       <textarea class="form-control" placeholder="Notes" rows="5" id="notes"></textarea>
     </div>
+
+    <p>
+      SEARCA's short-term training courses and similar learning events (e.g., executive forums and study tours) / successfully completed Center's Academic Bridging Program ?
+    </p>
+
+    <div class="form-group">
+      <input type="radio" name="searca-learn" class="searca-learn" value="1"/> Yes &emsp;
+      <input type="radio" name="searca-learn" class="searca-learn" value="0"/> No
+    </div>
+
     
     <div class="form-group">
       <br/>
