@@ -51,16 +51,16 @@ export default class {
       </ul>
   
   
-      <!-- Sidebar Menu 
+      <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">SEARCA</li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Engagement</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Graduate</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Training</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Associate</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Fellow</span></a></li>
+        <li><a href="#/contacts/engagements"><i class="fa fa-link"></i> <span>Engagement</span></a></li>
+        <li><a href="#/contacts/graduates"><i class="fa fa-link"></i> <span>Graduate</span></a></li>
+        <li><a href="#/contacts/trainees"><i class="fa fa-link"></i> <span>Training</span></a></li>
+        <li><a href="#/contacts/associates"><i class="fa fa-link"></i> <span>Associate</span></a></li>
+        <li><a href="#/contacts/fellows"><i class="fa fa-link"></i> <span>Fellow</span></a></li>
         
-      </ul>-->
+      </ul>
           
       <!-- Sidebar Menu 
       <ul class="sidebar-menu" data-widget="tree">
@@ -91,7 +91,7 @@ export default class {
       </ul>-->
 
       <ul class="sidebar-menu" data-widget="tree" style="margin-top: 100px;">
-        <li><a href="#/signout"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>
+        <li><a href="#/signout" style="background: #334852;"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>
       </ul>
 
       <!-- /.sidebar-menu -->

@@ -112,7 +112,6 @@ const loadRoutes = () => {
     const router = new routerClass.default(URL.fullPath, true)
     router.on({
       '' : async () => {
-        //if(window.location.hash.includes("id_token")) return loadMsal()
         profile = await loadProfile()
         if(profile.id) return window.location.hash = '#/contacts'
         loadLoginPage()

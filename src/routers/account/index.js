@@ -28,6 +28,55 @@ Navigo.then(routerClass => {
         __targ.append(res)
       })
     },
+    '/contacts/graduates' : async (opt = {}) => {
+      const __profilePage = (await import('../../pages/contacts-graduate-section')).default
+
+      return new __profilePage(opt).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
+    '/contacts/engagements' : async (opt) => {
+      const __profilePage = (await import('../../pages/contacts-engagement-com-section')).default
+
+      return new __profilePage(opt).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
+    '/contacts/associates' : async () => {
+      const __profilePage = (await import('../../pages/contacts-graduate-section')).default
+      // set filter
+      let opt = {
+        filter: 'associates'
+      }
+      // load
+      return new __profilePage(opt).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
+    '/contacts/trainees' : async (opt = {}) => {
+      const __profilePage = (await import('../../pages/contacts-training-section')).default
+
+      return new __profilePage(opt).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
+    '/contacts/fellows' : async (opt) => {
+      const __profilePage = (await import('../../pages/contacts-fellowship-section')).default
+
+      return new __profilePage(opt).then(res => {
+        const __targ = document.querySelector('.ajax-main-section')
+        __targ.innerHTML = ''
+        __targ.append(res)
+      })
+    },
     '/contacts/form' : async (params) => { console.log('a')
       const __page = (await import('../../pages/contact-form')).default
       return new __page().then(res => {

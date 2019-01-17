@@ -2,22 +2,15 @@ const URL = import('../../utils/xhr')
 
 export default class {
   constructor(opt = {}) {
-    this.__opt = opt
+    this.__opt = opt || {}
     this.__contactComponent = {}
     this.__listSecTemplate = {}
     return this.render(opt) 
   }
 
-  getContactListComponent () {
-    const contact = import('../../components/contact-list')
-    return contact.then(res => {
-      this.__contactComponent = res.default
-    })
-  }
-
   async search (opt) {
     this.xhr  = new (await URL).default()
-    return this.xhr.__getData(`contact/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
+    return this.xhr.__getData(`contact/filter/engagement/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
   }
 
   __goToPage(page) {
@@ -106,7 +99,7 @@ export default class {
   }
   
   async __getContacts (opt = {}) {
-    const __contacts = (await import('../../components/contact-list/actions/retrieve')).default
+    const __contacts = (await import('../../components/contact-engagement-com-list/actions/retrieve')).default
     return new __contacts().get(opt).then(res => {
       let __data = res.data
 
@@ -224,7 +217,7 @@ export default class {
   }
 
   async render () {
-    this.__contactComponent = (await import('../../components/contact-list')).default
+    this.__contactComponent = (await import('../../components/contact-engagement-com-list')).default
     this.__template = document.createElement('section')
     this.__template.classList.add('contacts-section')
     this.__template.innerHTML = `<div " style="min-height: 1170px;">
@@ -241,11 +234,11 @@ export default class {
       <div class="media">
         <div class="media-left">
           <span>
-            <img class="media-object" src="https://banner2.kisspng.com/20180221/bqq/kisspng-smartphone-mobile-phone-cartoon-hand-phone-5a8e02d08fa7e1.2797760215192562725884.jpg" alt="..." width="50px">
+            <img class="media-object" src="assets/img/engage.png" alt="..." width="80px">
           </span>
         </div>
         <div class="media-body">
-          <h4 class="media-heading">Phonebook</h4>helps you easily find person on your records</div>
+          <h4 class="media-heading">Engagement</h4>Individuals who were engaged with SEARCA as a researcher, consultant, etc...</div>
       </div>
 
       <div class="row col-12">
@@ -269,7 +262,7 @@ export default class {
 
     <!-- /.content -->
   </div>`
-    this.__bindListeners()
+    this.__bindListeners(this.__opt)
     return this.__template;
   }
 }

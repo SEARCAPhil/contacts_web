@@ -92,15 +92,16 @@ export default class {
     this.__template.innerHTML = `
     <style>${style.toString()}</style>
     ${this.__opt.action === 'update' ? `<a href="#/account/${this.__opt.id}/profile"><i class="fa fa-long-arrow-left"></i> Back</a>` : ''}
+    <h3>Account Profile</h3>
+    <p class="text-muted">All fields with (*) are required</p>
     <div class="saving-status-section"></div>
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Profile</h3>
           <span class="text-muted pull-right">
             <small>
-              <a href="#">Basic</a> 
-              &gt; <a href="#">Location</a>
-              &gt; <a href="#">Other</a>
+              <a href="#/contacts">Contacts</a> 
+              &gt; <a href="#/contacts/form">Form</a>
             </small>
           </span>
       </div>

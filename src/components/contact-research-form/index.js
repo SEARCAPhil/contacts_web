@@ -47,7 +47,7 @@ const template = `
     </div>
 
     <p>
-      Is this research completed at SEARCA ?
+      Is this under SEARCA's Graduate Scholarship Program and PhD Research Program ?
     </p>
 
     <div class="form-group">

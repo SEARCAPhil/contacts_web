@@ -6,7 +6,15 @@ export default class {
     return this.render(opt) 
   }
 
-  async render () { console.log(this.__opt)
+  __bindListeners () {
+    let btn = this.__template.querySelector('.main-menu-btn')
+    btn.addEventListener('click', (e) => {
+      e.preventDefault()
+      document.body.classList.toggle('sidebar-open')
+    })
+  }
+
+  async render () {
     this.__template = document.createElement('header')
     this.__template.classList.add('main-header')
     this.__template.innerHTML = `
@@ -14,7 +22,7 @@ export default class {
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top main-navbar" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <a href="#" class="sidebar-toggle main-menu-btn" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
           </a>
           <!-- Navbar Right Menu -->
@@ -68,7 +76,7 @@ export default class {
             </ul>
           </div>
         </nav>`
-    
+      this.__bindListeners()
       return this.__template;
   }
 }
