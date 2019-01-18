@@ -1,5 +1,6 @@
-import {URL} from './config/app'
-import {Middleware} from './mixins/middleware'
+/* eslint-disable new-cap */
+import { URL } from './config/app'
+import { Middleware } from './mixins/middleware'
 
 const AuthMiddleWare = import('./middlewares/Auth')
 
@@ -8,9 +9,9 @@ const Profiler = import('./mixins/profiler')
 
 const loadHeader = (opt) => {
   const __header = import('./components/main-header')
-  __header.then(res => { 
+  __header.then(Res => {
     const __target = document.querySelector('header')
-    return new res.default(opt).then(html => {
+    return new Res.default(opt).then(html => {
       return __target ? __target.replaceWith(html) : document.body.prepend(html)
     })
   })
@@ -19,51 +20,49 @@ const loadHeader = (opt) => {
 const loadSidebar = (opt) => {
   const __sidebar = import('./components/main-sidebar')
   const __target = document.querySelector('.main-sidebar')
-  __sidebar.then(res => {
-    return new res.default(opt).then(html => {
+  __sidebar.then(Res => {
+    return new Res.default(opt).then(html => {
       return __target ? __target.replaceWith(html) : document.body.prepend(html)
     })
   })
 }
 
 const loadAccountRouters = () => {
-  import ('./routers/account/')
+  import('./routers/account/')
 }
 
-const loadMain = (opt = {}) => { 
+const loadMain = (opt = {}) => {
   loadHeader(opt)
   loadSidebar(opt)
 
-  let token = localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
+  let token = window.localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
 
   // get image from server if not exists
-  if(opt.image) return
-  getImage(token).then(res => { 
+  if (opt.image) return
+  getImage(token).then(res => {
     res.blob().then(blob => {
       // reader
-      let reader = new FileReader();
-      reader.readAsDataURL(blob); 
-      reader.onloadend = function() {
-
+      let reader = new window.FileReader()
+      reader.readAsDataURL(blob)
+      reader.onloadend = function () {
         Profiler.then(prof => {
           let p = new prof.default()
-          if(reader.result.indexOf('data:image') !== -1) {
+          if (reader.result.indexOf('data:image') !== -1) {
             // check for valid image
-            let data = {...p.get(), image: reader.result}
+            let data = { ...p.get(), image: reader.result }
             // save image
             p.set(data)
             // reload header
             loadHeader(opt)
           }
         })
-    
       }
     })
   })
 
   document.querySelector('.wrapper').classList.remove('hidden')
   let loginContainer = document.querySelector('.loginContainer')
-  if(loginContainer) loginContainer.remove()
+  if (loginContainer) loginContainer.remove()
 }
 
 const loadLoginPage = () => {
@@ -74,19 +73,18 @@ const loadLoginPage = () => {
   // hide other section
   let header = document.querySelector('.main-header')
   let sidebar = document.querySelector('.main-sidebar')
-  if(header) header.classList.add('hidden')
-  if(sidebar) sidebar.classList.add('hidden')
+  if (header) header.classList.add('hidden')
+  if (sidebar) sidebar.classList.add('hidden')
 
-  import ('./pages/login-page').then(res => {
+  import('./pages/login-page').then(res => {
     return new res.default().then(html => {
       loginContainer.innerHTML = ''
       loginContainer.append(html)
-      if(!document.querySelector('.loginContainer')) document.body.append(loginContainer)
+      if (!document.querySelector('.loginContainer')) document.body.append(loginContainer)
       document.querySelector('.loginContainer').replaceWith(loginContainer)
     })
   })
 }
-
 
 const loadProfile = () => {
   return new Promise((resolve, reject) => {
@@ -97,11 +95,10 @@ const loadProfile = () => {
   })
 }
 
-
-const  getImage = (token) => {
-  //https://graph.microsoft.com/v1.0/me/photo/$value
-  return fetch('https://graph.microsoft.com/v1.0/me/photo/$value', { 
-    headers: {'Authorization':'Bearer '+token }, 
+const getImage = (token) => {
+  // https://graph.microsoft.com/v1.0/me/photo/$value
+  return window.fetch('https://graph.microsoft.com/v1.0/me/photo/$value', {
+    headers: { 'Authorization': 'Bearer ' + token },
     method: 'GET'
   })
 }
@@ -111,33 +108,33 @@ const loadRoutes = () => {
   Navigo.then(routerClass => {
     const router = new routerClass.default(URL.fullPath, true)
     router.on({
-      '' : async () => {
+      '': async () => {
         profile = await loadProfile()
-        if(profile.id) return window.location.hash = '#/contacts'
+        if (profile.id) return (window.location.hash = '#/contacts')
         loadLoginPage()
       },
-      '/account/*' : async () => {
+      '/account/*': async () => {
         profile = await loadProfile()
         loadMain(profile)
         loadAccountRouters()
       },
-      '/contacts' : async () => {
+      '/contacts': async () => {
         profile = await loadProfile()
         loadMain(profile)
         loadAccountRouters()
       },
-      '/contacts/*' : async () => {
+      '/contacts/*': async () => {
         profile = await loadProfile()
         loadMain(profile)
         loadAccountRouters()
       },
-      '/login' : () => {
+      '/login': () => {
         loadLoginPage()
       },
-      '/signout' : () => {
+      '/signout': () => {
         Profiler.then(prof => {
           new prof.default().clear()
-          setTimeout(() => window.location.hash = '#/' ,100)
+          setTimeout(() => (window.location.hash = '#/'), 100)
         })
       }
     }).resolve()
@@ -145,16 +142,12 @@ const loadRoutes = () => {
 }
 
 const MiddleWare = new Middleware()
-let auth = AuthMiddleWare.then(middleware => { return new middleware.default()})
+let auth = AuthMiddleWare.then(middleware => { return new middleware.default() })
 
 MiddleWare.merge([auth]).then((value) => {
-  MiddleWare.run(['Auth']).then(() => {
-    loadRoutes ()
-    console.log('a')
+  MiddleWare.run(['Auth']).then(() => { 
+    loadRoutes()
   }).catch(e => {
     loadLoginPage()
-    //history.pushState("", document.title, `${window.location.pathname}${window.location.search}`);
   })
 })
-
-

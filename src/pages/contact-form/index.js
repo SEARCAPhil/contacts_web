@@ -1,22 +1,23 @@
+/* eslint-disable new-cap */
 import style from './index.styl'
-import {URL as URI} from '../../config/api'
+import { URL as URI } from '../../config/api'
 const URL = import('../../utils/xhr')
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__contactComponent = {}
     this.__listSecTemplate = {}
-    this.__info  = {}
-    return this.render(opt) 
+    this.__info = {}
+    return this.render(opt)
   }
 
   __getInfo () {
-    return import('../../components/contact-profile-box/actions/retrieve').then(res => { 
-      return new res.default({ id: this.__opt.id}).get(json => {
-        resolve(json)
+    return import('../../components/contact-profile-box/actions/retrieve').then(res => {
+      return new res.default({ id: this.__opt.id }).get(json => {
+        return json
       }).catch(err => {
-        reject(err)
+        return err
       })
     })
   }
@@ -28,23 +29,21 @@ export default class {
     })
   }
 
-
   async uploadImage (file) {
-    let formData = new FormData()
+    let formData = new window.FormData()
     formData.append('file', file)
     formData.append('id', this.__opt.id)
 
-    this.xhr  = new (await URL).default()
-    return this.xhr.__postData(`contact/photo`, formData, {},  false).then((res) => {
+    this.xhr = new (await URL).default()
+    return this.xhr.__postData(`contact/photo`, formData, {}, false).then((res) => {
       let label = document.querySelector('#photoLabel')
       label.innerHTML = '<span class="text-success">Uploaded Successfully!</span>'
     })
   }
 
   __imageReader (e) {
-    let __proto__ = Object.assign({__proto__: this.__proto__}, this)
     let file = e.target.files[0]
-    let reader = new FileReader()
+    let reader = new window.FileReader()
     let allowedFileType = ['jpeg', 'png']
     let label = document.querySelector('#photoLabel')
     label.innerHTML = 'uploading . . .'
@@ -52,40 +51,39 @@ export default class {
 
     // read file
     reader.onload = (e) => {
-      if(allowedFileType.indexOf(file.type.split('/')[1]) === -1) return label.innerHTML = '<span class="text-danger">File type unsupported!</span>'
+      if (allowedFileType.indexOf(file.type.split('/')[1]) === -1) return (label.innerHTML = '<span class="text-danger">File type unsupported!</span>')
       let img = this.__template.querySelector('.profile-user-img')
       img.style.height = '100px'
       img.src = e.target.result
       // upload to server
-      this.uploadImage (file)
+      this.uploadImage(file)
     }
 
     reader.readAsDataURL(file)
   }
   __bindUploadPhoto () {
-      let targ = this.__template.querySelector('#photo')
-      let __proto__ = Object.assign({__proto__: this.__proto__}, this)
-      console.log(targ)
-      if(!targ) return
-      targ.addEventListener('change', this.__imageReader.bind(__proto__))
+    let targ = this.__template.querySelector('#photo')
+    let __proto__ = Object.create(this)
+    if (!targ) return
+    targ.addEventListener('change', this.__imageReader.bind(__proto__))
   }
 
   __loadPhoto () {
     // load photo if account is loaded on DOM
-    if(!this.__opt.id) return
+    if (!this.__opt.id) return
     let im = this.__template.querySelector('.profile-image')
-    if(!im) return
+    if (!im || !this.__info.photo) return
     im.src = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__info.photo}`
   }
   __bindListeners (opt = {}) {
-    this.__bindForm (opt)
-    this.__bindUploadPhoto ()
-    this.__loadPhoto ()
+    this.__bindForm(opt)
+    this.__bindUploadPhoto()
+    this.__loadPhoto()
   }
 
   async render () {
     // get information
-    if(this.__opt.action === 'update') this.__info = await this.__getInfo()
+    if (this.__opt.action === 'update') this.__info = await this.__getInfo()
     // template
     this.__template = document.createElement('section')
     this.__template.classList.add('contacts-form-section', 'col', 'col-lg-6', 'col-lg-offset-3')
@@ -135,10 +133,10 @@ export default class {
             <label for="gender">Gender <span class="text-danger">*</span></label><br/>
             <div class="radio">
               <label>
-                <input type="radio" value="male" name="gender" checked ${this.__info.gender == 'male' ? 'checked' : ''}> Male
+                <input type="radio" value="male" name="gender" checked ${this.__info.gender === 'male' ? 'checked' : ''}> Male
               </label>&emsp;
               <label>
-                <input type="radio" value="female" name="gender" ${this.__info.gender == 'female' ? 'checked' : ''} > Female 
+                <input type="radio" value="female" name="gender" ${this.__info.gender === 'female' ? 'checked' : ''} > Female 
               </label>
             </div>
           </div>
@@ -168,10 +166,10 @@ export default class {
             <label for="civilStatus">Civil Status</label><br/>
             <div class="radio">
               <label>
-                <input type="radio" value="single" name="civilStatus" checked ${this.__info.civilStat == 'single' ? 'checked' : ''}> Single
+                <input type="radio" value="single" name="civilStatus" checked ${this.__info.civilStat === 'single' ? 'checked' : ''}> Single
               </label>&emsp;
               <label>
-                <input type="radio" value="married" name="civilStatus" ${this.__info.civilStat == 'married' ? 'checked' : ''}> Married
+                <input type="radio" value="married" name="civilStatus" ${this.__info.civilStat === 'married' ? 'checked' : ''}> Married
               </label>
             </div>
           </div>
@@ -233,6 +231,6 @@ export default class {
     </div>
     `
     this.__bindListeners(this.__opt)
-    return this.__template;
+    return this.__template
   }
 }

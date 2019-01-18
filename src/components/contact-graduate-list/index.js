@@ -1,11 +1,11 @@
 
-const URL =  import('../../config/api')
+const URL = import('../../config/api')
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.research = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   __bindListeners () {
@@ -17,21 +17,21 @@ export default class {
       let URI = conf.URL
       let photoSrc = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__opt.photo}`
       let targ = this.__template.querySelector('.img-sec')
-      if(this.__opt.photo !== null) targ.innerHTML = `<img src="${photoSrc}" class="user-image img-circle margin-l-5" alt="User Image" style="margin-left: 20px;height: 40px;width: 40px;">`
+      if (this.__opt.photo !== null) targ.innerHTML = `<img src="${photoSrc}" class="user-image img-circle margin-l-5" alt="User Image" style="margin-left: 20px;height: 40px;width: 40px;">`
     })
   }
 
   __parseResearch () {
     this.__opt.graduate_alumni_research.forEach((el, index) => {
-    this.research += `${el.title}
+      this.research += `${el.title}
     <br/>
     <small>
     <b>${el.dateStarted}</b> - <b>${el.dateEnded || 'PRESENT'}</b><br/>
-    <b/>${el.hostUniversity ? ('<i class="fa fa-map-marker"></i> '+ el.hostUniversity) : ''}</b>
+    <b/>${el.hostUniversity ? ('<i class="fa fa-map-marker"></i> ' + el.hostUniversity) : ''}</b>
       <bnr/>
       <details open>
           <summary>Other details</summary>
-          <b>Saaf: ${el.saafclass ? '<span class="badge">'+el.saafclass+'</span>' : 'N/A'}</b><br/>
+          <b>Saaf: ${el.saafclass ? '<span class="badge">' + el.saafclass + '</span>' : 'N/A'}</b><br/>
           <b>Fundings : ${el.fundings || 'N/A'}</b><br/>
       </details>
     </small>
@@ -58,6 +58,6 @@ export default class {
         </div>
         <div class="col col-lg-12" style="border-bottom: 1px solid rgba(200,200,200,0.3);margin-bottom: 20px;margin-top: 20px;"></div> </section>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

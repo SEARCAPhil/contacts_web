@@ -1,28 +1,26 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   loadPopup () {
-
     const popupes = import('../popup-es')
     const popupesStyle = import('../popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-        
-      })
-  
-      popupes.then(loader => new loader.default())
-  
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
   }
 
   bindRemove () {
@@ -41,24 +39,25 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.engage_id,
-        update: true,
+        update: true
       })
     })
   }
 
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader =>  loader.default('device-dropdown'))
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
   }
 
   __bindListeners () {
-    this.loadPopup ()
-    this.loadDropdown ()
-    this.bindRemove ()
-    this.bindUpdate ()
+    this.loadPopup()
+    this.loadDropdown()
+    this.bindRemove()
+    this.bindUpdate()
   }
 
-  async render () { console.log(this.__opt)
+  async render () {
+    console.log(this.__opt)
     this.__template = document.createElement('section')
     this.__template.classList.add('account-engagement-list-item', 'col', 'col-lg-12', 'col-md-12', `engagement-section-${parseInt(this.__opt.engage_id)}`)
     this.__template.innerHTML = `
@@ -86,7 +85,7 @@ export default class {
         </div>
         <div class="media-body" style="padding-left: 20px;">
           <h4 class="media-heading">${this.__opt.title} </h4>
-          <b>${this.__opt.engageFrom}</b> - <b>${(this.__opt.engageTo != '0000' || this.__opt.engageFrom != this.__opt.engageFrom) ? this.__opt.engageTo : 'Current'}</b><br/>
+          <b>${this.__opt.engageFrom}</b> - <b>${(this.__opt.engageTo !== '0000' || this.__opt.engageFrom !== this.__opt.engageTo) ? this.__opt.engageTo : 'Current'}</b><br/>
           <br/>
           <small>
             <b>Type: ${this.__opt.afftypeName || 'N/A'}</b><br/>
@@ -96,6 +95,6 @@ export default class {
       </div>
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

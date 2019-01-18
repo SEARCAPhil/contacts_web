@@ -1,28 +1,26 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   loadPopup () {
-
     const popupes = import('../popup-es')
     const popupesStyle = import('../popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-        
-      })
-  
-      popupes.then(loader => new loader.default())
-  
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
   }
 
   bindUpdate () {
@@ -31,7 +29,7 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.id,
-        update: true,
+        update: true
       })
     })
   }
@@ -47,9 +45,9 @@ export default class {
   }
 
   __bindListeners () {
-    this.bindRemove ()
-    this.bindUpdate ()
-    setTimeout(() => this.loadPopup () ,1000)
+    this.bindRemove()
+    this.bindUpdate()
+    setTimeout(() => this.loadPopup(), 1000)
   }
 
   async render () {
@@ -75,6 +73,6 @@ export default class {
       </small>  
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

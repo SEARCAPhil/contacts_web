@@ -9,8 +9,7 @@ export default class {
   }
 
   __bindHandles (callback) {
-    let __proto__ = Object.assign({__proto__ : this.__proto__}, this)
-    
+    let __proto__ = Object.create(this)
     this.opt.root.querySelectorAll(`.${this.opt.tabHandleClass}`).forEach((el, index) => {
       el.callback = callback
       el.addEventListener('click', this.setTab.bind(__proto__))
@@ -24,7 +23,7 @@ export default class {
     document.querySelectorAll(`.tabs[data-group="${e.target.getAttribute('data-group')}"]`).forEach((el, index) => {
       el.classList.remove('active')
     })
-    
+
     // close all tab page
     this.closeTabPanes(e.target)
 
@@ -35,10 +34,9 @@ export default class {
     })
     // set the handle to active state
     e.target.classList.add('active')
-
   }
 
-  closeTabPanes (targetElements) { 
+  closeTabPanes (targetElements) {
     const targetPanes = document.querySelectorAll(`.tab-pane[data-group="${targetElements.getAttribute('data-group')}"]`)
     // close all panes except the active one
     targetPanes.forEach((el, index) => {
@@ -46,9 +44,8 @@ export default class {
     })
   }
 
-  tab (callback= {}) { 
+  tab (callback = {}) {
     this.__bindHandles(callback)
     return this
   }
-
 }

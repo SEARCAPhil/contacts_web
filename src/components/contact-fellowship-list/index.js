@@ -1,25 +1,23 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   loadPopup () {
-
     const popupes = import('../popup-es')
     const popupesStyle = import('../popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-        
-      })
-  
-      popupes.then(loader => new loader.default())
-  
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
   }
 
   bindRemove () {
@@ -38,21 +36,21 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.fellowaff_id,
-        update: true,
+        update: true
       })
     })
   }
 
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader =>  loader.default('device-dropdown'))
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
   }
 
   __bindListeners () {
-    this.loadPopup ()
-    this.loadDropdown ()
-    this.bindRemove ()
-    this.bindUpdate ()
+    this.loadPopup()
+    this.loadDropdown()
+    this.bindRemove()
+    this.bindUpdate()
   }
 
   async render () {
@@ -83,11 +81,11 @@ export default class {
         </div>
         <div class="media-body" style="padding-left: 20px;">
           <h4 class="media-heading">${this.__opt.saafclass} </h4>
-          <b>${this.__opt.dateFrom}</b> - <b>${(this.__opt.dateTo != '0000' || this.__opt.dateFrom != this.__opt.dateFrom) ? this.__opt.dateTo : 'Current'}</b><br/>
+          <b>${this.__opt.dateFrom}</b> - <b>${(this.__opt.dateTo !== '0000' || this.__opt.dateFrom !== this.__opt.dateTo) ? this.__opt.dateTo : 'Current'}</b><br/>
         </div>
       </div>
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

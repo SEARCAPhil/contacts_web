@@ -1,73 +1,71 @@
+/* eslint-disable new-cap */
 const URL = import('../../../utils/xhr')
 
 export default class {
-  constructor(opt){
+  constructor (opt) {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
     return this.render()
-	}
-	
-  async create (opt, headers) { 
-    this.xhr  = new (await URL).default()
+  }
+
+  async create (opt, headers) {
+    this.xhr = new (await URL).default()
     return this.xhr.__postData(`contact/training`, opt, headers, false)
   }
 
-  async update (opt, headers) { 
-    this.xhr  = new (await URL).default()
+  async update (opt, headers) {
+    this.xhr = new (await URL).default()
     return this.xhr.__putData(`contact/training`, opt, headers, false)
   }
 
   async get (opt) {
-    this.xhr  = new (await URL).default()
+    this.xhr = new (await URL).default()
     return this.xhr.__getData(`contact/training/${opt.id}/details`)
   }
 
   async getSaaf (id = 0) {
-    this.xhr  = new (await URL).default()
+    this.xhr = new (await URL).default()
     return id ? this.xhr.__getData(`saaf/class/${id}`) : this.xhr.__getData(`saaf/class`)
   }
 
   bindSaffListener (targ, parentNode, parentNodeID, stat = '') {
     targ.addEventListener('change', (e) => {
       let id = (e.target.value)
-    
-      if (id == 'null') return document.querySelector(`#select-saaf-${parentNodeID}-container`).innerHTML = ''
-     
-        stat.innerHTML = 'loading sub categories . . .'
-        this.getSaaf(id).then(res => {
-          if(res.data.length) {
-            // create new option
-            let div = document.createElement('div')
-            div.id = `select-saaf-${id}-container`
-            let opts = ''
-            div.classList.add('form-group')
-            div.style.marginTop = '10px'
 
-            // options
-            res.data.forEach((el, index) => {
-              opts += `<option value="${el.saafclass_id}">${el.saafclass}</option>` 
-            })
+      if (id === 'null') return (document.querySelector(`#select-saaf-${parentNodeID}-container`).innerHTML = '')
 
-            div.innerHTML = `
+      stat.innerHTML = 'loading sub categories . . .'
+      this.getSaaf(id).then(res => {
+        if (res.data.length) {
+          // create new option
+          let div = document.createElement('div')
+          div.id = `select-saaf-${id}-container`
+          let opts = ''
+          div.classList.add('form-group')
+          div.style.marginTop = '10px'
+
+          // options
+          res.data.forEach((el, index) => {
+            opts += `<option value="${el.saafclass_id}">${el.saafclass}</option>`
+          })
+
+          div.innerHTML = `
             <select class="form-control type type-hidden-accessible" id="select-saaf-${id}" style="width: 100%;" tabindex="-1" aria-hidden="true">
               <option default="" value="null">Please Select SAAF Type</option>
               ${opts}
             </select>
             <div class="form-group id="select-saaf-${id}-container"></div>
             `
-            this.bindSaffListener(div.querySelector('select'), div, id, stat)
-            let newTarg = document.querySelector(`#select-saaf-${id}-container`)
-            if (newTarg) newTarg.innerHTML = ''
+          this.bindSaffListener(div.querySelector('select'), div, id, stat)
+          let newTarg = document.querySelector(`#select-saaf-${id}-container`)
+          if (newTarg) newTarg.innerHTML = ''
 
-            parentNode.append(div)
-            
+          parentNode.append(div)
+        }
 
-          }
-          
-          stat.innerHTML = ''
-        })
-      
+        stat.innerHTML = ''
+      })
     })
   }
 
@@ -75,8 +73,8 @@ export default class {
     let targ = document.querySelector('#type')
     let stat = document.querySelector('.saaf-type-status-text-section')
     let parentNode = targ.nextElementSibling
-    new Promise((resolve, reject) => {
-      this.getSaaf ().then(res => {
+    return new Promise((resolve, reject) => {
+      this.getSaaf().then(res => {
         if (!res.data) return
 
         res.data.forEach((el, index) => {
@@ -88,7 +86,6 @@ export default class {
 
         this.bindSaffListener(targ, parentNode, null, stat)
         resolve()
-        
       })
     })
   }
@@ -98,10 +95,9 @@ export default class {
   }
 
   getDetails () {
-    
-    return this.get({ id: this.__opt.id}).then(res => {
-      if(!res[0].training_id) return (this.showEmptyDetails ())
-      //form fields
+    return this.get({ id: this.__opt.id }).then(res => {
+      if (!res[0].training_id) return (this.showEmptyDetails())
+      // form fields
       const title = document.querySelector('#title')
       const venue = document.querySelector('#venue')
       const from = document.querySelector('#from')
@@ -129,30 +125,28 @@ export default class {
       notes.innerHTML = res[0].notes
 
       // selected saaf type
-      if(res[0].saaftype_id) {
+      if (res[0].saaftype_id) {
         saafType.options[0].value = res[0].saaftype_id
         saafType.options[0].innerText = `${res[0].saafclass} (Selected)`
       }
 
-
       // selected  type
-      if(res[0].trainingType) {
+      if (res[0].trainingType) {
         trainType.options[0].value = res[0].saaftype_id
         trainType.options[0].innerText = `${res[0].trainingType} (Selected)`
       }
-      
+
       // is conducted / supported by SEARCA
       document.querySelectorAll('input.searca-learn').forEach((el, index) => {
-        if(el.value == res[0].isSearcaTraining) el.setAttribute('checked', 'checked')
+        if (parseInt(el.value) === res[0].isSearcaTraining) el.setAttribute('checked', 'checked')
       })
-      
+
       // save form
-      let __proto__ = Object.assign({ __proto__: this.__proto__ }, this)
+      let __proto__ = Object.create(this)
       document.querySelector('#modal-education-form').addEventListener('submit', this.__save.bind(__proto__))
-    
     })
   }
-  
+
   __save (e) {
     e.preventDefault()
     const saveBtn = document.querySelector('#modal-dialog-save-button')
@@ -160,7 +154,7 @@ export default class {
     const train = import('../../contact-training-list')
     const targ = document.querySelector('.contact-training-list-section')
 
-    //form fields
+    // form fields
     const title = e.target.querySelector('#title')
     const venue = e.target.querySelector('#venue')
     const from = e.target.querySelector('#from')
@@ -182,9 +176,8 @@ export default class {
 
     const types = document.querySelectorAll('.type')
     types.forEach((el, index) => {
-      if(el.value != 'null') saafType = el.value
+      if (el.value !== 'null') saafType = el.value
     })
-
 
     let query = ''
     let headers = {
@@ -205,52 +198,55 @@ export default class {
       organizingAgency: agency.value,
       hostUniversity: host.value,
       notes: notes.value,
-      saafTypeId: saafType != null ? saafType : 0,
+      saafTypeId: saafType != null ? saafType : 0
     }
 
     // searca training
     searcaTraining.forEach((el, index) => {
-      if(el.checked) payload.isSearcaTraining = el.value
+      if (el.checked) payload.isSearcaTraining = el.value
     })
 
-    for(let key in payload) {
-      query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'
+    for (let key in payload) {
+      query += encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]) + '&'
     }
 
     // UPDATE
     // activated if "update" is set to true
-    if(this.__opt.update) return this.update(query, headers, false).then(res => {
-      if (res > 0) return window.location.reload()
-      statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'
-      saveBtn.removeAttribute('disabled')
-    })
-    
+    if (this.__opt.update) {
+      return this.update(query, headers, false).then(res => {
+        if (res > 0) return window.location.reload()
+        statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'
+        saveBtn.removeAttribute('disabled')
+      })
+    }
+
     // CREATE
     this.create(query, headers, false).then(res => {
       // reset form
       if (res > 0) {
-         (statusTextBox.innerHTML = '<div class="alert alert-success">Saved!</div>') | e.target.reset()
-          setTimeout(() => {
-            document.querySelector('#general-modal').close()
-          }, 2500)
-          
+        statusTextBox.innerHTML = '<div class="alert alert-success">Saved!</div>'
+        e.target.reset()
+        setTimeout(() => {
+          document.querySelector('#general-modal').close()
+        }, 2500)
+
         // append to DOM
-       train.then(con => {
+        train.then(con => {
           // DOM
           payload.training_id = res
-          
+
           return new con.default(payload).then(html => {
             targ.append(html)
           })
         })
       }
       saveBtn.removeAttribute('disabled')
-    }).catch(e => statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>')
+    }).catch(e => (statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'))
   }
   __load () {
     const targ = document.querySelector('#general-modal > .content > .body')
     const form = import('../index')
-    const __proto__ = Object.assign({ __proto__: this.__proto__ }, this)
+    const __proto__ = Object.create(this)
     targ.innerHTML = '<center class="text-muted mt-5" style="margin-top: 30%;">Loading <i class="fa fa-spinner"></i> <br/> Please wait . . .</center>'
     form.then(res => {
       targ.innerHTML = res.template
@@ -259,11 +255,10 @@ export default class {
       targ.querySelector('#modal-dialog-close-button').addEventListener('click', () => document.querySelector('#general-modal').close())
 
       // get SAAF parent class
-      this.getRootSaafType ()
+      this.getRootSaafType()
 
-
-      //show item information if "update" parameter is set to TRUE
-      if(this.__opt.update) return this.getDetails()
+      // show item information if "update" parameter is set to TRUE
+      if (this.__opt.update) return this.getDetails()
 
       // save form
       document.querySelector('#modal-education-form').addEventListener('submit', this.__save.bind(__proto__))
@@ -271,7 +266,7 @@ export default class {
   }
 
   bind () {
-    const __proto__ = Object.assign({ __proto__: this.__proto__ }, this)
+    const __proto__ = Object.create(this)
     this.__opt.root = this.__opt.root || document
     this.__opt.root.querySelector(this.__opt.target).addEventListener('click', this.__load.bind(__proto__))
   }
@@ -279,5 +274,4 @@ export default class {
   render () {
     this.bind()
   }
-
 }

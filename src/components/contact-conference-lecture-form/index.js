@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import style from './index.styl'
 
 const template = `

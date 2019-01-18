@@ -1,9 +1,9 @@
 import style from './index.styl'
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   async render () {
@@ -96,7 +96,7 @@ export default class {
 
       <!-- /.sidebar-menu -->
     </section>`
-    
-      return this.__template;
+
+    return this.__template
   }
 }

@@ -1,9 +1,9 @@
 import style from './index.styl'
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   __bindListeners () {
@@ -33,7 +33,7 @@ export default class {
                 <!-- Menu Toggle Button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <!-- The user image in the navbar-->
-                  ${this.__opt.image ? '<img src="'+this.__opt.image+'" class="user-image" alt="User Image"/>' : ''}
+                  ${this.__opt.image ? '<img src="' + this.__opt.image + '" class="user-image" alt="User Image"/>' : ''}
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
                   <span class="hidden-xs">${this.__opt.displayName}</span>
                 </a>
@@ -76,7 +76,7 @@ export default class {
             </ul>
           </div>
         </nav>`
-      this.__bindListeners()
-      return this.__template;
+    this.__bindListeners()
+    return this.__template
   }
 }

@@ -1,25 +1,25 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   loadPopup () {
-
     const popupes = import('../popup-es')
     const popupesStyle = import('../popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-      })
-      popupes.then(loader => new loader.default())
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+    popupes.then(loader => new loader.default())
   }
 
   bindRemove () {
@@ -27,7 +27,7 @@ export default class {
       return new loader.default({
         root: this.__template,
         selector: '.remove-btn-modal',
-        id: this.__opt.training_id,
+        id: this.__opt.training_id
       })
     })
   }
@@ -38,24 +38,22 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.training_id,
-        update: true,
+        update: true
       })
     })
   }
 
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader =>  loader.default('device-dropdown'))
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
   }
-
 
   __bindListeners () {
-    this.bindRemove () 
-    this.bindUpdate ()
-    this.loadDropdown ()
+    this.bindRemove()
+    this.bindUpdate()
+    this.loadDropdown()
     setTimeout(() => this.loadPopup(), 1000)
   }
-
 
   async render () {
     this.__template = document.createElement('section')
@@ -75,10 +73,10 @@ export default class {
 
     <b>${this.__opt.title} </b><br/>
       <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ?  '- ' + this.__opt.dateEnded : ''}<br/>
+      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
       <b>${this.__opt.venue}</b><br/>
       <span class="badge badge-success">${this.__opt.trainingType}</span>
-      ${(this.__opt.isSearcaTraining == 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This is a SEARCA\'s short-term training course or similar learning event </p>' : ''}
+      ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This is a SEARCA\'s short-term training course or similar learning event </p>' : ''}
       <br/>
       <details>
         <summary>read more</summary>
@@ -103,6 +101,6 @@ export default class {
       </small>  
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

@@ -1,12 +1,12 @@
 import style from './index.styl'
 /**
  * Enable toggle on given class
- * 
+ *
  * @function window.bms.default.dropdown
- * @param {string} className 
+ * @param {string} className
  */
 
-export default  (className) => {
+export default (className) => {
   // create style
   if (!document.getElementById('dropdownStyle')) {
     const styl = document.createElement('style')
@@ -20,12 +20,12 @@ export default  (className) => {
   window.bms = window.bms || {}
   window.bms.default = window.bms.default || {}
   window.bms.default.modal = window.bms.default.modal || {}
-  
-	// read elements
-	targ.forEach((el, index) => {
-		// mark as binded
+
+  // read elements
+  targ.forEach((el, index) => {
+    // mark as binded
     el.classList.add('data-bind-dropdown')
-    
+
     el.addEventListener('click', (e) => {
       e.preventDefault()
       // target ID
@@ -33,15 +33,15 @@ export default  (className) => {
 
       // get ID
       // Holds the ID to be sent to the server
-      window.bms.default.modal.resources =  el.getAttribute('data-resources')
+      window.bms.default.modal.resources = el.getAttribute('data-resources')
       window.bms.default.modal.element = el
-      
+
       // dropdown section
       let target = document.getElementById(targEl)
-      let a = new Promise((resolve, reject) => {
-        //close all open dropdpwn
+      return new Promise((resolve, reject) => {
+        // close all open dropdpwn
         document.querySelectorAll('.dropdown-section').forEach((el2, index2) => {
-          if (el2.classList.contains('open') && el2!=target)  el2.classList.remove('open') 
+          if (el2.classList.contains('open') && el2 !== target) el2.classList.remove('open')
           resolve()
         })
       }).then(() => {
@@ -50,5 +50,5 @@ export default  (className) => {
         el.classList.add('data-bind-dropdown')
       })
     })
-	})
+  })
 }

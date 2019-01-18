@@ -1,12 +1,13 @@
-import {URL as URI} from '../../config/api'
+/* eslint-disable new-cap */
+import { URL as URI } from '../../config/api'
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   __bindForm () {
@@ -16,30 +17,27 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-commu-list-add-btn',
-        id: this.__opt.contact_id,
+        id: this.__opt.contact_id
       })
     })
   }
 
-
   __bindListeners () {
-    this.__bindForm ()
-    this.__parseCom ()
+    this.__bindForm()
+    this.__parseCom()
   }
 
   __parseCom () {
     const commu = import('../contact-communication-list')
     let target = this.__template.querySelector('.communication-list-section')
     this.__opt.communications.forEach((el, index) => {
-
       commu.then(res => {
         return new res.default(el).then(html => {
           // exclude email address and place it somwhere else
-          if(el.type === this.__emailType) return  this.__template.querySelector('.email-list-section').innerHTML += `<a href="mailto:${el.value}" style="color: #fff; cursor: pointer;">${el.value}</a>&emsp;`
+          if (el.type === this.__emailType) return (this.__template.querySelector('.email-list-section').innerHTML += `<a href="mailto:${el.value}" style="color: #fff; cursor: pointer;">${el.value}</a>&emsp;`)
           target.append(html)
         })
       })
-
     })
   }
 
@@ -54,7 +52,7 @@ export default class {
 
               <small><a href="#/contacts/form/${this.__opt.contact_id}/update" class=" pull-right"><i class="fa fa-pencil"></i> edit</a></small>
 
-              ${this.__opt.photo !== null ? '<img class="profile-user-img img-responsive img-circle" src="'+photoSrc+'" alt="User profile picture" style="height: 100px;">' : '<img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">' }
+              ${this.__opt.photo !== null ? '<img class="profile-user-img img-responsive img-circle" src="' + photoSrc + '" alt="User profile picture" style="height: 100px;">' : '<img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">'}
 
               <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix || ''}</h3>
 
@@ -129,7 +127,7 @@ export default class {
             <!-- /.box-body -->
           </div>
           <!-- /.box -->`
-      this.__bindListeners()
-      return this.__template;
+    this.__bindListeners()
+    return this.__template
   }
 }

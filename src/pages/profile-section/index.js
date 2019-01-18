@@ -1,25 +1,25 @@
+/* eslint-disable new-cap */
 import style from './index.styl'
 const tabs = import('../../utils/tabs')
 
-
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__info = {}
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   __bindListeners () {
-    this.getProfileBoxComponent ()
-    this.getProfileEmploymentListComponent ()
-    this.getProfileEducListComponent ()
+    this.getProfileBoxComponent()
+    this.getProfileEmploymentListComponent()
+    this.getProfileEducListComponent()
     this.getConferenceListComponent()
     this.getResearchListComponent()
     this.getTrainingListComponent()
     this.enableTabs()
     this.loadPopup()
     this.__bindRemoveAccount()
-    this.__bindLoadEngagementSection ()
+    this.__bindLoadEngagementSection()
   }
 
   createEmptyMessage (icon, message, target) {
@@ -31,7 +31,7 @@ export default class {
   getProfileBoxComponent () {
     const contact = import('../../components/contact-profile-box')
     return contact.then(res => {
-      return new res.default (this.__info).then(html => {
+      return new res.default(this.__info).then(html => {
         document.querySelector('.user-profile-section').replaceWith(html)
       })
     })
@@ -52,8 +52,8 @@ export default class {
       })
 
       // empty
-      if(!this.__info.employments.length) {
-        this.createEmptyMessage ('fa-briefcase', 'No employment record available', targ)
+      if (!this.__info.employments.length) {
+        this.createEmptyMessage('fa-briefcase', 'No employment record available', targ)
       }
     })
     // bind employment form
@@ -61,11 +61,10 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-employment-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
   }
-
 
   getProfileEducListComponent () {
     const contact = import('../../components/contact-educational-bg-list')
@@ -80,8 +79,8 @@ export default class {
         })
       })
       // empty
-      if(!this.__info.educational_backgrounds.length) {
-        this.createEmptyMessage ('fa-graduation-cap', 'No educational background', targ)
+      if (!this.__info.educational_backgrounds.length) {
+        this.createEmptyMessage('fa-graduation-cap', 'No educational background', targ)
       }
     })
 
@@ -90,12 +89,10 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-educ-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
-
   }
-
 
   getConferenceListComponent () {
     const contact = import('../../components/contact-conference-list')
@@ -112,8 +109,8 @@ export default class {
       })
 
       // empty
-      if(!this.__info.conferences.length) {
-        this.createEmptyMessage ('fa-microphone', 'No conference available', targ)
+      if (!this.__info.conferences.length) {
+        this.createEmptyMessage('fa-microphone', 'No conference available', targ)
       }
     })
 
@@ -122,7 +119,7 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-conf-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
   }
@@ -142,8 +139,8 @@ export default class {
       })
 
       // empty
-      if(!this.__info.research.length) {
-        this.createEmptyMessage ('fa-book', 'No research added', targ)
+      if (!this.__info.research.length) {
+        this.createEmptyMessage('fa-book', 'No research added', targ)
       }
     })
 
@@ -152,10 +149,9 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-research-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
-
   }
 
   getTrainingListComponent () {
@@ -173,10 +169,9 @@ export default class {
       })
 
       // empty
-      if(!this.__info.trainings.length) {
-        this.createEmptyMessage ('fa-cube', 'No trainings available', targ)
+      if (!this.__info.trainings.length) {
+        this.createEmptyMessage('fa-cube', 'No trainings available', targ)
       }
-
     })
 
     // bind  form
@@ -184,7 +179,7 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-training-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
   }
@@ -201,10 +196,10 @@ export default class {
 
   enableTabs () {
     tabs.then(res => {
-      return new res.default({root: this.__template}).tab({
-        onactive : (handle, target, instane) => {
+      return new res.default({ root: this.__template }).tab({
+        onactive: (handle, target, instane) => {
           // remove active state on all active <li>
-          handle.parentNode.parentNode.querySelectorAll('li').forEach((el, index) =>{
+          handle.parentNode.parentNode.querySelectorAll('li').forEach((el, index) => {
             el.classList.remove('active')
           })
           // add active status to the parent of current handle
@@ -215,20 +210,18 @@ export default class {
   }
 
   loadPopup () {
-
     const popupes = import('../../components/popup-es')
     const popupesStyle = import('../../components/popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-        
-      })
-  
-      popupes.then(loader => new loader.default())
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
   }
 
   __bindRemoveAccount () {
@@ -251,14 +244,12 @@ export default class {
       })
     })
   }
-  
 
   async render () {
     const __payload = {
-      id: this.__opt.id,
+      id: this.__opt.id
     }
-    this.__info = await this.getInfo (__payload)
-   
+    this.__info = await this.getInfo(__payload)
 
     this.__template = document.createElement('section')
     this.__template.classList.add('profile-section')
@@ -382,6 +373,6 @@ export default class {
     </main>
   </div>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

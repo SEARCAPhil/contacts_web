@@ -1,13 +1,14 @@
+/* eslint-disable new-cap */
 const URL = import('../../../utils/xhr')
 
 export default class {
-  constructor(opt) {
+  constructor (opt) {
     this.opt = opt
     this.xhr = {}
     this.bind()
   }
 
-  success() {	
+  success () {
     // close popup
     document.getElementById('general-modal').close()
     let targ = document.querySelector(`.conf-section-${this.opt.id}`)
@@ -18,7 +19,7 @@ export default class {
   }
 
   error (err = '') {
-    alert('Unable to process this request! Please try again later')
+    console.log('Unable to process this request! Please try again later')
     // close popup
     document.getElementById('general-modal').close()
     console.log(err)
@@ -26,21 +27,21 @@ export default class {
 
   async remove (e) {
     e.target.setAttribute('disabled', 'disabled')
-    this.xhr  = new (await URL).default()
+    this.xhr = new (await URL).default()
 
-    return this.xhr.__deleteData(`contact/conference/${this.opt.id}`, {}, {},  false).then(res => {
-      return res == 1 ?  this.success() : this.error()
+    return this.xhr.__deleteData(`contact/conference/${this.opt.id}`, {}, {}, false).then(res => {
+      return parseInt(res) === 1 ? this.success() : this.error()
     })
 
     // remove from DB
-    /*return new serve().remove(__payload).then(json => {
+    /* return new serve().remove(__payload).then(json => {
       return json.data == 1 ?  this.success(__payload.id) : this.error()
-    }).catch(err => this.error(err))*/
+    }).catch(err => this.error(err)) */
   }
 
-  load(e) {
+  load (e) {
     import('../../../components/remove-conf-modal').then(res => {
-      const __proto = Object.assign({ __proto__: this.__proto__ }, this)
+      const __proto = Object.create(this)
       // DOM
       const __target = document.querySelector('#general-modal  > .content > .body')
 
@@ -53,12 +54,11 @@ export default class {
     })
   }
 
-  bind() {
-    const proto = Object.assign({ __proto__: this.__proto__ }, this)
+  bind () {
+    const proto = Object.create(this)
     const root = this.opt.root || document
     root.querySelectorAll(this.opt.selector).forEach((el, index) => {
       el.addEventListener('click', this.load.bind(proto))
     })
-	}
-  
+  }
 }

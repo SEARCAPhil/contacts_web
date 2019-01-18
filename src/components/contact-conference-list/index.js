@@ -1,10 +1,11 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   bindRemove () {
@@ -17,29 +18,27 @@ export default class {
     })
   }
 
-
   bindUpdate () {
     import('../contact-conference-form/actions/create').then(loader => {
       return new loader.default({
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.id,
-        update: true,
+        update: true
       })
     })
   }
 
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader =>  loader.default('device-dropdown'))
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
   }
 
   __bindListeners () {
-    this.getLectureListComponent ()
-    this.bindRemove ()
-    this.bindUpdate ()
+    this.getLectureListComponent()
+    this.bindRemove()
+    this.bindUpdate()
   }
-
 
   getLectureListComponent () {
     const contact = import('../../components/contact-conference-lecture-list')
@@ -50,13 +49,10 @@ export default class {
       // get all employment records
       this.__opt.lectures.forEach((el, index) => {
         // DOM
-        return new res.default(el).then(html => { 
+        return new res.default(el).then(html => {
           targ.append(html)
-        }) | this.loadDropdown ()
-        
-        
+        }) | this.loadDropdown()
       })
-      
     })
 
     // bind  form
@@ -64,7 +60,7 @@ export default class {
       return new res.default({
         root: this.__template,
         target: '.contact-conf-lect-list-add-btn',
-        id: this.__opt.id,
+        id: this.__opt.id
       })
     })
   }
@@ -85,7 +81,7 @@ export default class {
     </span>
     <b>${this.__opt.title} </b><br/>
       <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ?  '- ' + this.__opt.dateEnded : ''}<br/>
+      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
         <details>
           <summary><b>${this.__opt.venue}  </b><br/></summary><br/>
           <div class="col col-lg-12">
@@ -103,6 +99,6 @@ export default class {
       </small>  
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

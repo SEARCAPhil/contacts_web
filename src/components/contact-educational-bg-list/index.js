@@ -1,10 +1,11 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   bindRemove () {
@@ -23,14 +24,14 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.educ_id,
-        update: true,
+        update: true
       })
     })
   }
 
   __bindListeners () {
-    this.bindRemove () 
-    this.bindUpdate ()
+    this.bindRemove()
+    this.bindUpdate()
   }
 
   async render () {
@@ -61,6 +62,6 @@ export default class {
       </small>  
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

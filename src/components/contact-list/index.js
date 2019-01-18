@@ -1,13 +1,13 @@
 
-const URL =  import('../../config/api')
+const URL = import('../../config/api')
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   __bindListeners () {
@@ -19,13 +19,13 @@ export default class {
       let URI = conf.URL
       let photoSrc = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__opt.photo}`
       let targ = this.__template.querySelector('.img-sec')
-      if(this.__opt.photo !== null) targ.innerHTML = `<img src="${photoSrc}" class="user-image img-circle margin-l-5" alt="User Image" style="margin-left: 20px;height: 40px;width: 40px;">`
+      if (this.__opt.photo !== null) targ.innerHTML = `<img src="${photoSrc}" class="user-image img-circle margin-l-5" alt="User Image" style="margin-left: 20px;height: 40px;width: 40px;">`
     })
   }
 
   __parseCom () {
     this.__opt.communications.forEach((el, index) => {
-      if(el.type === this.__emailType)  {
+      if (el.type === this.__emailType) {
         this.__emails += `${el.value}<br/>`
       } else {
         this.__contactInfo += `<b>${el.type}</b> : ${el.value} <br/>`
@@ -50,11 +50,13 @@ export default class {
         </div>
         <div class="col col-lg-1">${this.__opt.affiliateCode}</div>
         <div class="col col-lg-2">
-          <a href="#/account/${this.__opt.contact_id}/profile" class="text-info">View</a>&emsp;
+          <span class="badge" style="background: #00BCD4; padding: 8px;">
+            <a href="#/account/${this.__opt.contact_id}/profile" class="text-info" style="color: #fff;">View</a>
+          </span>
           <a href="#/contacts/form/${this.__opt.contact_id}/update" class="text-info"> <i class="fa fa-pencil"></i> Update</a>
         </div>
         <div class="col col-lg-12" style="border-bottom: 1px solid rgba(200,200,200,0.3);margin-bottom: 20px;margin-top: 20px;"></div> </section>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

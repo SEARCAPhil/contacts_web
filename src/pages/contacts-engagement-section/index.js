@@ -1,11 +1,12 @@
+/* eslint-disable new-cap */
 const URL = import('../../utils/xhr')
 
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__contactComponent = {}
     this.__listSecTemplate = {}
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   clearSection () {
@@ -24,9 +25,9 @@ export default class {
       })
     })
 
-     // bind  form
-    return form.then(res => { 
-      new res.default({
+    // bind  form
+    return form.then(res => {
+      return new res.default({
         root: this.__template,
         target: '.contact-engagement-list-add-btn',
         id: this.__opt.contact_id,
@@ -47,9 +48,9 @@ export default class {
       })
     })
 
-     // bind  form
-    return form.then(res => { 
-      new res.default({
+    // bind  form
+    return form.then(res => {
+      return new res.default({
         root: this.__template,
         target: '.contact-fellowship-list-add-btn',
         id: this.__opt.contact_id,
@@ -59,14 +60,14 @@ export default class {
   }
 
   async search (opt) {
-    this.xhr  = new (await URL).default()
+    this.xhr = new (await URL).default()
     return this.xhr.__getData(`contact/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
   }
 
   __bindListeners (opt = {}) {
     this.clearSection()
-    this.getEngagementListComponent ()
-    this.getFellowshipListComponent ()
+    this.getEngagementListComponent()
+    this.getFellowshipListComponent()
   }
 
   async render () {
@@ -107,6 +108,6 @@ export default class {
     <!-- /.content -->
     </div>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

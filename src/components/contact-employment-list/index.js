@@ -1,28 +1,26 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   loadPopup () {
-
     const popupes = import('../popup-es')
     const popupesStyle = import('../popup-es/index.styl')
-  
-      // enable popup
-      popupesStyle.then(css => {
-        const style = document.createElement('style')
-        style.id = 'popup-es-style'
-        style.innerHTML = css.default.toString()
-        if(!document.querySelector('#popup-es-style')) document.head.append(style)
-        
-      })
-  
-      popupes.then(loader => new loader.default())
-  
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
   }
 
   bindRemove () {
@@ -41,24 +39,24 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.employ_id,
-        update: true,
+        update: true
       })
     })
   }
 
   loadDropdown () {
     const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader =>  loader.default('device-dropdown'))
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
   }
 
   __bindListeners () {
-    this.loadPopup ()
-    this.loadDropdown ()
-    this.bindRemove ()
-    this.bindUpdate ()
+    this.loadPopup()
+    this.loadDropdown()
+    this.bindRemove()
+    this.bindUpdate()
   }
 
-  async render () { 
+  async render () {
     this.__template = document.createElement('section')
     this.__template.classList.add('account-employment-list-item', 'col', 'col-lg-12', 'col-md-12', `employment-section-${parseInt(this.__opt.employ_id)}`)
     this.__template.innerHTML = `
@@ -73,12 +71,6 @@ export default class {
           <ul>
         </ul></ul></div>
       </span>
-       <!--${this.__opt.companyName} <br/>
-     <small class="text-muted">
-        ${this.__opt.employedFrom} - ${(this.__opt.employedTo != '0000' || this.__opt.employedTo != this.__opt.employedFrom) ? this.__opt.employedTo : 'Current'}<br/>
-        <b>${this.__opt.position}</b><br/>
-        <span class="text-muted"><i class="fa fa-map-marker"></i> ${this.__opt.companyAddress || 'N/A'}</span>
-      </small>-->
       
       <div class="media">
         <div class="media-left text-center text-muted margin-r-5" style="
@@ -92,7 +84,7 @@ export default class {
         </div>
         <div class="media-body" style="padding-left: 20px;">
           <h4 class="media-heading">${this.__opt.companyName} </h4>
-          ${this.__opt.employedFrom} - ${(this.__opt.employedTo != '0000' || this.__opt.employedTo != this.__opt.employedFrom) ? this.__opt.employedTo : 'Current'}<br/>
+          ${this.__opt.employedFrom} - ${((this.__opt.employedTo === '0000') || (this.__opt.employedTo === this.__opt.employedFrom) || (this.__opt.employedTo === null)) ? '<b class="text-success">PRESENT</b>' : this.__opt.employedTo}<br/>
           
           <small>
             <b>${this.__opt.position}</b><br/>
@@ -102,6 +94,6 @@ export default class {
       </div>
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }

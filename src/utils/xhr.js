@@ -1,21 +1,21 @@
-import {URL} from '../config/api'
+import { URL } from '../config/api'
 
 export default class {
-  constructor(){
-		this.timestamp = new Date().getTime()
-	}
+  constructor () {
+    this.timestamp = new Date().getTime()
+  }
 
   __xhrDataFactory (url, body, headers = {}, isJson = true, method = 'GET') {
     return new Promise((resolve, reject) => {
-      fetch(`${URL.fullPath}${url}`,
-      {
-        method: method,
-        body: (isJson ? JSON.stringify(body) : body),
-        headers,
-      })
-      .then(res => {
-        resolve(res.json())
-      })
+      window.fetch(`${URL.fullPath}${url}`,
+        {
+          method: method,
+          body: (isJson ? JSON.stringify(body) : body),
+          headers
+        })
+        .then(res => {
+          resolve(res.json())
+        })
     })
   }
 
@@ -31,16 +31,15 @@ export default class {
     return this.__xhrDataFactory(url, body, headers, isJson, 'DELETE')
   }
 
-	__getData(url) {
-		return new Promise((resolve, reject) => {
-      fetch(`${URL.fullPath}${url}`,
-      {
-        method: 'GET',
-      })
-      .then(res => {
-        resolve(res.json())
-      })
+  __getData (url) {
+    return new Promise((resolve, reject) => {
+      window.fetch(`${URL.fullPath}${url}`,
+        {
+          method: 'GET'
+        })
+        .then(res => {
+          resolve(res.json())
+        })
     })
-
-	}
+  }
 }

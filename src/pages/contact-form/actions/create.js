@@ -1,52 +1,53 @@
+/* eslint-disable new-cap */
 const URL = import('../../../utils/xhr')
 
 export default class {
-  constructor(opt = {}){
+  constructor (opt = {}) {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__submitted = false
     this.__opt = opt
-	}
-	
-  async post (payload) { this.xhr  = new (await URL).default()
+  }
+
+  async post (payload) {
+    this.xhr = new (await URL).default()
     let query = ''
     let headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-    
-    for(let key in payload) {
-      query += encodeURIComponent(key) +'='+encodeURIComponent(payload[key])+'&'
+
+    for (let key in payload) {
+      query += encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]) + '&'
     }
-    return this.__opt.action === 'update' ? this.xhr.__putData(`contact`, query, headers,  false) : this.xhr.__postData(`contact`, query, headers,  false)
+    return this.__opt.action === 'update' ? this.xhr.__putData(`contact`, query, headers, false) : this.xhr.__postData(`contact`, query, headers, false)
   }
 
-  __error () {
+  __error (message = '') {
     this.__statusSection.innerHTML = '<span class="alert alert-danger" style="padding-bottom: 10px;"><i class="fa fa-warning"></i> Sorry! Unable to process request. Please try again later</span>'
     this.__submitBtn.removeAttribute('disabled')
   }
-  __saving() {
+  __saving () {
     this.__statusSection.innerHTML = '<span class="text-danger"><i class="fa fa-spinner"></i> Saving . . .</span>'
   }
   __saved (id) {
     this.__statusSection.innerHTML = '<span class="alert alert-success"><i class="fa fa-check-circle"></i> Saved</span>'
-    this.__form.reset ()
-    this.__redirect (this.__opt.id || id)
+    this.__form.reset()
+    this.__redirect(this.__opt.id || id)
   }
   __redirect (id) {
     this.__statusSection.innerHTML = '<span class="alert alert-success">redirecting . .  . please wait</span>'
-    setTimeout(() => window.location.hash = `#/account/${id}/profile` ,800)
+    setTimeout(() => (window.location.hash = `#/account/${id}/profile`), 800)
   }
-  __submit(payload) {
+  __submit (payload) {
     this.post(payload).then(res => {
-      if(typeof res === 'number' && res > 0) {
-        this.__saved (res)
+      if (typeof res === 'number' && res > 0) {
+        this.__saved(res)
       } else {
-        this.__error ()
+        this.__error()
       }
     })
-    
   }
-  __validate() {
+  __validate () {
     let errors = {}
     let lastName = this.__template.querySelector('#lastName')
     let firstName = this.__template.querySelector('#firstName')
@@ -66,13 +67,13 @@ export default class {
     let notes = this.__template.querySelector('#notes')
 
     // Validation
-    if(!firstName.value.length) {
+    if (!firstName.value.length) {
       errors['firstName'] = 'empty'
     } else {
       delete errors['firstName']
     }
 
-    if(!lastName.value.length) {
+    if (!lastName.value.length) {
       errors['lastName'] = 'empty'
     } else {
       delete errors['lastName']
@@ -80,30 +81,30 @@ export default class {
 
     // payload
     let payload = {
-      lastname : lastName.value,
-      firstname : firstName.value,
-      middlename : middleName.value,
-      suffix : suffix.value,
+      lastname: lastName.value,
+      firstname: firstName.value,
+      middlename: middleName.value,
+      suffix: suffix.value,
       birthdate: birthday.value,
       gender: gender[0].checked ? gender[0].value : gender[1].value,
       civilStatus: civilStatus[0].checked ? civilStatus[0].value : civilStatus[1].value,
       nationality: nationality.value,
       specialization: specialization.value,
-      country : country.selectedOptions[0].value,
+      country: country.selectedOptions[0].value,
       address: address.value,
       areaCode: areaCode.value,
-      zipCode : zipCode.value,
+      zipCode: zipCode.value,
       affiliateCode: affiliateCode.value,
-      rank : rank.value,
-      notes : notes.value,  
+      rank: rank.value,
+      notes: notes.value
     }
 
     // there must be an ID for an update action
-    if(this.__opt.action === 'update') payload.id = this.__opt.id
+    if (this.__opt.action === 'update') payload.id = this.__opt.id
 
     return new Promise((resolve, reject) => {
-      if(errors.length) {
-         reject ()
+      if (errors.length) {
+        reject(new Error(JSON.stringify(errors)))
       } else {
         resolve(payload)
       }
@@ -115,28 +116,27 @@ export default class {
     this.__statusSection = this.__template.querySelector('.saving-status-section')
 
     this.__form = this.__template.querySelector('#contact-form')
-    this.__submitBtn= this.__template.querySelector('.submit-contact-btn')
+    this.__submitBtn = this.__template.querySelector('.submit-contact-btn')
     this.__form.addEventListener('submit', (e) => {
-      
       e.preventDefault()
       // prevent multiple submit
-      if(!this.__submitted) {
+      if (!this.__submitted) {
         // disable button
-        this.__submitBtn.disabled = "disabled"
+        this.__submitBtn.disabled = 'disabled'
         this.__saving()
         // validate inputs
         this.__validate().then(payload => {
           // save
           this.__submit(payload)
           // reset after 3 secs
-          setTimeout(() => this.__submitted = false ,3000)
+          setTimeout(() => (this.__submitted = false), 3000)
         }).catch(err => {
-          this.__error ()
+          this.__error(err)
         })
 
         // prevent multiple submit
         this.__submitted = true
       }
-    });
+    })
   }
 }

@@ -1,10 +1,11 @@
+/* eslint-disable new-cap */
 export default class {
-  constructor(opt = {}) {
+  constructor (opt = {}) {
     this.__opt = opt
     this.__emailType = 'email'
     this.__emails = ''
     this.__contactInfo = ''
-    return this.render(opt) 
+    return this.render(opt)
   }
 
   bindRemove () {
@@ -23,14 +24,14 @@ export default class {
         root: this.__template,
         target: '.update-btn-modal',
         id: this.__opt.research_id,
-        update: true,
+        update: true
       })
     })
   }
 
   __bindListeners () {
-    this.bindRemove () 
-    this.bindUpdate ()
+    this.bindRemove()
+    this.bindUpdate()
   }
 
   async render () {
@@ -50,9 +51,9 @@ export default class {
     </span>
     <b></i> ${this.__opt.title} </b><br/>
       <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ?  '- ' + this.__opt.dateEnded : ''}<br/>
-      ${this.__opt.fieldStudy ? this.__opt.fieldStudy : '' }
-      ${(this.__opt.isSearcaTraining == 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This research was completed in SEARCA </p>' : ''}
+      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
+      ${this.__opt.fieldStudy ? this.__opt.fieldStudy : ''}
+      ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This research was completed in SEARCA </p>' : ''}
         <details>
           <summary>read more</summary><br/>
           <div class="col col-lg-12">
@@ -66,6 +67,6 @@ export default class {
       </small>  
       <hr/>`
     this.__bindListeners()
-    return this.__template;
+    return this.__template
   }
 }
