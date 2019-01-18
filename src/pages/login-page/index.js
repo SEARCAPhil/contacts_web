@@ -119,7 +119,6 @@ export default class {
 
 
     <section class="col col-lg-5 sub-login-banner">
-      <div class="sub-banner-deco"></div>
       <div class="col-lg-10 col-lg-offset-1">
         <br><br>
         <div class="media">

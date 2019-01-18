@@ -46,7 +46,7 @@ export default class {
     this.__template.innerHTML = `
       <section class="col col-sm-12"">
         <div class="col col-lg-1 img-sec">
-          <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" height="50px">
+          <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" style="width: 50px; height: 50px;">
         </div>
         <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname}</b></div>
         <div class="col col-lg-7">${this.research}</div>

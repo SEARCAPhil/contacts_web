@@ -27,7 +27,7 @@ export class Middleware {
         let isPassed = 1
         for (let x in response) {
           isPassed = isPassed / response[x]
-          if ((!isPassed) || isPassed === Infinity) return reject(0)
+          if ((!isPassed) || isPassed === Infinity) return reject(new Error('One of the Middlewares failed!'))
           resolve(isPassed)
         }
       })

@@ -50,3 +50,44 @@ SEARCA's contacts database (Frontend)
 
 |- **www** - This will be generated after bundling the application by running 
   > webpack
+
+## The Docker Way
+### Requirements
+> Note: You must have an active account in Docker to download the application
+
+1.) [Docker](https://www.docker.com/get-started)   
+2.) [Docker Compose](https://docs.docker.com/compose/install/)
+
+
+### Links
+* **Web APP** : http://localhost:8081  
+
+### Installation
+1.) After you cloned the repository, make sure to change your current working directory.
+  > cd contacts_api
+
+2.) Build the image
+
+  > docker-compose up -d
+
+3.) Get the the list of all running containers and choose the contacts_web_node
+  > docker ps -a
+
+4.) Enter the app's console
+  > docker exec -ti **container_id_here** bash
+
+5.) Navigate to http://localhost:8081
+> You MUST register your application in azure portal and place and change default value of 'config/adal.js' as necessary
+   
+
+
+**IMPORTANT**
+> You might need  to change the [volume] part in `build_files/Dockerfile` depending on your Operating System.  
+
+   
+> NOTES: Docker only allow few folders that could be mount into the volume or else you will receive a permission denied error and you might need to copy the whole directory for this to properly work.    
+If you are using `XAMPP` in MacOS, please go to `Docker > preferences > File Sharing` and add new entry `/Applications/XAMPP/xampp/htdocs`.  
+   
+
+> This project adheres on [StandardJS rules](https://standardjs.com/).   
+To check, please run 'npm run check'

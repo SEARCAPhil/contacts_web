@@ -145,7 +145,7 @@ const MiddleWare = new Middleware()
 let auth = AuthMiddleWare.then(middleware => { return new middleware.default() })
 
 MiddleWare.merge([auth]).then((value) => {
-  MiddleWare.run(['Auth']).then(() => { 
+  MiddleWare.run(['Auth']).then(() => {
     loadRoutes()
   }).catch(e => {
     loadLoginPage()

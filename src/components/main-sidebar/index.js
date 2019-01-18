@@ -11,22 +11,13 @@ export default class {
     this.__template.classList.add('main-sidebar')
     this.__template.innerHTML = `
     <style>${style.toString()}</style>
+    <center>
+      <img src="assets/img/logo.png" width="150px" style="margin-top: 10px;" async="true"/>
+    </center>
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-  
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree" style="margin-top: 10px;">
         <li class="header">PERSONAL</li>
         <li class="active treeview menu-open active">
           <a href="#/contacts"><i class="fa fa-users"></i> <span>Contacts</span></a>

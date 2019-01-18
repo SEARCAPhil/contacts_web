@@ -123,7 +123,8 @@ export default class {
       saveBtn.removeAttribute('disabled')
     }).catch(e => (statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'))
   }
-  __load () { console.log(this.__opt)
+  __load () {
+    console.log(this.__opt)
     const targ = document.querySelector('#general-modal > .content > .body')
     const form = import('../index')
     const __proto__ = Object.create(this)
