@@ -9,6 +9,6 @@ export default class {
 
   async get (opt) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/filter/fellowship/?page=${opt.page ? opt.page : 1}`)
+    return this.xhr.__getData(`contact/filter/fellowship/?page=${opt.page ? opt.page : 1}`, opt.headers)
   }
 }

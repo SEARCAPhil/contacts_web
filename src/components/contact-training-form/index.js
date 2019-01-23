@@ -6,6 +6,7 @@ const template = `
     <h3><i class="fa fa-cubes" style="font-size:24px;"></i> Training</h3>
     <p class="text-muted">Please fill up all required fields (*)</p>
     <span class="status-text"></span>
+    <hr/><br/>
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Title*" id="title" required/>
     </div>

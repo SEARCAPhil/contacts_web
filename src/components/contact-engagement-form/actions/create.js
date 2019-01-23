@@ -7,6 +7,7 @@ export default class {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render()
   }
 
@@ -20,19 +21,19 @@ export default class {
     return this.xhr.__putData(`contact/engagement`, opt, headers, false)
   }
 
-  async get (opt) {
+  async get (opt, header) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/engagement/${opt.id}/details`)
+    return this.xhr.__getData(`contact/engagement/${opt.id}/details`, header)
   }
 
-  async getAfftype () {
+  async getAfftype (headers = {}) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`afftype`)
+    return this.xhr.__getData(`afftype`, headers)
   }
 
-  async getResearch (opt) {
+  async getResearch (opt, header) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/research/${opt.id}`)
+    return this.xhr.__getData(`contact/research/${opt.id}`, header)
   }
 
   showEmptyDetails () {
@@ -53,7 +54,7 @@ export default class {
 
   loadAfftype () {
     let targ = document.querySelector('select.afftype')
-    return this.getAfftype().then(res => {
+    return this.getAfftype(this.__headers).then(res => {
       res.data.forEach((el, index) => {
         let opt = document.createElement('option')
         opt.value = el.type_id
@@ -64,7 +65,7 @@ export default class {
   }
 
   getDetails () {
-    return this.get({ id: this.__opt.id }).then(res => {
+    return this.get({ id: this.__opt.id }, this.__headers).then(res => {
       if (!res[0].engage_id) return (this.showEmptyDetails())
       // form fields
       const engagement = document.querySelector('input#engagement')
@@ -91,7 +92,7 @@ export default class {
       researchVal.value = res[0].research_id
       research.prepend(researchVal)
       // load other research
-      this.getResearch({ id: res[0].contact_id }).then(r => {
+      this.getResearch({ id: res[0].contact_id }, this.__headers).then(r => {
         this.__opt.research = r.data
         // load other  research made
         this.loadResearch()
@@ -125,7 +126,8 @@ export default class {
 
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     let payload = {
@@ -145,7 +147,7 @@ export default class {
     // activated if "update" is set to true
     if (this.__opt.update) {
       return this.update(query, headers, false).then(res => {
-        if (res > 0) window.location.reload()
+        if (res > 0) return window.location.reload()
         statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'
         saveBtn.removeAttribute('disabled')
       })

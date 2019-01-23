@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import AuthenticationContext from 'adal-angular'
 import config from '../../../config/adal'
+import CWPConfig from '../../../config/cwp'
 
 const URL = import('../../../utils/xhr')
 const profiler = import('../../../mixins/profiler')
@@ -23,6 +24,11 @@ export default class {
     window.ADAL.login()
   }
 
+  async __loginOnPremise (opt, header) {
+    this.xhr = new (await URL).default()
+    return this.xhr.__postData(`auth/o365`, opt, {})
+  }
+
   userSignedIn (err, token) {
     if (!err) {
       window.ADAL.acquireToken('https://graph.microsoft.com', function (error, token) {
@@ -38,8 +44,18 @@ export default class {
 
   loginOnPremise (data) {
     profiler.then(res => {
-      // load data and reload browser
-      return (new res.default().set(data)) | window.location.reload()
+      // set payload with CWP (Contacts Web Portal) app credentials
+      let payload = {
+        client_id: CWPConfig.id,
+        id: data.id,
+        mail: data.mail,
+        data
+      }
+      this.__loginOnPremise(payload).then(o365 => {
+        if (!o365.access_token) return
+        // load data and reload browser
+        return (new res.default().set(data)) | (new res.default().setAccessToken(o365.access_token)) | window.location.reload()
+      })
     })
   }
 

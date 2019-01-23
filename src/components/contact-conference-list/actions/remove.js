@@ -5,6 +5,7 @@ export default class {
   constructor (opt) {
     this.opt = opt
     this.xhr = {}
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     this.bind()
   }
 
@@ -29,14 +30,9 @@ export default class {
     e.target.setAttribute('disabled', 'disabled')
     this.xhr = new (await URL).default()
 
-    return this.xhr.__deleteData(`contact/conference/${this.opt.id}`, {}, {}, false).then(res => {
+    return this.xhr.__deleteData(`contact/conference/${this.opt.id}`, {}, this.__headers, false).then(res => {
       return parseInt(res) === 1 ? this.success() : this.error()
     })
-
-    // remove from DB
-    /* return new serve().remove(__payload).then(json => {
-      return json.data == 1 ?  this.success(__payload.id) : this.error()
-    }).catch(err => this.error(err)) */
   }
 
   load (e) {

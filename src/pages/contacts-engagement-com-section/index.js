@@ -6,12 +6,13 @@ export default class {
     this.__opt = opt || {}
     this.__contactComponent = {}
     this.__listSecTemplate = {}
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render(opt)
   }
 
   async search (opt) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/filter/engagement/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
+    return this.xhr.__getData(`contact/filter/engagement/search/${opt.param}?page=${opt.page ? opt.page : 1}`, this.__headers)
   }
 
   __goToPage (page) {
@@ -99,6 +100,8 @@ export default class {
 
   async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-engagement-com-list/actions/retrieve')).default
+
+    opt.headers = this.__headers
     return new __contacts().get(opt).then(res => {
       let __data = res.data
 
@@ -228,7 +231,7 @@ export default class {
       <div class="media">
         <div class="media-left">
           <span>
-            <img class="media-object" src="assets/img/engage.png" alt="..." width="80px">
+            <img class="media-object" src="assets/img/artboard.png" alt="..." width="80px">
           </span>
         </div>
         <div class="media-body">

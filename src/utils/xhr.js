@@ -31,11 +31,12 @@ export default class {
     return this.__xhrDataFactory(url, body, headers, isJson, 'DELETE')
   }
 
-  __getData (url) {
+  __getData (url, headers = {}) {
     return new Promise((resolve, reject) => {
       window.fetch(`${URL.fullPath}${url}`,
         {
-          method: 'GET'
+          method: 'GET',
+          headers
         })
         .then(res => {
           resolve(res.json())

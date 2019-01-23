@@ -42,13 +42,13 @@ export default class {
         <div class="col col-lg-1 img-sec">
           <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" style="width: 50px; height: 50px;">
         </div>
-        <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname}</b></div>
+        <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit || ''} ${this.__opt.lastname}</b></div>
         <div class="col col-lg-2"><a href="#">${this.__emails}</a></div>
-        <div class="col col-lg-2">${this.__opt.nationality}</div>
+        <div class="col col-lg-2">${this.__opt.nationality || ''}</div>
         <div class="col col-lg-2">
-          <span class="text-muted">${this.__contactInfo}</span><br>
+          <span class="text-muted">${this.__contactInfo || ''}</span><br>
         </div>
-        <div class="col col-lg-1">${this.__opt.affiliateCode}</div>
+        <div class="col col-lg-1">${this.__opt.affiliateCode || ''}</div>
         <div class="col col-lg-2">
           <span class="badge" style="background: #00BCD4; padding: 8px;">
             <a href="#/account/${this.__opt.contact_id}/profile" class="text-info" style="color: #fff;">View</a>

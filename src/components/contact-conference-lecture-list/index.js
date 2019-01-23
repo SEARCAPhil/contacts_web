@@ -23,6 +23,11 @@ export default class {
     popupes.then(loader => new loader.default())
   }
 
+  loadDropdown () {
+    const DropdownLoader = import('../dropdown-loader')
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
+  }
+
   bindUpdate () {
     import('../contact-conference-lecture-form/actions/create').then(loader => {
       return new loader.default({
@@ -47,7 +52,10 @@ export default class {
   __bindListeners () {
     this.bindRemove()
     this.bindUpdate()
-    setTimeout(() => this.loadPopup(), 1000)
+    setTimeout(() => {
+      this.loadPopup()
+      this.loadDropdown()
+    }, 1000)
   }
 
   async render () {

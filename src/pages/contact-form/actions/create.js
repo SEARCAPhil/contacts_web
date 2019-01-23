@@ -7,13 +7,15 @@ export default class {
     this.xhr = {}
     this.__submitted = false
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
   }
 
   async post (payload) {
     this.xhr = new (await URL).default()
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     for (let key in payload) {

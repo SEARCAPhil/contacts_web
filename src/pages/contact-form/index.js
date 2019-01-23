@@ -9,12 +9,13 @@ export default class {
     this.__contactComponent = {}
     this.__listSecTemplate = {}
     this.__info = {}
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render(opt)
   }
 
   __getInfo () {
     return import('../../components/contact-profile-box/actions/retrieve').then(res => {
-      return new res.default({ id: this.__opt.id }).get(json => {
+      return new res.default({ id: this.__opt.id, headers: this.__headers }).get(json => {
         return json
       }).catch(err => {
         return err
@@ -35,7 +36,7 @@ export default class {
     formData.append('id', this.__opt.id)
 
     this.xhr = new (await URL).default()
-    return this.xhr.__postData(`contact/photo`, formData, {}, false).then((res) => {
+    return this.xhr.__postData(`contact/photo`, formData, this.__headers, false).then((res) => {
       let label = document.querySelector('#photoLabel')
       label.innerHTML = '<span class="text-success">Uploaded Successfully!</span>'
     })

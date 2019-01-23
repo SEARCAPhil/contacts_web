@@ -9,7 +9,7 @@ const template = `
     <span class="status-text"></span>
 
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Lecture Title*)" id="lectureTitle" required/>
+      <input type="text" class="form-control" placeholder="Lecture Title(*)" id="lectureTitle" required/>
     </div>
 
   
@@ -38,7 +38,7 @@ const template = `
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Paper Title(Optional)" id="title" required/>
+      <input type="text" class="form-control" placeholder="Paper Title(Optional)" id="title"/>
     </div>
     
     <div class="form-group">

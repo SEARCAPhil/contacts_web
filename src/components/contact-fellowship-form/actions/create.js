@@ -6,6 +6,7 @@ export default class {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render()
   }
 
@@ -19,14 +20,14 @@ export default class {
     return this.xhr.__putData(`contact/fellow`, opt, headers, false)
   }
 
-  async get (opt) {
+  async get (opt, headers) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/fellow/${opt.id}/details`)
+    return this.xhr.__getData(`contact/fellow/${opt.id}/details`, headers)
   }
 
   async getSaaf (id = 0) {
     this.xhr = new (await URL).default()
-    return id ? this.xhr.__getData(`saaf/class/${id}`) : this.xhr.__getData(`saaf/class`)
+    return id ? this.xhr.__getData(`saaf/class/${id}`, this.__headers) : this.xhr.__getData(`saaf/class`, this.__headers)
   }
 
   bindSaffListener (targ, parentNode, parentNodeID, stat = '') {
@@ -95,7 +96,7 @@ export default class {
   }
 
   getDetails () {
-    return this.get({ id: this.__opt.id }).then(res => {
+    return this.get({ id: this.__opt.id }, this.__headers).then(res => {
       if (!res[0].fellowaff_id) return (this.showEmptyDetails())
       // form fields
       const from = document.querySelector('#from')
@@ -144,7 +145,8 @@ export default class {
 
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     let payload = {

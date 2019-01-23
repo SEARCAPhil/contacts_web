@@ -8,6 +8,26 @@ export default class {
     return this.render(opt)
   }
 
+  loadPopup () {
+    const popupes = import('../popup-es')
+    const popupesStyle = import('../popup-es/index.styl')
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
+  }
+
+  loadDropdown () {
+    const DropdownLoader = import('../dropdown-loader')
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
+  }
+
   bindRemove () {
     import('./actions/remove').then(loader => {
       return new loader.default({
@@ -32,6 +52,8 @@ export default class {
   __bindListeners () {
     this.bindRemove()
     this.bindUpdate()
+    this.loadDropdown()
+    this.loadPopup()
   }
 
   async render () {
@@ -50,17 +72,26 @@ export default class {
       </ul></ul></div>
     </span>
 
-    <b>${this.__opt.institution}</b><br/>
-      <small class="text-muted">
-        ${this.__opt.grad} <br/>
-        <b> ${this.__opt.field}</b><br/>
-        <span class="badge badge-success">${this.__opt.type || 'BS'}</span>
-        <br/><br/>
-        <em>Other details :<br/>
-        Country : ${this.__opt.country}<br/>
-        Scholarship : ${this.__opt.scholarship}
-      </small>  
-      <hr/>`
+      <div class="media">
+        <div class="media-left text-center text-muted margin-r-5">
+          <div style="background: #f7f7f7;width: 70px;height: 70;padding: 20px;font-size: 30px;">
+            <i class="fa fa-graduation-cap"></i>
+          </div>
+        </div>
+        <div class="media-body" style="padding-left: 20px;">
+          <h4 class="media-heading">${this.__opt.institution} </h4>
+          <small class="text-muted">
+            ${this.__opt.grad} <br/>
+            <b> ${this.__opt.field}</b><br/>
+            <span class="badge badge-success">${this.__opt.type || 'BS'}</span>
+            <br/><br/>
+            <em>Other details :<br/>
+            Country : ${this.__opt.country}<br/>
+            Scholarship : ${this.__opt.scholarship}
+          </small>
+        </div>
+      </div><hr/>`
+
     this.__bindListeners()
     return this.__template
   }

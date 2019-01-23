@@ -6,6 +6,7 @@ export default class {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render()
   }
 
@@ -21,7 +22,7 @@ export default class {
 
   async get (opt) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/communication/${opt.id}/details`)
+    return this.xhr.__getData(`contact/communication/${opt.id}/details`, this.__headers)
   }
 
   showEmptyDetails () {
@@ -43,7 +44,8 @@ export default class {
 
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     let payload = {

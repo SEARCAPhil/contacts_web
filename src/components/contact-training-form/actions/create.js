@@ -6,6 +6,7 @@ export default class {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render()
   }
 
@@ -19,9 +20,9 @@ export default class {
     return this.xhr.__putData(`contact/training`, opt, headers, false)
   }
 
-  async get (opt) {
+  async get (opt, headers) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/training/${opt.id}/details`)
+    return this.xhr.__getData(`contact/training/${opt.id}/details`, headers)
   }
 
   async getSaaf (id = 0) {
@@ -95,7 +96,7 @@ export default class {
   }
 
   getDetails () {
-    return this.get({ id: this.__opt.id }).then(res => {
+    return this.get({ id: this.__opt.id }, this.__headers).then(res => {
       if (!res[0].training_id) return (this.showEmptyDetails())
       // form fields
       const title = document.querySelector('#title')
@@ -132,7 +133,7 @@ export default class {
 
       // selected  type
       if (res[0].trainingType) {
-        trainType.options[0].value = res[0].saaftype_id
+        trainType.options[0].value = res[0].trainingType
         trainType.options[0].innerText = `${res[0].trainingType} (Selected)`
       }
 
@@ -181,7 +182,8 @@ export default class {
 
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     let payload = {

@@ -1,5 +1,9 @@
-# contacts_web
-SEARCA's contacts database (Frontend)
+# Contacts Web Portal (CWP)
+SEARCA's contacts web application (Frontend)
+
+[![Build Status](https://travis-ci.org/SEARCAPhil/contacts_web.svg?branch=develop)](https://travis-ci.org/SEARCAPhil/contacts_web)
+
+[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
 
 ### Requirements
 - Apache
@@ -76,7 +80,11 @@ SEARCA's contacts database (Frontend)
 4.) Enter the app's console
   > docker exec -ti **container_id_here** bash
 
-5.) Navigate to http://localhost:8081
+5.) Change configuration in `config/` directory
+
+6.) `npm run start` to start the web server
+
+7.) Navigate to http://localhost:8081
 > You MUST register your application in azure portal and place and change default value of 'config/adal.js' as necessary
    
 

@@ -56,6 +56,7 @@ export default class {
   }
 
   async render () {
+    console.log(this.__opt)
     this.__template = document.createElement('section')
     this.__template.classList.add('account-employment-list-item', 'col', 'col-lg-12', 'col-md-12', `training-section-${parseInt(this.__opt.training_id)}`)
     this.__template.innerHTML = `
@@ -76,25 +77,25 @@ export default class {
       ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
       <b>${this.__opt.venue}</b><br/>
       <span class="badge badge-success">${this.__opt.trainingType}</span>
-      ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This is a SEARCA\'s short-term training course or similar learning event </p>' : ''}
+      ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <span class="text-muted">This is a SEARCA\'s short-term training course or similar learning event</span>' : ''}
       <br/>
       <details>
         <summary>read more</summary>
 
         <div class="col col-lg-12"><br/>
           <strong><i class="fa fa-info-circle"></i> Event Details</strong><br/>
-          Host University : ${this.__opt.hostUniversity}<br/>
-          Organizing Agency : ${this.__opt.organizingAgency} <br/>
-          Sponsors : ${this.__opt.sponsor}<br/><br/>
+          Host University : ${this.__opt.hostUniversity || 'N/A'}<br/>
+          Organizing Agency : ${this.__opt.organizingAgency || 'N/A'} <br/>
+          Sponsors : ${this.__opt.sponsor || 'N/A'}<br/><br/>
 
           <strong><i class="fa fa-info-circle"></i> More Details</strong><br/>
-          Scholarship: ${this.__opt.scholarship}<br/>
+          Scholarship: ${this.__opt.scholarship || 'N/A'}<br/>
           SAAF Type (Optional) : <br/>
-          Supervisor : ${this.__opt.supervisor}<br/>
-          Supervisor Designation : ${this.__opt.supervisorDesignation}<br/><br/>
+          Supervisor : ${this.__opt.supervisor || 'N/A'}<br/>
+          Supervisor Designation : ${this.__opt.supervisorDesignation || 'N/A'}<br/><br/>
 
           <strong><i class="fa fa-file-text-o"></i> Notes</strong><br/>
-          ${this.__opt.notes}
+          ${this.__opt.notes || 'N/A'}
           <br/><br/>
         </div>
       </details>

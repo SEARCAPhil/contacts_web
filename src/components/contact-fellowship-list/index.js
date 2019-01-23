@@ -81,7 +81,7 @@ export default class {
         </div>
         <div class="media-body" style="padding-left: 20px;">
           <h4 class="media-heading">${this.__opt.saafclass} </h4>
-          <b>${this.__opt.dateFrom}</b> - <b>${(this.__opt.dateTo !== '0000' || this.__opt.dateFrom !== this.__opt.dateTo) ? this.__opt.dateTo : 'Current'}</b><br/>
+          <b>${this.__opt.dateFrom}</b> - <b>${(this.__opt.dateTo === '0000') || (this.__opt.dateFrom === this.__opt.dateTo) || (this.__opt.dateTo === null) ? 'Current' : this.__opt.dateTo}</b><br/>
         </div>
       </div>
       <hr/>`

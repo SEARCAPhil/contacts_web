@@ -8,6 +8,26 @@ export default class {
     return this.render(opt)
   }
 
+  loadPopup () {
+    const popupes = import('../popup-es')
+    const popupesStyle = import('../popup-es/index.styl')
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
+  }
+
+  loadDropdown () {
+    const DropdownLoader = import('../dropdown-loader')
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
+  }
+
   bindRemove () {
     import('./actions/remove').then(loader => {
       return new loader.default({
@@ -32,6 +52,8 @@ export default class {
   __bindListeners () {
     this.bindRemove()
     this.bindUpdate()
+    this.loadPopup()
+    this.loadDropdown()
   }
 
   async render () {
@@ -49,23 +71,32 @@ export default class {
         <ul>
       </ul></ul></div>
     </span>
-    <b></i> ${this.__opt.title} </b><br/>
-      <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
-      ${this.__opt.fieldStudy ? this.__opt.fieldStudy : ''}
-      ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;margin-top: 20px;">This research was completed in SEARCA </p>' : ''}
-        <details>
-          <summary>read more</summary><br/>
-          <div class="col col-lg-12">
-            <strong><i class="fa fa-info-circle"></i> More Details</strong><br/>
-            Host University : ${this.__opt.hostUniversity}<br/>
-            Type : ${this.__opt.saafclass}<br/><br/>
-            <strong><i class="fa fa-file-text-o"></i> Remarks</strong><br/>
-            ${this.__opt.remarks ? this.__opt.remarks : ''}<br/><br/>
+    
+      <div class="media">
+        <div class="media-left text-center text-muted margin-r-5">
+          <div style="background: #f7f7f7;width: 70px;height: 70;padding: 20px;font-size: 30px;">
+            <i class="fa fa-flask"></i>
           </div>
-        </details>
-      </small>  
-      <hr/>`
+        </div>
+        <div class="media-body" style="padding-left: 20px;">
+          <h4 class="media-heading">${this.__opt.title}</h4>
+          <small class="text-muted">
+            ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
+            ${this.__opt.fieldStudy ? this.__opt.fieldStudy : ''}
+            ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i> This research was completed at SEARCA' : ''}
+              <details>
+                <summary>read more</summary><br/>
+                <div class="col col-lg-12">
+                  <strong><i class="fa fa-info-circle"></i> More Details</strong><br/>
+                  Host University : ${this.__opt.hostUniversity || 'N/A'}<br/>
+                  Type : ${this.__opt.saafclass || 'N/A'}<br/><br/>
+                  <strong><i class="fa fa-file-text-o"></i> Remarks</strong><br/>
+                  ${this.__opt.remarks ? this.__opt.remarks : ''}<br/><br/>
+                </div>
+              </details>
+            </small> 
+        </div>
+    </div><hr/>`
     this.__bindListeners()
     return this.__template
   }

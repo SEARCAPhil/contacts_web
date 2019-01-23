@@ -54,7 +54,7 @@ export default class {
 
               ${this.__opt.photo !== null ? '<img class="profile-user-img img-responsive img-circle" src="' + photoSrc + '" alt="User profile picture" style="height: 100px;">' : '<img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture">'}
 
-              <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname} ${this.__opt.suffix || ''}</h3>
+              <h3 class="profile-username text-center">${this.__opt.firstname} ${this.__opt.middleinit || ''} ${this.__opt.lastname} ${this.__opt.suffix || ''}</h3>
 
               <p class="text-muted text-center">${this.__opt.affiliateCode || ''}</p><br/>
               

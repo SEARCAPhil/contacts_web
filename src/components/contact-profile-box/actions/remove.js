@@ -32,11 +32,6 @@ export default class {
     return this.xhr.__deleteData(`contact/conference/${this.opt.id}`, {}, {}, false).then(res => {
       return parseInt(res) === 1 ? this.success() : this.error()
     })
-
-    // remove from DB
-    /* return new serve().remove(__payload).then(json => {
-      return json.data == 1 ?  this.success(__payload.id) : this.error()
-    }).catch(err => this.error(err)) */
   }
 
   load (e) {

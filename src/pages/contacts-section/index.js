@@ -6,6 +6,8 @@ export default class {
     this.__opt = opt
     this.__contactComponent = {}
     this.__listSecTemplate = {}
+    this.__timeout = {}
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render(opt)
   }
 
@@ -18,7 +20,7 @@ export default class {
 
   async search (opt) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/search/${opt.param}?page=${opt.page ? opt.page : 1}`)
+    return this.xhr.__getData(`contact/search/${opt.param}?page=${opt.page ? opt.page : 1}`, this.__headers)
   }
 
   __goToPage (page) {
@@ -106,6 +108,11 @@ export default class {
 
   async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-list/actions/retrieve')).default
+
+    opt.headers = {
+      'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}`
+    }
+
     return new __contacts().get(opt).then(res => {
       let __data = res.data
 
@@ -199,15 +206,20 @@ export default class {
     })
   }
   __bindSearch () {
-    this.__template.querySelector('.search-bar').addEventListener('keyup', (e) => {
+    this.__template.querySelector('.search-bar:not(.event-binded)').addEventListener('keyup', (e) => {
+      e.target.classList.add('event-binded')
       const input = e.target
       if (!input.value.length) this.__bindListeners()
-      if (input.value.length < 3) return
+      if (input.value.length < 3) return clearTimeout(this.__timeout)
 
       let payload = {
         param: input.value
       }
-      this.__search(payload)
+
+      clearTimeout(this.__timeout)
+      this.__timeout = setTimeout(() => {
+        this.__search(payload)
+      }, 1000)
     })
   }
 

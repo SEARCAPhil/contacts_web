@@ -6,6 +6,7 @@ export default class {
   constructor (opt = {}) {
     this.__opt = opt
     this.__info = {}
+
     return this.render(opt)
   }
 
@@ -185,6 +186,10 @@ export default class {
   }
 
   getInfo (params) {
+    params.headers = {
+      'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}`
+    }
+
     return new Promise((resolve, reject) => {
       import('../../components/contact-profile-box/actions/retrieve').then(res => {
         new res.default(params).get().then(html => {
@@ -285,8 +290,7 @@ export default class {
             <div class="tab-content">
               <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
                 <section>
-                <h4 class="info-title">
-                  Employment 
+                <h4 class="info-title">&emsp;Employment 
                   <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                     <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                   </span>
@@ -297,7 +301,7 @@ export default class {
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-graduation-cap margin-r-5"></i> Education
+                  <h4 class="info-title">&emsp;Education
                     <span class="pull-right contact-educ-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
@@ -308,7 +312,7 @@ export default class {
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-desktop margin-r-5"></i> Conference
+                  <h4 class="info-title">&emsp;Conference
                     <span class="pull-right contact-conf-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
@@ -319,7 +323,7 @@ export default class {
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-book margin-r-5"></i> Research
+                  <h4 class="info-title">&emsp;Research
                     <span class="pull-right contact-research-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>

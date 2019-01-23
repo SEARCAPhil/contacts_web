@@ -6,6 +6,7 @@ export default class {
     this.timestamp = new Date().getTime()
     this.xhr = {}
     this.__opt = opt
+    this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
     return this.render()
   }
 
@@ -19,9 +20,9 @@ export default class {
     return this.xhr.__putData(`contact/education`, opt, headers, false)
   }
 
-  async get (opt) {
+  async get (opt, headers = {}) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/education/${opt.id}/details`)
+    return this.xhr.__getData(`contact/education/${opt.id}/details`, headers)
   }
 
   showEmptyDetails () {
@@ -29,7 +30,7 @@ export default class {
   }
 
   getDetails () {
-    return this.get({ id: this.__opt.id }).then(res => {
+    return this.get({ id: this.__opt.id }, this.__headers).then(res => {
       if (!res[0].educ_id) return (this.showEmptyDetails())
       // form fields
       const institution = document.querySelector('#institution')
@@ -57,7 +58,7 @@ export default class {
     const saveBtn = document.querySelector('#modal-dialog-save-button')
     const statusTextBox = document.querySelector('.status-text')
     const educ = import('../../contact-educational-bg-list')
-    const targ = document.querySelector('.contact-employment-list-section')
+    const targ = document.querySelector('.contact-educ-list-section')
 
     // form fields
     const institution = e.target.querySelector('#institution')
@@ -73,7 +74,8 @@ export default class {
 
     let query = ''
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.__headers.Authorization
     }
 
     let payload = {
@@ -95,7 +97,7 @@ export default class {
     // activated if "update" is set to true
     if (this.__opt.update) {
       return this.update(query, headers, false).then(res => {
-        if (res > 0) window.location.reload()
+        if (res > 0) return window.location.reload()
         statusTextBox.innerHTML = '<div class="alert alert-danger">Unable to save. Please try again later</div>'
         saveBtn.removeAttribute('disabled')
       })
@@ -105,8 +107,13 @@ export default class {
     this.create(query, headers, false).then(res => {
       // reset form
       if (res > 0) {
-        statusTextBox.innerHTML = '<div class="alert alert-success">Saved!</div>'
-        e.target.reset()
+        document.querySelector('#modal-body').innerHTML = `<center>
+          <h3 style="color: green;">
+            <i class="fa fa-check" style="color: green;font-size: 1em;"></i>
+            Saved Successfully!
+          </h3>
+          <p>Your changes has been saved. This will close automatically</p>
+        </center>`
         setTimeout(() => {
           document.querySelector('#general-modal').close()
         }, 2500)

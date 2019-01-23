@@ -8,6 +8,26 @@ export default class {
     return this.render(opt)
   }
 
+  loadPopup () {
+    const popupes = import('../popup-es')
+    const popupesStyle = import('../popup-es/index.styl')
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
+  }
+
+  loadDropdown () {
+    const DropdownLoader = import('../dropdown-loader')
+    DropdownLoader.then(loader => loader.default('device-dropdown'))
+  }
+
   bindRemove () {
     import('./actions/remove').then(loader => {
       return new loader.default({
@@ -29,15 +49,12 @@ export default class {
     })
   }
 
-  loadDropdown () {
-    const DropdownLoader = import('../dropdown-loader')
-    DropdownLoader.then(loader => loader.default('device-dropdown'))
-  }
-
   __bindListeners () {
     this.getLectureListComponent()
     this.bindRemove()
     this.bindUpdate()
+    this.loadPopup()
+    this.loadDropdown()
   }
 
   getLectureListComponent () {
@@ -79,25 +96,34 @@ export default class {
         <ul>
       </ul></ul></div>
     </span>
-    <b>${this.__opt.title} </b><br/>
-      <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
-        <details>
-          <summary><b>${this.__opt.venue}  </b><br/></summary><br/>
-          <div class="col col-lg-12">
-            <p>
-              <strong>
-                <i class="fa fa-list"></i>Lectures
-              </strong>
-              <span class="pull-right contact-conf-lect-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-                <button class="btn btn-default btn-xs">Add New <i class="fa fa-plus-circle" style="margin-right: 20px;"></i></button> 
-              </span>
-            </p>
-            <div class="contact-conference-lectures-list-section"></div>
-          </div>
-        </details>
-      </small>  
-      <hr/>`
+
+    <div class="media">
+      <div class="media-left text-center text-muted margin-r-5">
+        <div style="background: #f7f7f7;width: 70px;height: 70;padding: 20px;font-size: 30px;">
+          <i class="fa fa-desktop"></i>
+        </div>
+      </div>
+      <div class="media-body" style="padding-left: 20px;">
+        <h4 class="media-heading">${this.__opt.title} </h4>
+        <small class="text-muted">
+        ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
+          <details>
+            <summary><b>${this.__opt.venue}  </b><br/></summary><br/>
+            <div class="col col-lg-12">
+              <p>
+                <strong>
+                  <i class="fa fa-list"></i>Lectures
+                </strong>
+                <span class="pull-right contact-conf-lect-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+                  <button class="btn btn-default btn-xs">Add New <i class="fa fa-plus-circle" style="margin-right: 20px;"></i></button> 
+                </span>
+              </p>
+              <div class="contact-conference-lectures-list-section"></div>
+            </div>
+          </details>
+        </small>  
+      </div>
+    </div><hr/>`
     this.__bindListeners()
     return this.__template
   }

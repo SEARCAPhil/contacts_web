@@ -11,9 +11,6 @@ export default class {
     this.__template.classList.add('main-sidebar')
     this.__template.innerHTML = `
     <style>${style.toString()}</style>
-    <center>
-      <img src="assets/img/logo.png" width="150px" style="margin-top: 10px;" async="true"/>
-    </center>
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar Menu -->

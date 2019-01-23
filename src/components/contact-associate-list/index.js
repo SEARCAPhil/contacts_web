@@ -48,7 +48,7 @@ export default class {
         <div class="col col-lg-1 img-sec">
           <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" height="50px">
         </div>
-        <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit} ${this.__opt.lastname}</b></div>
+        <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit || ''} ${this.__opt.lastname}</b></div>
         <div class="col col-lg-7">${this.research}</div>
         <div class="col col-lg-2">
           <span class="badge" style="background: #00BCD4; padding: 8px;">
