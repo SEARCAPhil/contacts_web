@@ -3,6 +3,7 @@ const glob = require('glob')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const workboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -31,7 +32,31 @@ module.exports = {
       from: 'src/assets/fonts/*.*',
       to: 'assets/fonts/[name].[ext]'
     }]),
-    new UglifyJSPlugin()
+    new UglifyJSPlugin(),
+    new workboxPlugin.GenerateSW({
+      swDest: 'sw.js',
+      skipWaiting: true,
+      clientsClaim: true,
+      runtimeCaching: [{
+        urlPattern: new RegExp('http://localhost/contacts_web'),
+        handler: 'staleWhileRevalidate'
+      },
+      {
+        urlPattern: new RegExp('http://localhost/contacts_api'),
+        handler: 'networkFirst',
+        options: {
+          // Fall back to the cache after 10 seconds.
+          networkTimeoutSeconds: 10,
+          // Use a custom cache name for this route.
+          cacheName: 'my-api-cache',
+          // Configure custom cache expiration.
+          expiration: {
+            maxEntries: 5,
+            maxAgeSeconds: 60
+          }
+        }
+      }]
+    })
 
   ],
   resolve: {

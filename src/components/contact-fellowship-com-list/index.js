@@ -38,18 +38,18 @@ export default class {
     this.__template.classList.add('col', 'row', `contact-list-section-item-${this.__opt.contact_id}`)
     this.__template.innerHTML = `
       <section class="col col-sm-12"">
-        <div class="col col-lg-1 img-sec">
+        <div class="col col-lg-1 img-sec col-xs-4">
           <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" style="width: 50px; height: 50px;">
         </div>
-        <div class="col col-lg-2"><b>${this.__opt.firstname} ${this.__opt.middleinit || ''} ${this.__opt.lastname}</b></div>
-        <div class="col col-lg-7">${this.research}</div>
-        <div class="col col-lg-2">
+        <div class="col col-lg-2 col-xs-8"><b>${this.__opt.firstname} ${this.__opt.middleinit || ''} ${this.__opt.lastname}</b></div>
+        <div class="col col-lg-7 col-lg-offset-0 col-xs-8 col-xs-offset-4">${this.research}</div>
+        <div class="col col-lg-2 col-lg-offset-0 col-xs-8 col-xs-offset-4">
           <span class="badge" style="background: #00BCD4; padding: 8px;">
             <a href="#/account/${this.__opt.contact_id}/profile" class="text-info" style="color: #fff;">View</a>
           </span>&emsp;
           <a href="#/contacts/form/${this.__opt.contact_id}/update" class="text-info"> <i class="fa fa-pencil"></i> Update</a>
         </div>
-        <div class="col col-lg-12" style="border-bottom: 1px solid rgba(200,200,200,0.3);margin-bottom: 20px;margin-top: 20px;"></div> </section>`
+        <div class="col col-lg-12 col-xs-12" style="border-bottom: 1px solid rgba(200,200,200,0.3);margin-bottom: 20px;margin-top: 20px;"></div> </section>`
     this.__bindListeners()
     return this.__template
   }

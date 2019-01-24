@@ -19,10 +19,13 @@ const template = `
     </div>
     
     
-    <div class="form-group">
-      <br/>
-      <button class="btn btn-default" type="button" id="modal-dialog-close-button">CANCEL</button>
-      <button class="btn btn-danger" id="modal-dialog-save-button">PROCEED</button> 
+    <div class="row btn-form">
+      <div class="col col-lg-6 col-xs-6 col-md-6 col-sm-6 text-center btn-item" id="modal-dialog-close-button">
+        <p>CANCEL</p>
+      </div>
+      <button class="col col-lg-6 col-xs-6 col-md-6 col-sm-6 text-center btn-item" id="modal-dialog-save-button">
+        <p>PROCEED</p>
+      </button>
     </div>
 </form>
 `

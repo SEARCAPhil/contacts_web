@@ -4,7 +4,7 @@ const template = `
 <style>${style.toString()}</style>
 <form class="remove-modal-section" id="modal-education-form">
     <h3><i class="fa fa-graduation-cap" style="font-size:24px;"></i> Education</h3>
-    <p class="text-muted">Please fill up all required fields (*)</p>
+    <p class="text-muted">Please fill up all required fields (*)</p> <hr/>
     <span class="status-text"></span>
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Institution*" id="institution" required/>
@@ -44,10 +44,13 @@ const template = `
     </div>
 
     
-    <div class="form-group">
-      <br/>
-      <button class="btn btn-default" type="button" id="modal-dialog-close-button">CANCEL</button>
-      <button class="btn btn-danger" id="modal-dialog-save-button">PROCEED</button> 
+    <div class="row btn-form">
+      <div class="col col-lg-6 text-center btn-item" id="modal-dialog-close-button">
+        <p>CANCEL</p>
+      </div>
+      <button class="col col-lg-6 text-center btn-item" id="modal-dialog-save-button">
+        <p>PROCEED</p>
+      </button>
     </div>
 </form>
 `

@@ -27,7 +27,7 @@ export default class {
 
   async getSaaf (id = 0) {
     this.xhr = new (await URL).default()
-    return id ? this.xhr.__getData(`saaf/class/${id}`) : this.xhr.__getData(`saaf/class`)
+    return id ? this.xhr.__getData(`saaf/class/${id}`, this.__headers) : this.xhr.__getData(`saaf/class`, this.__headers)
   }
 
   bindSaffListener (targ, parentNode, parentNodeID, stat = '') {

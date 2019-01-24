@@ -290,11 +290,12 @@ export default class {
             <div class="tab-content">
               <div class="tab-pane active" id="tab-info" style="height: auto;overflow:auto;" data-group="profile-tab-panes">
                 <section>
-                <h4 class="info-title">&emsp;Employment 
-                  <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-                    <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-                  </span>
-                </h4>
+                  <h4 class="info-title">&emsp;Employment
+                    <span class="pull-right contact-employment-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
+                  <small class="text-muted">&emsp;&nbsp; Recent and current work experience</small>
                   <hr/>
                   <div class="contact-employment-list-section"></div>
                 </section>
@@ -306,6 +307,7 @@ export default class {
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
+                  <small class="text-muted">&emsp;&nbsp; Educational attainment (Bachelor, Masteral, PhD, etc...)</small>
                   <hr/>
                   <div class="contact-educ-list-section"></div>
                 </section>
@@ -317,6 +319,7 @@ export default class {
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
+                  <small class="text-muted">&emsp;&nbsp; Talk and lectures attended</small>
                   <hr/>
                   <div class="contact-conference-list-section"></div>
                 </section>
@@ -328,6 +331,7 @@ export default class {
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
+                  <small class="text-muted">&emsp;&nbsp; Papers and research created or conducted</small>
                   <hr/>
                   <div class="contact-research-list-section"></div>
                 </section>
@@ -339,6 +343,7 @@ export default class {
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
                   </h4>
+                  <small class="text-muted">&emsp;&nbsp; Trainings or short courses taken</small>
                   <hr/>
                   <div class="contact-training-list-section"></div>
                 </section>

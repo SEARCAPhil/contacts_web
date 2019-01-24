@@ -73,6 +73,8 @@ export default class {
     this.create(query, headers, false).then(res => {
       // reset form
       if (res > 0) {
+        // reload
+        window.location.reload()
         // saved
         statusTextBox.innerHTML = '<div class="alert alert-success">Saved!</div>'
         e.target.reset()
