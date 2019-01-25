@@ -7,7 +7,7 @@ const workboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-  entry: toObject(glob.sync('./src/**/*.js*'), './src'),
+  entry: toObject(glob.sync('./src/**/*.js'), './src'),
   output: {
     path: path.resolve(__dirname, 'www'),
     filename: '[name].js',
@@ -20,17 +20,20 @@ module.exports = {
       to: '[name].[ext]'
     }]),
     new CopyWebpackPlugin([{
-      from: 'src/assets/img/*.png',
+      from: 'src/assets/img/**/*.png',
       to: 'assets/img/[name].[ext]'
     }, {
-      from: 'src/assets/img/*.jpg',
+      from: 'src/assets/img/**/*.jpg',
       to: 'assets/img/[name].[ext]'
     }, {
-      from: 'src/assets/css/*.css',
+      from: 'src/assets/css/**/*.css',
       to: 'assets/css/[name].[ext]'
     }, {
-      from: 'src/assets/fonts/*.*',
+      from: 'src/assets/fonts/**/*.*',
       to: 'assets/fonts/[name].[ext]'
+    }, {
+      from: 'src/**/*.json',
+      to: '[name].[ext]'
     }]),
     new UglifyJSPlugin(),
     new workboxPlugin.GenerateSW({

@@ -4,11 +4,11 @@ const template = `
 <style>${style.toString()}</style>
 <form class="remove-modal-section" id="modal-employment-form">
     <h3><i class="fa fa-phone" style="font-size:24px;"></i> Communication</h3>
-    <p>Please fill up all required fields (*)</p>
+    <p>Please fill up all required fields (*)</p> <hr/>
     <span class="status-text"></span>
     
     <div class="input-group">
-      <span class="input-group-addon">
+      <span class="input-group-addon com-addon">
         <select name="type" id="type">
         <option value="phone">Phone</option>
         <option value="fax">Fax</option>

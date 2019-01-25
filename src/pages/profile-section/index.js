@@ -10,6 +10,9 @@ export default class {
     return this.render(opt)
   }
 
+  __assignContactId () {
+    this.__template.querySelector('.contact_id_section').innerHTML = this.__info.contact_id 
+  }
   __bindListeners () {
     this.getProfileBoxComponent()
     this.getProfileEmploymentListComponent()
@@ -21,6 +24,7 @@ export default class {
     this.loadPopup()
     this.__bindRemoveAccount()
     this.__bindLoadEngagementSection()
+    this.__assignContactId()
   }
 
   createEmptyMessage (icon, message, target) {
@@ -264,7 +268,7 @@ export default class {
     <style>${style.toString()}</style>
     <section class="content-header">
       <h1>
-        User Profile
+        Contact ID: <span class="contact_id_section badge"></span>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -338,7 +342,7 @@ export default class {
 
 
                 <section>
-                  <h4 class="info-title"><i class="fa fa-cubes margin-r-5"></i> Trainings
+                  <h4 class="info-title">&emsp;Trainings
                     <span class="pull-right contact-training-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
                       <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
                     </span>
