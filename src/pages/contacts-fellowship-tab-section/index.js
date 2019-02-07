@@ -28,12 +28,13 @@ export default class {
     document.querySelector('#tab-engagement').innerHTML = ''
   }
 
-  getEngagementListComponent () {
-    const contact = import('../../components/contact-engagement-list')
-    const targ = this.__template.querySelector('.contact-engagement-list-section')
-    let form = import('../../components/contact-engagement-form/actions/create')
+
+  getFellowshipListComponent () {
+    const contact = import('../../components/contact-fellowship-list')
+    const targ = this.__template.querySelector('.contact-fellowship-list-section')
+    let form = import('../../components/contact-fellowship-form/actions/create')
     contact.then(res => {
-      this.__opt.engagements.forEach((el, index) => {
+      this.__opt.fellowships.forEach((el, index) => {
         new res.default(el).then(html => {
           targ.append(html)
         })
@@ -44,13 +45,12 @@ export default class {
     return form.then(res => {
       return new res.default({
         root: this.__template,
-        target: '.contact-engagement-list-add-btn',
+        target: '.contact-fellowship-list-add-btn',
         id: this.__opt.contact_id,
         research: this.__opt.research
       })
     })
   }
-
 
   async search (opt) {
     this.xhr = new (await URL).default()
@@ -59,8 +59,8 @@ export default class {
 
   __bindListeners (opt = {}) {
     this.clearSection()
-    this.getEngagementListComponent()
-    this.loadPopup()
+    this.getFellowshipListComponent()
+    this.loadPopup ()
   }
 
   async render () {
@@ -68,18 +68,20 @@ export default class {
     this.__template.classList.add('contacts-engagement-section')
     this.__template.innerHTML = `<div style="min-height: 1170px;">
     <article>
-        <p class="alert alert-info" style="background-color: #607d8b !important; border:none !important;">This Section contains data for SEARCA engagement, trainings, and fellows </p>
         <section>
-        <h4 class="info-title">
-          Enagement 
-          <span class="pull-right contact-engagement-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-            <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-          </span>
-        </h4>
-        <hr/>
-        </section>
+          <h4 class="info-title">Fellowship<br/>          
+            <span class="pull-right contact-fellowship-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+              <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+            </span>
+            <p class="text-muted">
+              <small>Appointment for Senior Fellows, Visiting Research Fellows, or Adjunct Fellows of the Center</small>
+            </p> 
+          </h4>
+          <hr/>
+      </section>
 
-        <section class="contact-engagement-list-section"></section>
+      <section class="contact-fellowship-list-section"></section>
+
 
       </article>
     <!-- /.content -->

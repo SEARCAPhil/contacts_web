@@ -31,6 +31,7 @@ const template = `
     </div>
 
     <div class="form-group">
+      <span class="saaf-type-status-text-section"></span>
       <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
         <option default="" value="null">Please Select SAAF Type</option>
         <option value="null">N/A</option>

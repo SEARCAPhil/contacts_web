@@ -125,7 +125,7 @@ export default class {
 
       __data.forEach((el, index) => {
         // capture first letter and append to proper container
-        let firstLetter = el.firstname.charAt(0).toUpperCase()
+        let firstLetter = el.firstname ? el.firstname.charAt(0).toUpperCase() : ''
         let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
         if (targ) {
           // create component and show container

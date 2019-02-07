@@ -43,10 +43,10 @@ export default class {
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">SEARCA</li>
         <li><a href="#/contacts/engagements"><i class="fa fa-link"></i> <span>Engagement</span></a></li>
-        <li><a href="#/contacts/graduates"><i class="fa fa-link"></i> <span>Graduate</span></a></li>
-        <li><a href="#/contacts/trainees"><i class="fa fa-link"></i> <span>Training</span></a></li>
-        <li><a href="#/contacts/associates"><i class="fa fa-link"></i> <span>Associate</span></a></li>
-        <li><a href="#/contacts/fellows"><i class="fa fa-link"></i> <span>Fellow</span></a></li>
+        <li><a href="#/contacts/graduates"><i class="fa fa-link"></i> <span>Graduate Alumni</span></a></li>
+        <li><a href="#/contacts/trainees"><i class="fa fa-link"></i> <span>Training Alumni</span></a></li>
+        <li><a href="#/contacts/associates"><i class="fa fa-link"></i> <span>Associates</span></a></li>
+        <li><a href="#/contacts/fellows"><i class="fa fa-link"></i> <span>Fellows</span></a></li>
         
       </ul>
           

@@ -83,11 +83,11 @@ export default class {
           <i class="fa fa-briefcase"></i>
         </div>
         <div class="media-body" style="padding-left: 20px;">
-          <h4 class="media-heading">${this.__opt.companyName} </h4>
-          ${this.__opt.employedFrom} - ${((this.__opt.employedTo === '0000') || (this.__opt.employedTo === this.__opt.employedFrom) || (this.__opt.employedTo === null)) ? '<b class="text-success">PRESENT</b>' : this.__opt.employedTo}<br/>
+          <h4 class="media-heading">${this.__opt.companyName ? this.__opt.companyName : 'N/A'} </h4>
+          ${this.__opt.employedFrom ? this.__opt.employedFrom : 'N/A'} - ${((this.__opt.employedTo === '0000') || (this.__opt.employedTo === this.__opt.employedFrom) || (this.__opt.employedTo === null)) ? '<b class="text-success">PRESENT</b>' : this.__opt.employedTo}<br/>
           
           <small>
-            <b>${this.__opt.position}</b><br/>
+            <b>${this.__opt.position ? this.__opt.position: 'N/A'}</b><br/>
             <span class="text-muted"><i class="fa fa-map-marker"></i> ${this.__opt.companyAddress || 'N/A'}</span>
           </small>
         </div>

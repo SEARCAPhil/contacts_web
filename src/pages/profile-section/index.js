@@ -24,6 +24,7 @@ export default class {
     this.loadPopup()
     this.__bindRemoveAccount()
     this.__bindLoadEngagementSection()
+    this.__bindLoadFellowshipSection()
     this.__assignContactId()
   }
 
@@ -254,6 +255,17 @@ export default class {
     })
   }
 
+  __bindLoadFellowshipSection () {
+    this.__template.querySelector('#fellowship').addEventListener('click', () => {
+      const engagementSec = import('../contacts-fellowship-tab-section')
+      engagementSec.then(res => {
+        return new res.default(this.__info).then(html => {
+          this.__template.querySelector('#tab-fellowship').append(html)
+        })
+      })
+    })
+  }
+
   async render () {
     const __payload = {
       id: this.__opt.id
@@ -267,9 +279,9 @@ export default class {
     <!-- Content Header (Page header) -->
     <style>${style.toString()}</style>
     <section class="content-header">
-      <h1>
-        Contact ID: <span class="contact_id_section badge"></span>
-      </h1>
+      <h4 class="text-muted" style="opacity: 0.3;">
+        contact# <span class="contact_id_section"></span>
+      </h4>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Contacts</a></li>
@@ -288,6 +300,7 @@ export default class {
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#info" data-toggle="tab" aria-expanded="true" class="tabs" data-target="#tab-info" data-group="profile-tab-panes">Info</a></li>
+              <li class=""><a href="#fellowship" id="fellowship" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-fellowship" data-group="profile-tab-panes">Fellowships</a></li>
               <li class=""><a href="#engagement" id="engagement" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-engagement" data-group="profile-tab-panes">Engagement</a></li>
               <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false" class="tabs" data-target="#tab-settings" data-group="profile-tab-panes">Settings</a></li>
             </ul>
@@ -316,6 +329,17 @@ export default class {
                   <div class="contact-educ-list-section"></div>
                 </section>
 
+                <section>
+                  <h4 class="info-title">&emsp;Research / Scholarships
+                    <span class="pull-right contact-research-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
+                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
+                    </span>
+                  </h4>
+                  <small class="text-muted">&emsp;&nbsp; Papers and research created or conducted / Graduate studies(e.g., Seed Fund for Research and Training, Travel Grants, and Professional Chairs) </small>
+                  <hr/>
+                  <div class="contact-research-list-section"></div>
+                </section>
+
 
                 <section>
                   <h4 class="info-title">&emsp;Conference
@@ -329,17 +353,7 @@ export default class {
                 </section>
 
 
-                <section>
-                  <h4 class="info-title">&emsp;Research
-                    <span class="pull-right contact-research-list-add-btn" data-target="#general-modal" data-popup-toggle="open">
-                      <i class="fa fa-plus-circle" style="margin-right: 20px;"></i>
-                    </span>
-                  </h4>
-                  <small class="text-muted">&emsp;&nbsp; Papers and research created or conducted</small>
-                  <hr/>
-                  <div class="contact-research-list-section"></div>
-                </section>
-
+               
 
                 <section>
                   <h4 class="info-title">&emsp;Trainings
@@ -364,10 +378,8 @@ export default class {
                 <button class="btn btn-danger remove-account-btn-modal" data-target="#general-modal" data-popup-toggle="open">REMOVE</button>
               </div>
 
-
-              <div class="tab-pane" id="tab-engagement"  data-group="profile-tab-panes" style="height: auto;overflow:auto;">
-                
-              </div>
+              <div class="tab-pane" id="tab-fellowship"  data-group="profile-tab-panes" style="height: auto;overflow:auto;"></div>
+              <div class="tab-pane" id="tab-engagement"  data-group="profile-tab-panes" style="height: auto;overflow:auto;"></div>
 
 
     

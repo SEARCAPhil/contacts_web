@@ -81,7 +81,7 @@ export default class {
         <div class="media-body" style="padding-left: 20px;">
           <h4 class="media-heading">${this.__opt.title}</h4>
           <small class="text-muted">
-            ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
+            ${this.__opt.dateStarted ? this.__opt.dateStarted : ''} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
             ${this.__opt.fieldStudy ? this.__opt.fieldStudy : ''}
             ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i> This research was completed at SEARCA' : ''}
               <details>

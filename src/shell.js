@@ -27,6 +27,16 @@ const loadSidebar = (opt) => {
   })
 }
 
+const loadCookieSection = (opt) => {
+  const __cookie = import('./components/cookie-notice-section')
+  const __target = document.querySelector('.cookie-section')
+  __cookie.then(Res => {
+    return new Res.default(opt).then(html => {
+      return __target ? __target.replaceWith(html) : document.body.append(html)
+    })
+  })
+}
+
 const loadAccountRouters = () => {
   import('./routers/account/')
 }
@@ -34,6 +44,7 @@ const loadAccountRouters = () => {
 const loadMain = (opt = {}) => {
   loadHeader(opt)
   loadSidebar(opt)
+  loadCookieSection(opt)
 
   let token = window.localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
 

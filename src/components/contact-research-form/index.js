@@ -36,23 +36,38 @@ const template = `
       <textarea class="form-control" placeholder="Remarks" rows="5" id="remarks"></textarea>
     </div>
 
-    <div class="form-group">
+    <br/><br/>
+    <p class="text-muted">THIS IS FOR SEARCA'S SCHOLARSHIP GRANTS PURPOSES ONLY</p>
+    <hr/>
+
+    
+    <div class="form-group saaf-phd-use-only-section">
+      <p>
+        Is this under SEARCA's Graduate Scholarship Program and PhD Research Program ?
+      </p>
+
+      <div class="form-group">
+        <input type="radio" name="searca-learn" class="searca-learn" value="1"/> Yes &emsp;
+        <input type="radio" name="searca-learn" class="searca-learn" value="0" checked/> No
+      </div>
+    </div>
+
+    <div class="form-group saaf-use-only-section">
         <p class="text-muted"> For SAAF Use Only (Optional)</p>
+
+        <div class="saaf-use-only-qa-section alert" style="background: #00897b;color: #fff;">
+          <p>
+            If you are a SEARCA scholarship grantee for Seed Fund for Research and Training, Travel Grants, or Professional Chairs<br/>
+            Please select :  <b class="badge">Associates</b>
+          </p>
+        </div>
+
         <span class="saaf-type-status-text-section"></span>
         <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
           <option default="" value="null">Please Select SAAF Type</option>
           <option value="null">N/A</option>
         </select>
         <div class="form-group" id="select-saaf-null"></div>
-    </div>
-
-    <p>
-      Is this under SEARCA's Graduate Scholarship Program and PhD Research Program ?
-    </p>
-
-    <div class="form-group">
-      <input type="radio" name="searca-learn" class="searca-learn" value="1"/> Yes &emsp;
-      <input type="radio" name="searca-learn" class="searca-learn" value="0" checked/> No
     </div>
 
     

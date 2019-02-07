@@ -133,6 +133,20 @@ export default class {
     })
   }
 
+  __bindAssocQuestions () {
+
+    // For PHD Research
+    document.querySelectorAll('.searca-learn').forEach((el, index) => {
+      el.addEventListener('click', (e) => {
+        if(e.target.value ===  '1') {
+          return document.querySelector('.saaf-use-only-qa-section').classList.add('hidden')
+        }
+      
+        document.querySelector('.saaf-use-only-qa-section').classList.remove('hidden')
+      })
+    })
+  }
+
   __save (e) {
     e.preventDefault()
     const saveBtn = document.querySelector('#modal-dialog-save-button')
@@ -241,6 +255,9 @@ export default class {
 
       // get SAAF parent class
       this.getRootSaafType()
+
+      // SAAF questions
+      this.__bindAssocQuestions()
 
       // show item information if "update" parameter is set to TRUE
       if (this.__opt.update) return this.getDetails()
