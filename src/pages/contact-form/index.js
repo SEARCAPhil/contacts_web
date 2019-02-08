@@ -209,6 +209,16 @@ export default class {
           <div class="form-group">
             <label for="affiliateCode">Affiliate Code</label>
             <input type="text" class="form-control" id="affiliateCode" placeholder="Enter Affiliate Code" value="${this.__info.affiliateCode || ''}">
+            <br/>
+            <div class="well well-sm">
+              <small>
+                <p><b class="text-danger">Affiliate format example</b></p>
+                <p>SAMPLE CODE: <u>ABC2000PHL3M</u></p>
+                <p><b>ABC</b>2000PHL3M - SAAF</p>
+                <p>ABC<b>2000</b>PHL3M - First recorded SEARCA Alumni, Grads, etc...</p>
+                <p>ABC2000<b>PHL3M</b> - 3rd Male from Philippines</p>
+              </small>
+            </div>
           </div>
           <div class="form-group">
             <label for="rank">Rank</label>
