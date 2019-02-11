@@ -139,6 +139,11 @@ const loadRoutes = () => {
         loadMain(profile)
         loadAccountRouters()
       },
+      '/reports': async () => {
+        profile = await loadProfile()
+        loadMain(profile)
+        import('./routers/reports')
+      },
       '/login': () => {
         loadLoginPage()
       },

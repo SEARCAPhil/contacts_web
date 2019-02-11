@@ -71,12 +71,11 @@ export default class {
         
       </ul>-->
 
-      <!-- Sidebar Menu 
+      <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">FUNCTIONS</li>
-        <li class="active"><a href="#"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>SAAF-CODE</span></a></li>
-      </ul>-->
+        <li class="header">Others</li>
+        <li><a href="#/reports"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
+      </ul>
 
       <ul class="sidebar-menu" data-widget="tree" style="margin-top: 100px;">
         <li><a href="#/signout" style="background: #334852;"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>

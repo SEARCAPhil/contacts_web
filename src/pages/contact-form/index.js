@@ -23,6 +23,13 @@ export default class {
     })
   }
 
+  __getCountry () {
+    return new Promise((resolve, reject) => {
+      window.fetch(`${URI.scheme}://${URI.host}/${URI.base}/api/country`, { headers: this.__headers})
+      .then(res => resolve(res.json()))
+    })
+  }
+
   __bindForm (opt) {
     const form = import('./actions/create')
     form.then(res => {
@@ -85,6 +92,13 @@ export default class {
   async render () {
     // get information
     if (this.__opt.action === 'update') this.__info = await this.__getInfo()
+    // countries
+    this.__countries = (await this.__getCountry ())
+    let countries = ''
+    this.__countries.data.forEach((el, index) => {
+      countries+=`<option value="${el.country_id}">${el.countryName}</option>`
+    })
+
     // template
     this.__template = document.createElement('section')
     this.__template.classList.add('contacts-form-section', 'col', 'col-lg-6', 'col-lg-offset-3')
@@ -180,14 +194,8 @@ export default class {
           <div class="form-group">
               <label>Country</label>
               <select class="form-control country country-hidden-accessible" id="country" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                <option default value="${this.__info.homeCountry || ''}">${this.__info.homeCountry || ''}</option>
-                <optionAlabama</option>
-                <option>Alaska</option>
-                <option>California</option>
-                <option>Delaware</option>
-                <option>Tennessee</option>
-                <option>Texas</option>
-                <option>Washington</option>
+                <option default value="${this.__info.homeCountry || ''}">${this.__info.country || ''}</option>
+                ${countries}
               </select>
           </div>
 
