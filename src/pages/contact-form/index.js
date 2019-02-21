@@ -83,6 +83,20 @@ export default class {
     if (!im || !this.__info.photo) return
     im.src = `${URI.scheme}://${URI.host}/${URI.base}/uploads/${this.__info.photo}`
   }
+
+  __getHint () {
+    window.fetch(`${URI.scheme}://${URI.host}/${URI.base}/api/affiliate/hint?id=${this.__info.contact_id}&gender=${this.__info.gender}&country=${this.__info.homeCountry}`, { headers: this.__headers}).then(res => {
+      return res.json()
+    }).then(r => {
+      if(!r.length) return
+      const t = this.__template.querySelector('.affiliate-hint')
+      const htm = document.createElement('div')
+      htm.innerHTML = '<br/><b>Recommended Rank per Gender and Country :</b> '
+      htm.innerHTML += `<span class="badge">${r[0].pos}</span>`
+      t.append(htm)
+    })
+  }
+
   __bindListeners (opt = {}) {
     this.__bindForm(opt)
     this.__bindUploadPhoto()
@@ -98,6 +112,20 @@ export default class {
     this.__countries.data.forEach((el, index) => {
       countries+=`<option value="${el.country_id}">${el.countryName}</option>`
     })
+
+    // research
+    this.__info.researchSAAF = '<b>Related Research</b>'
+    if(this.__info.research) {
+      this.__info.research.forEach((el, index) => {
+        this.__info.researchSAAF+= `
+          <details>
+            <summary>${el.title}</summary>
+            <p class="text-muted">Date started: ${el.dateStarted ? el.dateStarted : 'N/A'}<br/>Date Ended ${el.dateEnded ? el.dateEnded : 'N/A'}</p>
+          </details>`
+      })
+
+      this.__getHint()
+    }
 
     // template
     this.__template = document.createElement('section')
@@ -227,6 +255,9 @@ export default class {
                 <p>ABC2000<b>PHL3M</b> - 3rd Male from Philippines</p>
               </small>
             </div>
+          </div>
+          <div class="form-group affiliate-hint ${this.__info.research ? '': 'hidden'} well">
+            ${this.__info.researchSAAF}
           </div>
           <div class="form-group">
             <label for="rank">Rank</label>
