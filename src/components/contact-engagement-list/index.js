@@ -84,8 +84,9 @@ export default class {
           <i class="fa fa-slideshare"></i>
         </div>
         <div class="media-body" style="padding-left: 20px;">
-          <h4 class="media-heading">${this.__opt.title} </h4>
-          <b>${this.__opt.engageFrom}</b> - <b>${(this.__opt.engageTo === '0000') || (this.__opt.engageFrom === this.__opt.engageTo) || (this.__opt.engageTo === null) ? 'Current' : this.__opt.engageTo}</b><br/>
+          <h4 class="media-heading">${this.__opt.title || 'No Research'} </h4>
+          <b>Engage From: ${this.__opt.engageFrom}</b> <br/>
+          <b>Engage To: ${(this.__opt.engageTo === '0000') || (this.__opt.engageFrom === this.__opt.engageTo) || (this.__opt.engageTo === null) ? 'Current' : this.__opt.engageTo}</b><br/>
           <br/>
           <small>
             <b>Type: ${this.__opt.afftypeName || 'N/A'}</b><br/>

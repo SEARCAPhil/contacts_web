@@ -257,7 +257,7 @@ export default class {
       this.getRootSaafType()
 
       // SAAF questions
-      this.__bindAssocQuestions()
+      //this.__bindAssocQuestions()
 
       // show item information if "update" parameter is set to TRUE
       if (this.__opt.update) return this.getDetails()

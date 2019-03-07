@@ -114,7 +114,7 @@ export default class {
 
       __data.forEach((el, index) => {
         // capture first letter and append to proper container
-        let firstLetter = el.firstname ? el.firstname.charAt(0).toUpperCase() : ''
+        let firstLetter = el.firstname === null ? 'null' : (el.firstname ? el.firstname.charAt(0).toUpperCase() : '')
         let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
         if (targ) {
           // create component and show container
@@ -147,6 +147,19 @@ export default class {
         <!-- /.box-body -->
       </div>`
 
+    // empty
+    __targ.innerHTML = ''
+    __targ.innerHTML += `
+      <div class="col box contact-list-section hidden">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <div class="box-body"><div class="ajax-content"></div>
+        </div>
+        <!-- /.box-body -->
+      </div>`
+
+    // for records without firstname
     for (let i = 65; i <= 90; i++) {
       __targ.innerHTML += `
       <div class="box col contact-list-section-${String.fromCharCode(i)} hidden">
@@ -174,7 +187,7 @@ export default class {
 
       __data.forEach((el, index) => {
         // capture first letter and append to proper container
-        let firstLetter = el.firstname.charAt(0).toUpperCase()
+        let firstLetter = el.firstname === null ? 'null' : el.firstname.charAt(0).toUpperCase()
         let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
 
         if (targ) {

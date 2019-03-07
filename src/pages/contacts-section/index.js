@@ -123,9 +123,9 @@ export default class {
       document.querySelector('.total-count').innerText = totalCount
       document.querySelector('.total-count-out-of').innerText = totalOutOf
 
-      __data.forEach((el, index) => {
+      __data.forEach((el, index) => { 
         // capture first letter and append to proper container
-        let firstLetter = el.firstname ? el.firstname.charAt(0).toUpperCase() : ''
+        let firstLetter = el.firstname === null ? 'null' : (el.firstname ? el.firstname.charAt(0).toUpperCase() : '')
         let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
         if (targ) {
           // create component and show container
@@ -158,6 +158,18 @@ export default class {
         <!-- /.box-body -->
       </div>`
 
+      // for records without firstname
+      __targ.innerHTML += `
+      <div class="box col contact-list-section-null hidden">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <div class="box-body"><div class="ajax-content"></div>
+        </div>
+        <!-- /.box-body -->
+      </div>`
+    
+    // A - Z section
     for (let i = 65; i <= 90; i++) {
       __targ.innerHTML += `
       <div class="box col contact-list-section-${String.fromCharCode(i)} hidden">
@@ -183,9 +195,9 @@ export default class {
 
       this.__createContactListSection()
 
-      __data.forEach((el, index) => {
+      __data.forEach((el, index) => { 
         // capture first letter and append to proper container
-        let firstLetter = el.firstname.charAt(0).toUpperCase()
+        let firstLetter = el.firstname === null ? 'null' : el.firstname.charAt(0).toUpperCase()
         let targ = this.__template.querySelector(`.contact-list-section-${firstLetter}`)
 
         if (targ) {

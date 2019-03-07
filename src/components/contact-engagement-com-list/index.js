@@ -23,10 +23,11 @@ export default class {
 
   __parseResearch () {
     this.__opt.engage_research.forEach((el, index) => {
-      this.research += `${el.title}
+      this.research += `${el.title || 'No Research'}
     <br/>
     <small>
-    <b>${el.engageFrom}</b> - <b>${el.engageTo || 'PRESENT'}</b><br/>
+    <b>Engage From: ${el.engageFrom}</b><br/>
+    <b>Engage To: ${el.engageTo || 'PRESENT'}</b><br/>
     <b/>${el.hostUniversity ? ('<i class="fa fa-map-marker"></i> ' + el.hostUniversity) : ''}</b>
       <br/>
       <details open>

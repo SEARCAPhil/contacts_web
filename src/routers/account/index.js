@@ -25,7 +25,9 @@ Navigo.then(routerClass => {
     },
     '/contacts/graduates': async (opt = {}) => {
       const __profilePage = (await import('../../pages/contacts-graduate-section')).default
-
+      opt = opt || {}
+      opt.filter = 'Graduate Alumni'
+       
       return new __profilePage(opt).then(res => {
         const __targ = document.querySelector('.ajax-main-section')
         __targ.innerHTML = ''
