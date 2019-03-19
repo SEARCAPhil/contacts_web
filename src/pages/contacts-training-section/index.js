@@ -148,10 +148,10 @@ export default class {
         </div>
         <!-- /.box-body -->
       </div>`
-    // empty
-    __targ.innerHTML = ''
-    __targ.innerHTML += `
-      <div class="col box contact-list-section hidden">
+
+      // for records without firstname
+      __targ.innerHTML += `
+      <div class="box col contact-list-section-null hidden">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
         </div>

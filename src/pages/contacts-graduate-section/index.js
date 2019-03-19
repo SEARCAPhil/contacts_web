@@ -108,7 +108,7 @@ export default class {
       let __data = res.data
 
       // total count
-      const totalCount = res.data.length
+      const totalCount = res.to
       const totalOutOf = res.total
       const lastPage = res.last_page
       document.querySelector('.total-count').innerText = totalCount
