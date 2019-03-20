@@ -42,7 +42,7 @@ export default class {
         <div class="col col-lg-1 img-sec col-xs-4">
           <img class="profile-user-img img-responsive img-circle" src="assets/img/boy.png" alt="User profile picture" style="width: 50px; height: 50px;">
         </div>
-        <div class="col col-lg-2 col-xs-8"><b>${this.__opt.firstname || ''} ${this.__opt.middleinit || ''} ${this.__opt.lastname}</b></div>
+        <div class="col col-lg-2 col-xs-8"><b>${this.__opt.fullname || ''} ${this.__opt.firstname || ''} ${this.__opt.middleinit || ''} ${this.__opt.lastname || ''}</b></div>
         <div class="col col-lg-2 col-lg-offset-0 col-xs-8 col-xs-offset-4"><a href="#">${this.__emails}</a></div>
         <div class="col col-lg-2 col-lg-offset-0  col-xs-8 col-xs-offset-4">${this.__opt.nationality || ''}</div>
         <div class="col col-lg-2 col-lg-offset-0 col-xs-8 col-xs-offset-4">

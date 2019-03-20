@@ -84,7 +84,7 @@ export default class {
           <i class="fa fa-slideshare"></i>
         </div>
         <div class="media-body" style="padding-left: 20px;">
-          <b>Engage From:</b>  ${this.__opt.engageFrom}<br/>
+          <b>Engage From:</b>  ${this.__opt.engageFrom || 'No engagement date specified'}<br/>
           <b>Engage To: </b> ${(this.__opt.engageTo === '0000') || (this.__opt.engageFrom === this.__opt.engageTo) || (this.__opt.engageTo === null) ? 'Current' : this.__opt.engageTo}<br/>
           <b>Type:</b> <span class="badge badge-default">${this.__opt.afftypeName || 'N/A'}</span><br/>
           <span class="text-muted">Nature : <span class="badge badge-default">${this.__opt.engagement || 'N/A'}</span></span><br/>

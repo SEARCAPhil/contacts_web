@@ -135,7 +135,7 @@ export default class {
   }
   __createContactListSection () {
     const __targ = this.__template.querySelector('.contact-list-section')
-    // empty
+      // empty
     __targ.innerHTML = ''
     __targ.innerHTML += `
       <div class="col box contact-list-section hidden">
@@ -147,10 +147,9 @@ export default class {
         <!-- /.box-body -->
       </div>`
 
-    // empty
-    __targ.innerHTML = ''
-    __targ.innerHTML += `
-      <div class="col box contact-list-section hidden">
+      // for records without firstname
+      __targ.innerHTML += `
+      <div class="box col contact-list-section-null hidden">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
         </div>
@@ -158,8 +157,8 @@ export default class {
         </div>
         <!-- /.box-body -->
       </div>`
-
-    // for records without firstname
+    
+    // A - Z section
     for (let i = 65; i <= 90; i++) {
       __targ.innerHTML += `
       <div class="box col contact-list-section-${String.fromCharCode(i)} hidden">
@@ -171,6 +170,7 @@ export default class {
         <!-- /.box-body -->
       </div>`
     }
+  
   }
 
   __search (payload) {

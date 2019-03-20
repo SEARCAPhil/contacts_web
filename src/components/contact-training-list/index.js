@@ -74,8 +74,8 @@ export default class {
 
     <b>${this.__opt.title} </b><br/>
       <small class="text-muted">
-      ${this.__opt.dateStarted} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
-      <b>${this.__opt.venue}</b><br/>
+      ${this.__opt.dateStarted || 'No Start Date Specified'} ${this.__opt.dateEnded ? '- ' + this.__opt.dateEnded : ''}<br/>
+      <b>${this.__opt.venue || 'No Venue Specified'}</b><br/>
       <span class="badge badge-success">${this.__opt.trainingType ? this.__opt.trainingType : 'N/A'}</span>
       ${(parseInt(this.__opt.isSearcaTraining) === 1) ? '<i class="fa fa-check-circle text-success" style="font-size: 16px;"></i>  <span class="text-muted">This is a SEARCA\'s short-term training course or similar learning event</span>' : ''}
       <br/>

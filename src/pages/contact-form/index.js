@@ -156,6 +156,7 @@ export default class {
         <div class="box-body">
           <p class="text-muted"><small>BASIC INFORMATION</small></p>
           <div class="form-group">
+          ${(this.__info.fullname && !this.__info.lastname) ? `<div class="text-center alert" style="background: #757575; color: #fff;">Imported as (${this.__info.fullname})</div>` : ''}
             <label for="lastName">Lastname <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="lastName" placeholder="Enter Surname" required value="${this.__info.lastname || ''}">
           </div>
