@@ -4,6 +4,7 @@ const URL = import('../../utils/xhr')
 export default class {
   constructor (opt = {}) {
     this.__opt = opt || {}
+    this.__opt.filter = 'Graduate Alumni'
     this.__contactComponent = {}
     this.__listSecTemplate = {}
     this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
@@ -13,7 +14,7 @@ export default class {
 
   async search (opt) {
     this.xhr = new (await URL).default()
-    return this.xhr.__getData(`contact/filter/graduate/search/${opt.param}?page=${opt.page ? opt.page : 1}`, this.__headers)
+    return this.xhr.__getData(`contact/filter/graduate/search/${opt.param}?page=${opt.page ? opt.page : 1}&filter=${opt.filter}`, this.__headers)
   }
 
   __goToPage (page) {
@@ -216,7 +217,8 @@ export default class {
       if (input.value.length < 3) return
 
       let payload = {
-        param: input.value
+        param: input.value,
+        filter: this.__opt.filter
       }
       this.__search(payload)
     })
@@ -245,6 +247,7 @@ export default class {
   }
 
   __bindListeners (opt = {}) {
+    opt.filter = this.__opt.filter
     this.__createContactListSection()
     this.__getContacts(opt)
     this.__bindSearch()

@@ -56,9 +56,12 @@ Navigo.then(routerClass => {
         __targ.append(res)
       })
     },
-    '/contacts/trainees': async (opt = {}) => {
+    '/contacts/trainees': async () => {
       const __profilePage = (await import('../../pages/contacts-training-section')).default
-
+      // set filter
+      let opt = {
+        filter: 'Training Alumni'
+      }
       return new __profilePage(opt).then(res => {
         const __targ = document.querySelector('.ajax-main-section')
         __targ.innerHTML = ''

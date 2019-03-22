@@ -16,19 +16,24 @@ const template = `
     </div>
 
     <div class="form-group">
-      <input type="number" class="form-control" placeholder="Year Started *" min="1950" id="from" required>
-    </div>
-
-    <div class="form-group">
-      <input type="number" class="form-control" placeholder="Year Finished" min="1950" id="to">
-    </div>
-
-    <div class="form-group">
       <select class="form-control type-hidden-accessible" id="trainType" style="width: 100%;" tabindex="-1" aria-hidden="true">
         <option default="" value="short_course">Please Select Training Type</option>
         <option value="short_course">Short Course (default)</option>
       </select>
     </div>
+
+    <p class="text-muted"><i class="fa fa-info-circle"></i> Event Date</p>
+    <div class="form-group">
+      <label for="from" class="text-muted" style="font-weight: normal;">Date Started*</label>
+      <input type="date" class="form-control" placeholder="Date Started *" id="from" required>
+    </div>
+
+    <div class="form-group">
+      <label class="text-muted" for="to" style="font-weight: normal;">Date Ended</label>
+      <input type="date" class="form-control" placeholder="Date Finished"  id="to">
+    </div>
+
+
 
     <p class="text-muted"><i class="fa fa-info-circle"></i> Event Details</p>
 
@@ -50,6 +55,13 @@ const template = `
       <input type="text" class="form-control" placeholder="scholarship" id="scholarship"/>
     </div>
 
+
+    <p>
+      <b>IMPORTANT :</b> For SEARCA's short-term training courses and similar learning events (e.g., executive forums and study tours) / successfully completed Center's Academic Bridging Program, Please select <br>
+      <em>Training Alumni</em>. Skip if not appropriate.
+    </p>
+
+
     <div class="form-group">
         <span class="saaf-type-status-text-section"></span>
         <select class="form-control type type-hidden-accessible" id="type" style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -59,27 +71,9 @@ const template = `
         <div class="form-group" id="select-saaf-null"></div>
     </div>
 
-    
-
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Supervisor's Full Name" id="supervisor"/>
-    </div>
-
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Supervisor's Designation" id="designation"/>
-    </div>
 
     <div class="form-group">
       <textarea class="form-control" placeholder="Notes" rows="5" id="notes"></textarea>
-    </div>
-
-    <p>
-      SEARCA's short-term training courses and similar learning events (e.g., executive forums and study tours) / successfully completed Center's Academic Bridging Program ?
-    </p>
-
-    <div class="form-group">
-      <input type="radio" name="searca-learn" class="searca-learn" value="1"/> Yes &emsp;
-      <input type="radio" name="searca-learn" class="searca-learn" value="0"/> No
     </div>
 
     <div class="row btn-form">

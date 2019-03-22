@@ -91,8 +91,7 @@ export default class {
           <strong><i class="fa fa-info-circle"></i> More Details</strong><br/>
           Scholarship: ${this.__opt.scholarship || 'N/A'}<br/>
           SAAF Type (Optional) : <br/>
-          Supervisor : ${this.__opt.supervisor || 'N/A'}<br/>
-          Supervisor Designation : ${this.__opt.supervisorDesignation || 'N/A'}<br/><br/>
+
 
           <strong><i class="fa fa-file-text-o"></i> Notes</strong><br/>
           ${this.__opt.notes || 'N/A'}

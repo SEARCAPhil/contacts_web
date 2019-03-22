@@ -109,8 +109,6 @@ export default class {
       const scholarship = document.querySelector('#scholarship')
       const saafType = document.querySelector('#type')
       const agency = document.querySelector('#agency')
-      const supervisor = document.querySelector('#supervisor')
-      const designation = document.querySelector('#designation')
       const notes = document.querySelector('#notes')
 
       title.value = res[0].title
@@ -121,8 +119,6 @@ export default class {
       sponsor.value = res[0].sponsor
       scholarship.value = res[0].scholarship
       agency.value = res[0].organizingAgency
-      supervisor.value = res[0].supervisor
-      designation.value = res[0].supervisorDesignation
       notes.innerHTML = res[0].notes
 
       // selected saaf type
@@ -137,10 +133,6 @@ export default class {
         trainType.options[0].innerText = `${res[0].trainingType} (Selected)`
       }
 
-      // is conducted / supported by SEARCA
-      document.querySelectorAll('input.searca-learn').forEach((el, index) => {
-        if (parseInt(el.value) === res[0].isSearcaTraining) el.setAttribute('checked', 'checked')
-      })
 
       // save form
       let __proto__ = Object.create(this)
@@ -165,10 +157,7 @@ export default class {
     const sponsor = e.target.querySelector('#sponsor')
     const scholarship = e.target.querySelector('#scholarship')
     const agency = e.target.querySelector('#agency')
-    const supervisor = e.target.querySelector('#supervisor')
-    const designation = e.target.querySelector('#designation')
     const notes = e.target.querySelector('#notes')
-    const searcaTraining = document.querySelectorAll('input.searca-learn')
     let saafType = null
 
     // set default behaviors
@@ -194,19 +183,12 @@ export default class {
       dateEnded: to.value,
       scholarship: scholarship.value,
       sponsor: sponsor.value,
-      supervisor: supervisor.value,
-      supervisorDesignation: designation.value,
       trainingType: trainType.value,
       organizingAgency: agency.value,
       hostUniversity: host.value,
       notes: notes.value,
       saafTypeId: saafType != null ? saafType : 0
     }
-
-    // searca training
-    searcaTraining.forEach((el, index) => {
-      if (el.checked) payload.isSearcaTraining = el.value
-    })
 
     for (let key in payload) {
       query += encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]) + '&'
