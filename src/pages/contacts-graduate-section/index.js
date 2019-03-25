@@ -4,7 +4,7 @@ const URL = import('../../utils/xhr')
 export default class {
   constructor (opt = {}) {
     this.__opt = opt || {}
-    this.__opt.filter = 'Graduate Alumni'
+    this.__opt.filter = this.__opt.filter || 'Graduate Alumni'
     this.__contactComponent = {}
     this.__listSecTemplate = {}
     this.__headers = { 'Authorization': `Bearer ${window.localStorage.getItem('cwp.access_token')}` }
@@ -102,6 +102,11 @@ export default class {
     this.__template.querySelector('.contact-list-section').append(html)
   }
 
+  hideLoader () {
+    this.__template.querySelector('.contact-list-section-loader').classList.add('hidden')
+  }
+
+
   async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-graduate-list/actions/retrieve')).default
     opt.headers = this.__headers
@@ -114,6 +119,9 @@ export default class {
       const lastPage = res.last_page
       document.querySelector('.total-count').innerText = totalCount
       document.querySelector('.total-count-out-of').innerText = totalOutOf
+
+      // hide loading box
+      this.hideLoader()
 
       __data.forEach((el, index) => {
         // capture first letter and append to proper container
@@ -138,20 +146,16 @@ export default class {
   }
   __createContactListSection () {
     const __targ = this.__template.querySelector('.contact-list-section')
-    // empty
-    __targ.innerHTML = ''
-    __targ.innerHTML += `
-      <div class="col box contact-list-section hidden">
-        <div class="box-header with-border">
-          <h3 class="box-title"></h3>
-        </div>
-        <div class="box-body"><div class="ajax-content"></div>
-        </div>
-        <!-- /.box-body -->
-      </div>`
 
     // empty
-    __targ.innerHTML = ''
+    __targ.innerHTML = `
+    <div class="col contact-list-section-loader">
+      <div>
+        <p class="text-muted">Loading . . . Please wait . . .</p>
+      </div>
+      <!-- /.box-body -->
+    </div>`
+
     __targ.innerHTML += `
       <div class="col box contact-list-section hidden">
         <div class="box-header with-border">
@@ -161,6 +165,17 @@ export default class {
         </div>
         <!-- /.box-body -->
       </div>`
+    
+    // for records without firstname
+    __targ.innerHTML += `
+    <div class="box col contact-list-section-null hidden">
+      <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+      </div>
+      <div class="box-body"><div class="ajax-content"></div>
+      </div>
+      <!-- /.box-body -->
+    </div>`
 
     // for records without firstname
     for (let i = 65; i <= 90; i++) {

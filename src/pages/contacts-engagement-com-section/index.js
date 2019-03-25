@@ -98,6 +98,10 @@ export default class {
     this.__template.querySelector('.contact-list-section').append(html)
   }
 
+  hideLoader () {
+    this.__template.querySelector('.contact-list-section-loader').classList.add('hidden')
+  }
+
   async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-engagement-com-list/actions/retrieve')).default
 
@@ -111,6 +115,9 @@ export default class {
       const lastPage = res.last_page
       document.querySelector('.total-count').innerText = totalCount
       document.querySelector('.total-count-out-of').innerText = totalOutOf
+
+      // hide loading box
+      this.hideLoader()
 
       __data.forEach((el, index) => {
         // capture first letter and append to proper container
@@ -135,8 +142,15 @@ export default class {
   }
   __createContactListSection () {
     const __targ = this.__template.querySelector('.contact-list-section')
-      // empty
-    __targ.innerHTML = ''
+    // empty
+    __targ.innerHTML = `
+    <div class="col contact-list-section-loader">
+      <div>
+        <p class="text-muted">Loading . . . Please wait . . .</p>
+      </div>
+      <!-- /.box-body -->
+    </div>`
+
     __targ.innerHTML += `
       <div class="col box contact-list-section hidden">
         <div class="box-header with-border">

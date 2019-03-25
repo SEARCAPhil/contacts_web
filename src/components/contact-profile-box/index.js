@@ -34,7 +34,7 @@ export default class {
       commu.then(res => {
         return new res.default(el).then(html => {
           // exclude email address and place it somwhere else
-          if (el.type === this.__emailType) return (this.__template.querySelector('.email-list-section').innerHTML += `<a href="mailto:${el.value}" style="color: #fff; cursor: pointer;">${el.value}</a>&emsp;`)
+          if (el.type === this.__emailType) this.__template.querySelector('.email-list-section').innerHTML += `<a href="mailto:${el.value}" style="color: #fff; cursor: pointer;">${el.value}</a>&emsp;`
           target.append(html)
         })
       })
@@ -69,7 +69,7 @@ export default class {
                     
                 </li>
                 <li class="list-group-item">
-                  <b>Civil Status</b> <a class="pull-right">${this.__opt.civilStat}</a>
+                  <b>Civil Status</b> <a class="pull-right">${this.__opt.civilStat || 'N/A'}</a>
                 </li>
                 <li style="overflow: auto;" class="list-group-item ${this.__opt.specialization ? '' : 'hidden'}">
                   <b>Specialization</b> <a class="pull-right">${this.__opt.specialization}</a>
