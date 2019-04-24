@@ -46,6 +46,8 @@ const loadMain = (opt = {}) => {
   loadSidebar(opt)
   loadCookieSection(opt)
 
+  loadGAnalytics(opt.mail, document.body) 
+
   let token = window.localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
 
   // get image from server if not exists
@@ -114,6 +116,25 @@ const getImage = (token) => {
   })
 }
 
+const loadGAnalytics = (id, targ) => {
+  const uid = id
+  // main script
+  const gaMain = document.createElement('script')
+  gaMain.src = 'https://www.googletagmanager.com/gtag/js?id=UA-99081752-7'
+  gaMain.setAttribute('async', true)
+  // tag
+  const gaScript = document.createElement('script')
+  gaScript.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('set', {'user_id': "${uid}"})
+    gtag('config', 'UA-99081752-7');
+  `
+  targ.append(gaMain)
+  targ.append(gaScript)
+}
+
 let profile = {}
 const loadRoutes = () => {
   Navigo.then(routerClass => {
@@ -155,6 +176,7 @@ const loadRoutes = () => {
       }
     }).resolve()
   })
+
 }
 
 const MiddleWare = new Middleware()

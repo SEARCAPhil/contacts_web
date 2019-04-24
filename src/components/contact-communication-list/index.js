@@ -8,6 +8,21 @@ export default class {
     return this.render(opt)
   }
 
+  loadPopup () {
+    const popupes = import('../popup-es')
+    const popupesStyle = import('../popup-es/index.styl')
+
+    // enable popup
+    popupesStyle.then(css => {
+      const style = document.createElement('style')
+      style.id = 'popup-es-style'
+      style.innerHTML = css.default.toString()
+      if (!document.querySelector('#popup-es-style')) document.head.append(style)
+    })
+
+    popupes.then(loader => new loader.default())
+  }
+
   bindRemove () {
     import('./actions/remove').then(loader => {
       return new loader.default({
@@ -19,6 +34,7 @@ export default class {
   }
 
   __bindListeners () {
+    this.loadPopup()
     this.bindRemove()
   }
   async render () {

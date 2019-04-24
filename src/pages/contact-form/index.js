@@ -186,13 +186,12 @@ export default class {
           </div>
 
           <div class="form-group">
-            <label>Birthday: <span class="text-danger">*</span></label>
-
+            <label>Birthday: </label>
             <div class="input-group date">
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input type="date" class="form-control pull-right" id="birthday" required value="${this.__info.birthdate || ''}">
+              <input type="date" class="form-control pull-right" id="birthday" value="${this.__info.birthdate || ''}">
             </div>
             <!-- /.input group -->
           </div>

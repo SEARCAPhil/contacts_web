@@ -35,7 +35,9 @@ export default class {
     })
   }
 
-  load (e) {
+  load (e) { 
+    e.preventDefault();
+   
     import('../../../components/remove-conf-modal').then(res => {
       const __proto = Object.create(this)
       // DOM
@@ -53,6 +55,7 @@ export default class {
   bind () {
     const proto = Object.create(this)
     const root = this.opt.root || document
+    console.log(root.querySelector(this.opt.selector))
     root.querySelector(this.opt.selector).addEventListener('click', this.load.bind(proto))
   }
 }
