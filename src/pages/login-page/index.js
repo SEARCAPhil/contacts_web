@@ -78,15 +78,18 @@ export default class {
         background: #e91e63 !important;
         padding: 15px !important;
         text-transform: none !important;
+        font-size: 14px;
+        width: 200px;
       }
       .doodle-section {
         height:100%;
         width:100%;
-        background:url('assets/img/doodle.png') no-repeat;
+        background:url('assets/img/doodle2.png') no-repeat;
         overflow:hidden;
         position:absolute;
         z-index:0;
-        top:45%;
+        top: 0;
+        background-size: cover;
       }
       .sub-banner-deco {
         position:absolute;
@@ -106,10 +109,10 @@ export default class {
         <div class="container col col-lg-10 col-8 col-md-8 col-lg-offset-1 col-sm-offset-2 col-xs-offset-1 main-login-banner-text"> 
             <h1>Contacts Web Portal</h1>
             <p style="color:#c1c1c1;">
-              Access person's <span class="green">shared</span> information in one place!
+              Access person's shared information in one place!
             </p>
             <br><br>
-            <h3 class="text-muted">Sign-in</h3>
+            <p class="text-muted text-larger">Sign-in option</p>
             <button class="btn btn-office365 btn-lg   go-to-app-btn" type="button">Login with Office365</button>
         </div>
         <div class="main-login-backdrop"></div>

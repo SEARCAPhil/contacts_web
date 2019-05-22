@@ -1,9 +1,26 @@
 import style from './index.styl'
+import PubSub from 'pubsub-js'
 
 export default class {
   constructor (opt = {}) {
     this.__opt = opt
     return this.render(opt)
+  }
+
+  setActiveNav (nav) {
+    this.__template.querySelectorAll('.sidebar-menu > li').forEach((el, index) => {
+      if(el.classList.contains(nav)) {
+        el.classList.add('active')
+      } else {
+        el.classList.remove('active')
+      }
+    })
+  }
+  __bindListeners () {
+    PubSub.unsubscribe('MAIN_NAV')
+    PubSub.subscribe('MAIN_NAV', (msg, data) => {
+      this.setActiveNav (data) 
+    })
   }
 
   async render () {
@@ -15,8 +32,9 @@ export default class {
     <section class="sidebar">
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree" style="margin-top: 10px;">
+        <li class="home"><a href="#"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li class="header">PERSONAL</li>
-        <li class="active treeview menu-open active">
+        <li class="treeview menu-open contacts">
           <a href="#/contacts"><i class="fa fa-users"></i> <span>Contacts</span></a>
           <ul class="treeview-menu" style="">
             <li class="active"><a href="#/contacts/form/"><i class="fa fa-circle-o"></i> <span>Form</span></a></li>
@@ -42,11 +60,11 @@ export default class {
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">SEARCA</li>
-        <li><a href="#/contacts/engagements"><i class="fa fa-suitcase"></i> <span>Engagement</span></a></li>
-        <li><a href="#/contacts/graduates"><i class="fa fa-graduation-cap"></i> <span>Graduate Alumni</span></a></li>
-        <li><a href="#/contacts/trainees"><i class="fa fa-wrench"></i> <span>Training Alumni</span></a></li>
-        <li><a href="#/contacts/associates"><i class="fa fa-users"></i> <span>Associates</span></a></li>
-        <li><a href="#/contacts/fellows"><i class="fa fa-link"></i> <span>Fellows</span></a></li>
+        <li class="engagement"><a href="#/contacts/engagements"><i class="fa fa-suitcase"></i> <span>Engagement</span></a></li>
+        <li class="graduate_alumni"><a href="#/contacts/graduates"><i class="fa fa-graduation-cap"></i> <span>Graduate Alumni</span></a></li>
+        <li class="training_alumni"><a href="#/contacts/trainees"><i class="fa fa-wrench"></i> <span>Training Alumni</span></a></li>
+        <li class="associates"><a href="#/contacts/associates"><i class="fa fa-users"></i> <span>Associates</span></a></li>
+        <li class="fellows"><a href="#/contacts/fellows"><i class="fa fa-link"></i> <span>Fellows</span></a></li>
         
       </ul>
           
@@ -74,7 +92,7 @@ export default class {
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Others</li>
-        <li><a href="#/reports"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
+        <li class="reports"><a href="#/reports"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
       </ul>
 
       <ul class="sidebar-menu" data-widget="tree" style="margin-top: 100px;">
@@ -83,7 +101,7 @@ export default class {
 
       <!-- /.sidebar-menu -->
     </section>`
-
+    this.__bindListeners ()
     return this.__template
   }
 }

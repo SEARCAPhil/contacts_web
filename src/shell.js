@@ -1,9 +1,9 @@
 /* eslint-disable new-cap */
 import { URL } from './config/app'
 import { Middleware } from './mixins/middleware'
+import Message from 'vanilla-antd-message/dist/'
 
 const AuthMiddleWare = import('./middlewares/Auth')
-
 const Navigo = import('navigo')
 const Profiler = import('./mixins/profiler')
 
@@ -40,12 +40,16 @@ const loadCookieSection = (opt) => {
 const loadAccountRouters = () => {
   import('./routers/account/')
 }
+const hideHomePage = () => {
+  let targ = document.querySelector('.home-section')
+  if (targ) targ.parentNode.removeChild(targ)
+}
 
 const loadMain = (opt = {}) => {
   loadHeader(opt)
   loadSidebar(opt)
   loadCookieSection(opt)
-
+  hideHomePage ()
   loadGAnalytics(opt.mail, document.body) 
 
   let token = window.localStorage.getItem('adal.access.token.keyhttps://graph.microsoft.com')
@@ -117,7 +121,7 @@ const getImage = (token) => {
 }
 
 const loadGAnalytics = (id, targ) => {
-  const uid = id
+  const uid = id ? id : 'Not Set'
   // main script
   const gaMain = document.createElement('script')
   gaMain.src = 'https://www.googletagmanager.com/gtag/js?id=UA-99081752-7'
@@ -131,19 +135,39 @@ const loadGAnalytics = (id, targ) => {
     gtag('set', {'user_id': "${uid}"})
     gtag('config', 'UA-99081752-7');
   `
-  targ.append(gaMain)
-  targ.append(gaScript)
+  if (uid) {
+    targ.append(gaMain)
+    targ.append(gaScript)
+  }
 }
+
+const loadHomePage = (opt = {}) => {
+  const __page = import('./pages/home-page')
+  const __target = document.querySelector('.home-section')
+  __page.then(Res => {
+    return new Res.default(opt).then(html => {
+      return __target ? __target.replaceWith(html) : document.querySelector('.ajax-main-section').prepend(html)
+    })
+  })
+}
+
 
 let profile = {}
 const loadRoutes = () => {
   Navigo.then(routerClass => {
     const router = new routerClass.default(URL.fullPath, true)
     router.on({
-      '': async () => {
+      '': async () => { 
         profile = await loadProfile()
-        if (profile.id) return (window.location.hash = '#/contacts')
+        if (profile.id) return (window.location.hash = '#/home')
         loadLoginPage()
+      },
+      '/home': async () => {
+        profile = await loadProfile()
+        // empty section
+        document.querySelector('.ajax-main-section').innerHTML = ''
+        loadMain(profile)
+        loadHomePage()
       },
       '/account/*': async () => {
         profile = await loadProfile()
@@ -199,4 +223,46 @@ if ('serviceWorker' in navigator) {
       console.log('SW registration failed: ', registrationError)
     })
   })
+
+
+  // on update
+  navigator.serviceWorker.controller.onstatechange = function (event) {
+    if (event.target.state === 'redundant') {
+
+      if ('controller' in navigator.serviceWorker) {
+        import('vanilla-antd-message/dist/style.css').then(res => { 
+          // update notice style
+          let style = document.createElement('style')
+          style.innerHTML = `${res.default.toString()}`
+          style.async = true  
+          document.body.append(style)
+        })
+        // show message then restart the app
+        Message.success("A new update is available! To bring the most out of it, we will now restart your application\nRestarting . . . Please wait", 20000)
+        setTimeout(() => { 
+          window.location.reload()
+        }, 6000)
+      }
+    
+    }
+  }
 }
+
+
+window.deferredPrompt = {};
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  window.deferredPrompt = e;
+  const __banner = import('./components/install-notice-section')
+  const __target = document.querySelector('.install-notice-section')
+  __banner.then(Res => {
+    return new Res.default().then(html => {
+      return __target ? __target.replaceWith(html) : document.body.append(html)
+    })
+  })
+})
+
+

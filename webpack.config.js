@@ -114,6 +114,14 @@ module.exports = {
         test: /\.css$/,
         include: /src/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['css-loader']
       }
     ]
   },

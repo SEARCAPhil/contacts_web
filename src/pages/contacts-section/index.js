@@ -249,10 +249,11 @@ export default class {
     })
   }
 
-  __bindListeners (opt = {}) {
+  async __bindListeners (opt = {}) {
     this.__createContactListSection()
     this.__getContacts(opt)
     this.__bindSearch()
+
   }
 
   async render () {
