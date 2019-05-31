@@ -88,7 +88,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.1",
     "file-loader": "^3.0.1",
-    "msal": "^0.2.4",
+    "msal": "^1.0.1",
     "navigo": "^7.1.2",
     "pubsub-js": "^1.7.0",
     "stylus": "^0.54.5",

@@ -83,6 +83,7 @@ const loadMain = (opt = {}) => {
 }
 
 const loadLoginPage = () => {
+
   document.querySelector('.wrapper').classList.add('hidden')
   const loginContainer = document.createElement('main')
   loginContainer.classList.add('loginContainer')
@@ -195,13 +196,16 @@ const loadRoutes = () => {
       '/signout': () => {
         Profiler.then(prof => {
           new prof.default().clear()
+          window.location = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${window.location.href}`
           setTimeout(() => (window.location.hash = '#/'), 100)
         })
       }
+      
     }).resolve()
   })
 
 }
+
 
 const MiddleWare = new Middleware()
 let auth = AuthMiddleWare.then(middleware => { return new middleware.default() })

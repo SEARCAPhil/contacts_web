@@ -104,7 +104,7 @@ export default class {
 
   async __getContacts (opt = {}) {
     const __contacts = (await import('../../components/contact-engagement-com-list/actions/retrieve')).default
-
+   
     opt.headers = this.__headers
     return new __contacts().get(opt).then(res => {
       let __data = res.data

@@ -14,6 +14,7 @@ export default class {
 
   clear () {
     window.localStorage.clear()
+    window.sessionStorage.clear()
     return this
   }
 

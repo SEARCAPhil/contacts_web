@@ -95,8 +95,8 @@ export default class {
         <li class="reports"><a href="#/reports"><i class="fa fa-file-pdf-o"></i> <span>Reports</span></a></li>
       </ul>
 
-      <ul class="sidebar-menu" data-widget="tree" style="margin-top: 100px;">
-        <li><a href="#/signout" style="background: #334852;"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>
+      <ul class="sidebar-menu" data-widget="tree" style="margin-top: 50px;">
+        <li><a href="#/signout" id="signout" style="background: #334852;"><i class="fa fa-long-arrow-left"></i> <span>Sign-out</span></a></li>
       </ul>
 
       <!-- /.sidebar-menu -->

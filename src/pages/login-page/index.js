@@ -8,7 +8,7 @@ export default class {
   }
 
   __bindLogin () {
-    import('./actions/create').then(loader => {
+    import('./actions/createMSAL').then(loader => {
       return new loader.default({
         root: this.__template,
         target: '.btn-office365'
